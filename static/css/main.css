@@ -1,0 +1,189 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #000000;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.navbar img {
+    width: 50px;
+    height: auto;
+}
+
+.navbar h1 {
+    font-size: 20px;
+    color: cyan;
+}
+
+.nav-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    text-align: center;
+}
+
+.nav-menu li {
+    margin-left: 20px;
+}
+
+.nav-menu a {
+    display: flex;
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    transition: background 0.3s ease;
+}
+
+.nav-menu a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+.subbar{
+    position: relative;
+    top: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px 10px;
+    height: auto;
+    background-color: #333;
+    color: #f1f1f1;
+    font-size:25px;
+}
+
+/* Side navigation bar */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s; /* Smooth opening transition */
+    padding-top: 60px;
+    /* line-height: 20px; */
+    transition: padding 0.3s ease, line-height 0.3s ease;
+}
+
+/* When the sidenav is open, apply a left margin to the main content */
+.sidenav-open {
+    margin-left: 200px; /* Adjust this value to match the width of the side nav */
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    left:  0;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .active {
+    background-color: cyan;
+    color: #000000;
+}
+
+.sidenav .closebtn {
+    position: relative;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Toggle Button*/
+.togglebtn {
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+    background-color: #333;
+    display: block;
+    position: relative;
+    top: 100px;
+    left: 10px;
+    z-index: 1;
+} 
+
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    width: 100%;
+    z-index: 100;
+    position: relative;
+}
+
+/* Media Queries */
+@media screen and (max-width: 786px) {
+    .navbar h1 {
+        font-size: 18px;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .togglebtn {
+        display: block;
+    }
+
+    .sidenav {
+        width: 220px;
+    }
+}
+
+
+/* Add transition effect to the main content */
+.main-content {
+    transition: margin-left 0.5s; /* Smooth transition when shifting */
+    padding: 16px;
+}
+
+
+

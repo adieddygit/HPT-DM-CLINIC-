@@ -1,0 +1,39 @@
+#msg{
+  text-transform: capitalize;
+  font-size: 25px;
+  font-weight: bold;
+  margin-inline: auto;
+}
+
+.login{
+  /* border: 2px solid; */
+  display: flex;
+  padding: 10px 20px;
+  justify-content: space-between;
+  width: 400px;
+  margin: 5px;
+  margin-top: 50px;
+  margin-inline: auto;
+  font-size: small;
+  margin-bottom: 20px;
+}
+
+label{
+  font-size: 20px;
+}
+
+input[type="text"],
+input[type="password"]{
+  font-size: medium;
+  width: 300px;
+  height: 25px;
+}
+
+button{
+  font-size: medium;
+  width: 100px;
+  height: 30px;
+  margin: 5px;
+}
+
+}

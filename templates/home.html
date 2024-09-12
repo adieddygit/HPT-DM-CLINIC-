@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock title %}
+{% block head %}
+{% block style %}{% endblock style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{{super()}}
+{% block script %}{% endblock script %}
+
+{{super()}}
+{% endblock head %}
+{% block content %}
+<section class="iHero">
+    <div class="iBT">
+        <div class="iBg-text">Own Your Health</div>
+        <div class="iBg-text2">Achieve Optimal Blood Pressure And Blood Suger Levels</div>
+    </div>
+    <div>
+    <marquee id="imq" scrollamount="1" scrolldelay="100" direction="up">
+        VitalGuard clinic is dedicated to providing comprehensive care for individuals of all ages and health conditions, with services ranging from routine check-ups to specialized treatments, we are here to support the diverse needs of our community. Our mission is to ensure every patient receives personalized attention and expert care tailored to their unique health journey. 
+        From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of health issues. Additionally, our team provides personalized treatment plans, and ongoing support to empower you on your journey to optimal health and wellness. With us, you'll receive the care and attention you deserve to live your life.
+        </marquee>
+</div>
+<div id="iArt-bg">
+    <p><a href="{{url_for('register')}}" class="button-link">Book Appointment</a></p>
+</div>
+</section>
+
+{% endblock content %}
+{% block footer %}
+
+{{super()}}
+{% endblock footer %}

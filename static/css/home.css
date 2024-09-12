@@ -1,0 +1,50 @@
+body{
+    background-image: url('../images/contact.png');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
+.iBT{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.iBg-text{
+    color: olivedrab;
+    font-size: 45px;
+    font-weight: 700;
+}
+
+.iBg-text2{
+    color: olivedrab;
+    font-size: 25px;
+    font-weight: bolder;
+    margin-bottom: 5px;
+}
+
+  #imq{
+    color: rgb(185, 55, 55);
+    border-radius: 4px;
+    padding: 15px 20px;
+    width: 500px;
+    height: 150px;
+    font-weight: bolder;
+}
+
+  .button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0d2770;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+   }
+   
+   .button-link:hover {
+   opacity: 0.5;
+   }
+}
