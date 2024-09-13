@@ -30,11 +30,17 @@ cipher.init_app(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
-@app.route('/register')
-def register():
     return render_template('register.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    if request.method =='POST':
+        result = request.form
+    return render_template('response.html', result=result)
+
+# @app.route('/register')
+# def register():
+#     return render_template('register.html')
 
 @app.route('/home')
 def home():
@@ -43,6 +49,7 @@ def home():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 
 
