@@ -9,7 +9,10 @@
     <title>{% block title %} My Website {% endblock title %}</title>
     {% endblock head %}
 </head>
+
 <body>
+
+
 <!-- Main Header -->
 <header>
     <nav class="navbar">
@@ -28,27 +31,26 @@
     </nav>
 </header>
 
-<!-- Toggle Button for Small Screens -->
- <div class="subbar">
-    <div class="hamburger-menu" onclick="toggleNav()">&#9776;
-    </div>
- </div>
-
-
-<!-- Side Navigation for Mobile -->
-<div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>    
-    <a href="" class="active"><i class="fas fa-home"></i> Home</a>
-    <a href=""><i class="fas fa-user"></i> About</a>
-    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
-    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
-    <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
+{% block subbar %}
+<div class="toggle-button">
+    <div class="subbar">
+        <!-- Toggle Button for Small Screens -->
+        <div class="hamburger-menu" onclick="toggleNav()">&#9776;
+        </div>
+     </div>
 </div>
+{% endblock subbar %}
+
+{% block sidebar %}
+<!-- No content, effectively removing the sidebar and toggle button -->
+{% endblock sidebar %}
+ 
 
 <!-- Main Content -->
 <div class="main-content">
     {% block content %}{% endblock content %}
 </div>
+
 
 <!-- Footer -->
 <footer>
@@ -57,7 +59,7 @@
         <h3>Contact Us Now On </h3>
         <div>+1234567890</div>
     </div>
-    &copy; Copyright 2024 by <a style="color: cyan" href="https://groupdornuel.com">Dornuel Health Consult</a>
+    &copy; Copyright 2024 by <a style="color: cyan" href="https://dornuelconsult.com">Dornuel Health Consult</a>
     {% endblock footer %}
 </footer>
 

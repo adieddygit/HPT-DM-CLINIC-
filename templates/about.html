@@ -1,22 +1,69 @@
 {% extends "base.html" %}
-{% block title %} Register {% endblock title %}
+{% block title %} About {% endblock title %}
 {% block head %}
+<style>
+    body{
+        background-color: rgb(192, 230, 230);
+    }
+</style>
 {{super()}}
 {% endblock head %}
 {% block content %}
+<!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
-    <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
-    <a href="#about"><i class="fas fa-user"></i> About</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
     <a href="#services"><i class="fas fa-cogs"></i> Services</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
 </div>
 
-
-
 <!-- Main Content -->
 <div id="main" class="main">
-   
+    <h1>About Us</h1>
+    <p>
+        At <strong>DORNUEL HEALTH CONSULT</strong>, we believe that <strong>wellbeing is the foundation of success</strong>. 
+        Our mission is to empower individuals to lead healthier, happier lives by providing the resources, tools, and support 
+        they need to prioritize their health.
+    </p>
+
+    <h2>Our Vision</h2>
+    <p>
+        We envision a world where health and wellbeing are at the core of everyone’s daily life. Whether it's through 
+        professional advice, personalized plans, or simply fostering a community of support, we are committed to helping 
+        people achieve their personal health goals.
+    </p>
+
+    <h2>Our Mission</h2>
+    <p>
+        We aim to provide accessible, reliable, and professional services that improve overall health and wellbeing of peaple living with Hypertension and Diabetes. By 
+        leveraging modern technologies, scientific research, and experienced professionals, we make health and wellness 
+        a top priority for all.
+    </p>
+
+    <h2>Our Core Values</h2>
+    <ul>
+        <li><strong>Commitment to Health</strong>: Everything we do revolves around the importance of health.</li>
+        <li><strong>Compassion</strong>: We care deeply about our users and always put their needs first.</li>
+        <li><strong>Innovation</strong>: We embrace new ideas, technologies, and research to provide cutting-edge services.</li>
+        <li><strong>Integrity</strong>: We value transparency, honesty, and trust in every interaction.</li>
+    </ul>
+
+    <h2>What We Offer</h2>
+    <ul>
+        <li><strong>Personalized Wellness Plans</strong>: Tailored health and wellness plans designed specifically for you.</li>
+        <li><strong>Expert Advice</strong>: Access to a network of healthcare professionals who are ready to guide you every step of the way.</li>
+        <li><strong>Resources</strong>: Articles, guides, and tips to help you make informed decisions about your health.</li>
+        <li><strong>Community Support</strong>: Join a community of like-minded individuals who share the goal of achieving health lives.</li>
+    </ul>
+
+    <h2>Our Journey</h2>
+    <p>
+        Founded in 2021, <strong>DORNUEL HEALTH CONSULT</strong> started with a simple goal: to bridge the gap between health education 
+        and everyday wellness. Over the years, we’ve grown into a trusted platform used by thousands to improve their lifestyle 
+        through proper health management and professional guidance.
+    </p>
 </div>
     
 

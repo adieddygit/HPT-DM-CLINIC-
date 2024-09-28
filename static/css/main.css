@@ -1,3 +1,72 @@
+*{
+    box-sizing: border-box;
+}  
+
+.row::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+ [class*="col-"]{
+    float: left;
+    padding: 0px;
+}  
+
+
+@media only screen and (min-width:768px){
+ body{
+ 
+.col-s-1{
+    width: 8.33%;
+}
+
+.col-s-2{
+    width: 16.66%;
+}
+
+.col-s-3{
+    width: 24.99%;
+}
+
+.col-s-4{
+    width: 33.32%;
+}
+
+.col-s-5{
+    width: 41.65%;
+}
+
+.col-s-6{
+    width: 49.98%;
+}
+
+.col-s-7{
+    width: 58.31%;
+}
+
+.col-s-8{
+    width: 66.64%;
+}
+
+.col-s-9{
+    width: 74.97%;
+}
+
+.col-s-10{
+    width: 83.3%;
+}
+
+.col-s-11{
+    width: 91.63%;
+}
+
+.col-s-12{
+    width: 99.96%;
+}
+}
+}
+
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
@@ -8,19 +77,33 @@ body {
 
 header {
     background-color: #000000;
-    padding: 10px;
+    padding: 10px 0;
     color: white;
     text-align: center;
     position: relative;
     top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 1000;
 }
 
-h1 {
-    margin: 0;
-    font-size: 24px;
-}
+.subbar{
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    box-sizing: border-box;
+    width: 100vw;
+    justify-content: space-between;
+    padding: 5px 10px;
+    height: auto;
+    background-color: #444;
+    color: #f1f1f1;
+    font-size:25px;
+    z-index: 1000;
+  }
+
 
 /* Navigation bar */
 .navbar {
@@ -36,8 +119,9 @@ h1 {
 }
 
 .navbar h1 {
-    font-size: 20px;
+    font-size: 30px;
     color: cyan;
+    margin: 0;
 }
 
 .nav-menu {
@@ -65,38 +149,25 @@ h1 {
     border-radius: 5px;
 }
 
-.subbar{
-    position: relative;
-    top: 0;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    padding: 5px 10px;
-    height: auto;
-    background-color: #333;
-    color: #f1f1f1;
-    font-size:25px;
-}
-
 /* Side navigation bar */
 .sidenav {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 50;
     top: 0;
     left: 0;
     background-color: #111;
     overflow-x: hidden;
     transition: 0.5s; /* Smooth opening transition */
     padding-top: 60px;
-    /* line-height: 20px; */
+    line-height: 20px;
     transition: padding 0.3s ease, line-height 0.3s ease;
 }
 
 /* When the sidenav is open, apply a left margin to the main content */
 .sidenav-open {
-    margin-left: 200px; /* Adjust this value to match the width of the side nav */
+    margin-left: 100px; /* Adjust this value to match the width of the side nav */
 }
 
 .sidenav .closebtn {
@@ -104,7 +175,7 @@ h1 {
     top: 0;
     left:  0;
     font-size: 36px;
-    margin-left: 50px;
+    /* margin-left: 50px; */
 }
 
 .sidenav a {
@@ -114,6 +185,7 @@ h1 {
     color: #818181;
     display: block;
     transition: 0.3s;
+    margin: 20px;
 }
 
 .sidenav a:hover {
@@ -143,21 +215,42 @@ h1 {
     display: block;
     position: relative;
     top: 100px;
-    left: 10px;
-    z-index: 1;
+    left: 0px;
+    z-index: 50;
 } 
+
+/* Add transition effect to the main content */
+.main-content {
+    transition: margin-left 0.5s; /* Smooth transition when shifting */
+    padding: 50px;
+}
+
+/* Body content should not overlap with fixed header or footer */
+.content {
+    padding-top: 60px;  /* Adjust this value based on header height */
+    padding-bottom: 40px;  /* Adjust this value based on footer height */
+}
+
+/* For demonstration, set a minimum height for the content */
+.content {
+    min-height: 100vh;
+}
 
 
 /* Footer Styling */
 footer {
     text-align: center;
-    padding: 10px;
+    padding: 10px 0;
     background-color: #333;
     color: white;
     width: 100%;
-    z-index: 100;
+    z-index: 1000;
     position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
+
 
 /* Media Queries */
 @media screen and (max-width: 786px) {
@@ -174,16 +267,14 @@ footer {
     }
 
     .sidenav {
-        width: 220px;
+        width: 200px;
     }
 }
 
-
-/* Add transition effect to the main content */
-.main-content {
-    transition: margin-left 0.5s; /* Smooth transition when shifting */
-    padding: 16px;
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
-
-
-

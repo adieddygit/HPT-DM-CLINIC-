@@ -1,3 +1,7 @@
+footer{
+  width: 100%;
+}
+
 #msg{
   text-transform: capitalize;
   font-size: 25px;
@@ -10,9 +14,9 @@
   display: flex;
   padding: 10px 10px;
   justify-content: space-between;
-  width: 400px;
-  margin: 5px;
-  margin-inline: auto;
+  width: 300px;
+  /* margin: 30px; */
+  /* margin-inline: auto; */
   font-size: small;
 }
 
@@ -23,17 +27,32 @@ label{
 input[type="text"],
 input[type="password"]{
   font-size: medium;
-  width: 300px;
+  width: 250px;
   height: 25px;
 }
 
 button{
   font-size: medium;
-  width: 100px;
+  width: 50%;
   height: 30px;
   margin: 5px;
 }
 
+.subbar{
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 5px 10px;
+  height: auto;
+  background-color: #444;
+  color: #f1f1f1;
+  font-size:25px;
+  z-index: 100;
+}
 
 .lg_body {font-family: Arial, Helvetica, sans-serif;
      opacity: 0.9;
@@ -51,12 +70,11 @@ button{
   z-index: 0; /*This will tulk in the modal under the nav bar on scroll*/
 }
 
-
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  /* padding: 12px 20px; */
+  margin: 5px 0;
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
@@ -72,20 +90,17 @@ input[type=text], input[type=password] {
   border-radius: 30px;
   cursor: pointer;
   width: 50%;
-
 }
 
 .lg_button{
   margin: 8px 0;
   margin-left: 50px;
   align-self: center;
-
 }
 
 .lg_button:hover {
   opacity: 0.8;
 }
-
 
 /* Center the image and position the close button */
 .lg_imgcontainer {
@@ -128,7 +143,7 @@ span.lg_pasw {
   background-color: #fefefe;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
+  width: 50%; /*Could be more or less, depending on screen size*/
 }
 
 /* The Close Button (x) */

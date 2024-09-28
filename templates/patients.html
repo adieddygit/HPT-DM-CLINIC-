@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %} Login {% endblock title %}
+{% block head %}
+    {% block stylesheet %}{% endblock stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/patients.css')}}">
+    {{super()}}
+    {% block script %}{% endblock script %}
+{% endblock head %}
+
+{% block content %}
+
+<!-- Side Navigation for Mobile -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
+    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="patients-container">
+        <h1>Our Patients/Clients</h1>
+        <div class="actions">
+            <button class="btn-add" onclick="window.location.href='/add_patient'">Add New Patient</button>
+            <input type="text" id="searchBar" placeholder="Search patients..." onkeyup="filterPatients()">
+        </div>
+    
+        <table id="patientsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example Patient Row -->
+                <tr>
+                    <td>1</td>
+                    <td>Emmanuel Adi</td>
+                    <td>adi@example.com</td>
+                    <td>+1234567890</td>
+                    <td>Client</td>
+                    <td>
+                        <button class="btn-view" onclick="window.location.href='/view_patient/1'">View</button>
+                        <button class="btn-edit" onclick="window.location.href='/edit_patient/1'">Edit</button>
+                        <button class="btn-delete" onclick="deletePatient(1)">Delete</button>
+                    </td>
+                </tr>
+                <!-- Repeat for more patients -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        function filterPatients() {
+            const searchValue = document.getElementById("searchBar").value.toLowerCase();
+            const rows = document.querySelectorAll("#patientsTable tbody tr");
+    
+            rows.forEach(row => {
+                const name = row.cells[1].innerText.toLowerCase();
+                if (name.includes(searchValue)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    
+        function deletePatient(patientId) {
+            if (confirm("Are you sure you want to delete this patient?")) {
+                // Perform delete action (send request to backend)
+                window.location.href = `/delete_patient/${patientId}`;
+            }
+        }
+    </script>
+</div>
+
+{% endblock content %}
+
+{% block footer %}
+    {{super()}}
+{% endblock footer %}

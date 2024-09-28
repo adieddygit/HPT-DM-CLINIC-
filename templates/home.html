@@ -1,32 +1,44 @@
 {% extends "base.html" %}
 {% block title %} Home {% endblock title %}
 {% block head %}
-{% block style %}{% endblock style %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-{{super()}}
-{% block script %}{% endblock script %}
-
-{{super()}}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    {{super()}}
 {% endblock head %}
+
 {% block content %}
-<section class="iHero">
+
+<!-- Side Navigation for Mobile -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
+    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
+</div>
+
+<section class="row">
     <div class="iBT">
         <div class="iBg-text">Own Your Health</div>
-        <div class="iBg-text2">Achieve Optimal Blood Pressure And Blood Suger Levels</div>
+        <div class="iBg-text2">Achieve Optimal Blood Pressure And Blood Sugar Levels</div>
     </div>
-    <div>
-    <marquee id="imq" scrollamount="1" scrolldelay="100" direction="up">
-        Dornuel Health Consult is dedicated to providing comprehensive care for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments. Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
-        From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic issues. Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live your life.
-        </marquee>
-</div>
-<div id="iArt-bg">
-    <p><a href="{{url_for('register')}}" class="button-link">Book Appointment</a></p>
-</div>
+    
+    <!-- Replace Marquee with Scrolling Text -->
+    <div class="scroll-container">
+        <div class="scroll-text">
+            Dornuel Health Consult is dedicated to providing comprehensive care for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments. Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
+            From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic issues. Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live your life.        </div>
+    </div>
+
+    <div id="iArt-bg">
+        <p><a href="{{ url_for('register') }}" class="button-link">Book Appointment</a></p>
+    </div>
 </section>
 
-{% endblock content %}
-{% block footer %}
 
-{{super()}}
+
+{% endblock content %}
+
+{% block footer %}
+    {{super()}}
 {% endblock footer %}

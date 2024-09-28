@@ -5,6 +5,12 @@ body{
     text-align: center;
 }
 
+
+.hamburger-menu {
+  font-size: 24px;            
+  cursor: pointer;            
+}
+
 .iBT{
     display: flex;
     justify-content: center;
@@ -25,13 +31,31 @@ body{
     margin-bottom: 5px;
 }
 
-  #imq{
-    color: rgb(185, 55, 55);
-    border-radius: 4px;
-    padding: 15px 20px;
-    width: 500px;
-    height: 150px;
-    font-weight: bolder;
+.scroll-container {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;    
+  align-items: center;        
+  width: 100%;                
+}
+
+.scroll-text {
+  position: absolute;
+  width: 400px;
+  animation: scroll-up 100s linear infinite;
+  color: rgb(200, 14, 14);
+  font-weight: bold;
+}
+
+@keyframes scroll-up {
+  0% {
+      top: 100%;
+  }
+  100% {
+      top: -100%;
+  }
 }
 
   .button-link {
@@ -47,4 +71,3 @@ body{
    .button-link:hover {
    opacity: 0.5;
    }
-}

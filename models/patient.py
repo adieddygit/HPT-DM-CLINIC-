@@ -1,8 +1,9 @@
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy import Integer, String, ForeignKey, DateTime, func
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
+from sqlalchemy.orm import DeclarativeBase, mapped_column,scoped_session, sessionmaker, relationship, Mapped
 from datetime import datetime
 from typing import Optional
+from sqlalchemy import Enum as SQLAlchemyEnum
 import enum
 
 class UrineKetones(enum.Enum):
@@ -41,6 +42,11 @@ class BaseModel:
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+
     
 class Role(enum.Enum):
     ADMIN = 'admin'
@@ -49,19 +55,15 @@ class Role(enum.Enum):
     
 class Users(Base, BaseModel):
     __tablename__ = 'users'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    name:Mapped[str] = mapped_column(String(200))
+    username:Mapped[str] = mapped_column(String(200))
     email:Mapped[str] = mapped_column(String(100), unique=True)
     password:Mapped[str] = mapped_column(String(200))
-    role:Mapped[Role]
+    role:Mapped[Role] = mapped_column(SQLAlchemyEnum(Role))
     created_at:Mapped[str] = mapped_column(DateTime, default=func.now())
 
     
 class PatientReg(Base, BaseModel):
     __tablename__ = 'patient_reg'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     created_by:Mapped[str] = mapped_column(String(200))
     upated_by:Mapped[str] = mapped_column(String(200))
     patient_id:Mapped[str] = mapped_column(String(100), unique=True)
@@ -70,45 +72,45 @@ class PatientReg(Base, BaseModel):
     last_name:Mapped[str] = mapped_column(String(100))
     date_of_birth:Mapped[datetime] = mapped_column(DateTime)
     country_of_birth:Mapped[str] = mapped_column(String(100))
-    gender:Mapped[Gender]
+    gender: Mapped[Gender] = mapped_column(SQLAlchemyEnum(Gender))
     marital_status:Mapped[str] = mapped_column(String(100))
     occupation:Mapped[str] = mapped_column(String(100))
-    phone_number:Mapped[Optional[str]] = mapped_column(String(100))
-    address:Mapped[Optional[str]] = mapped_column(String(100))
-    city:Mapped[Optional[str]] = mapped_column(String(100))
-    zip_code:Mapped[Optional[str]] = mapped_column(String(100))
-    country:Mapped[Optional[str]] = mapped_column(String(100))
-    email:Mapped[str] = mapped_column(String(100), unique=True)
-    ethnicity:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_name:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_number:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_ralation:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_address:Mapped[Optional[str]] = mapped_column(String(100))
+    phone_number:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    address:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    city:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    zip_code:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    country:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    ethnicity:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    emergency_contact_name:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    emergency_contact_number:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    emergency_contact_ralation:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    emergency_contact_address:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+
+    health_metrics = relationship("PatientHealthMetrics", backref="patient", cascade="all, delete-orphan")
+    risk_assessments = relationship("RiskAssessment", backref="patient", cascade="all, delete-orphan")
+    appointments = relationship("Appointment", backref="patient", cascade="all, delete-orphan")
 
 class RiskAssessment(Base, BaseModel):
     __tablename__ = 'risk_assessment'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     patient_id:Mapped[str] = mapped_column(String(100), ForeignKey('patient_reg.patient_id', ondelete='CASCADE', onupdate='CASCADE'))
     family_has_history_of_hpt_dm:Mapped[str] = mapped_column(String(100))
     has_underlying_medical_condition:Mapped[str] = mapped_column(String(100))
-    heavy_alchohol_intake:Mapped[str] = mapped_column(String(100))
+    heavy_alcohol_intake:Mapped[str] = mapped_column(String(100))
     smoking_tobacco_use:Mapped[str] = mapped_column(String(100))
     type_of_diet:Mapped[str] = mapped_column(String(100))
     overweight_obese:Mapped[str] = mapped_column(String(100))
     dose_exercise:Mapped[str] = mapped_column(String(100))
 
-
 class Appointment(Base, BaseModel):
     __tablename__ = 'appointment'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     patient_id:Mapped[str] = mapped_column(String(100), ForeignKey('patient_reg.patient_id', ondelete='CASCADE', onupdate='CASCADE'))
-    appoitment_status:Mapped[str] = mapped_column(String(200))
-    last_appoitment_date:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    provider_id:Mapped[str] = mapped_column(String(200))
+    appointment_date:Mapped[datetime] = mapped_column(DateTime)
+    appointment_status:Mapped[str] = mapped_column(String(200))
+    last_appointment_date:Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
-    
 class PatientHealthMetrics(Base, BaseModel):
     __tablename__ = 'patient_health_metrics'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     patient_id:Mapped[str] = mapped_column(String(100), ForeignKey('patient_reg.patient_id', ondelete='CASCADE', onupdate='CASCADE'))
     recorded_date:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     health_care_facility:Mapped[str] = mapped_column(String(100))
@@ -122,29 +124,27 @@ class PatientHealthMetrics(Base, BaseModel):
     respiration:Mapped[int] = mapped_column(Integer())
     pulse:Mapped[int] = mapped_column(Integer())
     spo2:Mapped[int] = mapped_column(Integer())
-    urine_ketones:Mapped[UrineKetones]
-    lab_investigation_type:Mapped[Optional[str]] = mapped_column(String(100))
-    lab_investigation_result:Mapped[Optional[str]] = mapped_column(String(100)) 
-    radiograph_investigation_type:Mapped[Optional[str]] = mapped_column(String(100))
-    radiograph_investigation_result:Mapped[Optional[str]] = mapped_column(String(255))
-    metric_notes:Mapped[Optional[str]] = mapped_column(String(255))
+    urine_ketones: Mapped[UrineKetones] = mapped_column(SQLAlchemyEnum(UrineKetones))
+    lab_investigation_type:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    lab_investigation_result:Mapped[Optional[str]] = mapped_column(String(100), nullable=True) 
+    radiograph_investigation_type:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    radiograph_investigation_result:Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    metric_notes:Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     heart_conditions:Mapped[str] = mapped_column(String(255))
-    diagnosis:Mapped[Diagnosis]
-    hospitalized_for_hpt_dm:Mapped[Choices]
-    complications:Mapped[Choices]
-    complications_type:Mapped[Optional[str]] = mapped_column(String(100))
-
+    diagnosis: Mapped[Diagnosis] = mapped_column(SQLAlchemyEnum(Diagnosis))    
+    hospitalized_for_hpt_dm:Mapped[Choices] = mapped_column(SQLAlchemyEnum(Choices))
+    complications:Mapped[Choices] = mapped_column(SQLAlchemyEnum(Choices))
+    complications_type:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
 
 class PatientTreatment(Base, BaseModel):
     __tablename__ = 'patient_treatment'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     patient_id:Mapped[str] = mapped_column(String(100), ForeignKey('patient_reg.patient_id', ondelete='CASCADE', onupdate='CASCADE'))
     date_of_treatment:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    treatment_type:Mapped[Optional[str]] = mapped_column(String(100))
-    defaulted_treatment:Mapped[Choices]
-    health_care_facility:Mapped[Optional[str]] = mapped_column(String(100))
-    provider_name:Mapped[Optional[str]] = mapped_column(String(100))
-    provider_contact:Mapped[Optional[str]] = mapped_column(String(100))
-    treatment_plan:Mapped[Optional[str]] = mapped_column(String(100))
-    treatment_notes:Mapped[Optional[str]] = mapped_column(String(255))
+    treatment_type:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    defaulted_treatment:Mapped[Choices] = mapped_column(SQLAlchemyEnum(Choices))
+    health_care_facility:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    provider_name:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    provider_contact:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    treatment_plan:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    treatment_notes:Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
    

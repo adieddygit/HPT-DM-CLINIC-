@@ -1,49 +1,83 @@
 {% extends "base.html" %}
-
-{% block title %} Profile {% endblock title %}
-
+{% block title %} Login {% endblock title %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
-{{ super() }}
+    {% block stylesheet %}{% endblock stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
+    {{super()}}
+    {% block script %}{% endblock script %}
 {% endblock head %}
 
 {% block content %}
-<div class="r-container">
-    <h2>Registration</h2><br/>
-    <form id="registrationForm" name="personalinfo" method="post" onsubmit="return validatepersonalinfo() && validatePasswords();" autocomplete="off">
-        <label for="firstname">First Name:</label><br/>
-        <input name="firstname" onblur="return validatefn();" type="text" class="r-input" id="firstname"/><span id="firstnameErr"></span><br/>
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="Patient Avatar" class="profile-avatar">
+        <h1>{{ patient.name }}</h1>
+        <p><strong>Role:</strong> {{ patient.role }}</p>
+        <p><strong>Email:</strong> {{ patient.email }}</p>
+        <p><strong>Phone:</strong> {{ patient.phone }}</p>
+        <button class="btn-edit" onclick="window.location.href='/edit_patient/{{ patient.id }}'">Edit Profile</button>
+    </div>
 
-        <label for="lastname">Last Name:</label><br/>
-        <input id="lastname" name="lastname" type="text" class="r-input"/><span id="lastnameErr"></span><br/>
+    <div class="profile-body">
+        <h2>Personal Information</h2>
+        <table class="info-table">
+            <tr>
+                <th>Date of Birth:</th>
+                <td>{{ patient.dob }}</td>
+            </tr>
+            <tr>
+                <th>Address:</th>
+                <td>{{ patient.address }}</td>
+            </tr>
+            <tr>
+                <th>Gender:</th>
+                <td>{{ patient.gender }}</td>
+            </tr>
+        </table>
 
-        <label for="dob">Date of Birth:</label><br/>
-        <input id="dob" name="dob" type="date" class="r-input"/><span id="dobErr"></span><br/>
+        <h2>Medical History</h2>
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Diagnosis</th>
+                    <th>Treatment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in medical_history %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.diagnosis }}</td>
+                    <td>{{ record.treatment }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-        <label>Sex:</label><br/>
-        <input type="radio" id="female" name="sex" value="female">
-        <label for="female">Female</label><br/>
-        <input type="radio" id="male" name="sex" value="male">
-        <label for="male">Male</label><br/>
-        <input type="radio" id="other" name="sex" value="other">
-        <label for="other">Other</label><span id="sexErr"></span><br/><br/>
-
-        <label for="email">Email:</label><br/>
-        <input type="email" id="email" name="email" class="r-input"/><span id="emailErr"></span><br/>
-
-        <label for="password">Password:</label><br/>
-        <input type="password" id="password" name="password" class="r-input"/><span id="passwordErr"></span><br/>
-
-        <label for="confirmPassword">Confirm Password:</label><br/>
-        <input type="password" id="confirmPassword" name="confirmPassword" class="r-input"/><span id="confirmPasswordErr"></span><br/>
-
-        <button type="submit" class="r-button">Submit</button>
-    </form>
-
-    <div class="r-output-container" id="outputContainer"></div>
+        <h2>Appointment Records</h2>
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.doctor }}</td>
+                    <td>{{ appointment.purpose }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock content %}
 
 {% block footer %}
-{{ super() }}
+    {{super()}}
 {% endblock footer %}

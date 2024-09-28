@@ -1,0 +1,93 @@
+.patients-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.actions input {
+    width: 300px;
+    padding: 8px;
+    font-size: 1em;
+}
+
+.actions .btn-add {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.actions .btn-add:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+td button {
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+td .btn-view {
+    background-color: #007bff;
+    color: white;
+}
+
+td .btn-edit {
+    background-color: #ffc107;
+    color: white;
+}
+
+td .btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+td .btn-view:hover {
+    background-color: #0056b3;
+}
+
+td .btn-edit:hover {
+    background-color: #e0a800;
+}
+
+td .btn-delete:hover {
+    background-color: #c82333;
+}
