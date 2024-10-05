@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %} Login {% endblock title %}
+{% block head %}
+    {% block stylesheet %}{% endblock stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+    {{super()}}
+    {% block script %}{% endblock script %}
+{% endblock head %}
+
+{% block subbar %}{% endblock subbar %}
+
+{% block content %}
+
+    <div id="msg" class="login">
+        <form action="/login" method="POST" class="form-signup">
+            <p>Your wellbeing is your wealth.<br> Prioritize your health.</p>
+            <hr>
+            <label for="username"></i></label>
+            <div class="input-container" class="form-group">
+                <i class="fa fa-user icon"></i>
+                <input type="text" id="username" name="username" placeholder="Username">
+            </div><br>
+            
+            <label for="password"></i></label>
+            <div class="input-container" class="form-group">
+                <i class="fa fa-lock icon"></i>
+                <input type="password" id="password" name="password" placeholder="Password">
+            </div><br>
+            
+            <button type="submit" class="submit-btn">Login</button>
+            <label style="font-size: small;">
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label><br>
+            
+            <span class="lg_pasw" style="font-size: small;">
+                Forgot <a href="#">password?</a>
+            </span>&nbsp;&nbsp;
+            <a href="{{ url_for('sign_up') }}" style="width:auto; font-size: small;">Sign Up</a>
+        </form>
+    </div>
+ 
+    
+{% endblock content %}
+
+{% block footer %}
+    {{super()}}
+{% endblock footer %}

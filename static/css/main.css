@@ -120,7 +120,7 @@ header {
 
 .navbar h1 {
     font-size: 30px;
-    color: cyan;
+    color: rgb(99, 201, 201);
     margin: 0;
 }
 
@@ -193,7 +193,7 @@ header {
 }
 
 .sidenav .active {
-    background-color: cyan;
+    background-color: rgb(99, 201, 201);
     color: #000000;
 }
 
@@ -212,7 +212,7 @@ header {
     color: white;
     padding: 10px;
     background-color: #333;
-    display: block;
+    display: inline;
     position: relative;
     top: 100px;
     left: 0px;
@@ -277,4 +277,11 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+.flash-messages{
+    color: red;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
 }

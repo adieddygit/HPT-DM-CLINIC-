@@ -1,13 +1,158 @@
 {% extends "base.html" %}
 {% block title %} About {% endblock title %}
 {% block head %}
+{% block style%}{% endblock style%}
 <style>
-    body{
-        background-color: rgb(192, 230, 230);
+
+    #div{
+        /* padding: 10px 20px; */
+        width: 300px;
+        height: auto;
+        margin: 2px 2px;
+        color: #f0f0f0;
     }
+
+    img{
+        width: 550px;
+        height: 500px auto;
+    }
+
+    *{
+  box-sizing: border-box;
+}  
+
+.row::after{
+  content: "";
+  clear: left;
+  display: table;
+}
+
+[class*="col-"]{
+  float: left;
+  padding: 10px;
+}  
+
+[class*="col-"]{
+  width: 100%;
+}
+/* From small mobile devices*/
+@media only screen and (max-width: 600px){
+    body{
+        background-color: rgb(71, 129, 129);
+
+  .col-s-1 {
+    width: 8.33%;
+  }  
+  
+  .col-2 {
+    width: 16.66%;
+  }
+  
+  .col-3 {
+    width: 25%;
+  }
+  .col-4 {
+    width: 33.33%;
+  }
+  
+  .col-5 {
+    width: 41.66%;
+  }
+  
+  .col-6 {
+    width: 50%;
+  }
+  
+  .col-7 {
+    width: 58.33%;
+  }
+  
+  .col-8 {
+    width: 66.66%;
+  }
+  
+  .col-9 {
+    width: 75%;
+  }
+  
+  .col-10 {
+    width: 83.33%;
+  }
+  
+  .col-11 {
+    width: 91.66%;
+  }
+  
+  .col-12 {
+    width: 100%;
+  }
+  }
+}
+
+
+@media only screen and (min-width: 600px){
+    body{
+        background-color: rgb(71, 129, 129);
+
+  .col-1 {
+    width: 8.33%;
+  }  
+  
+  .col-2 {
+    width: 16.66%;
+  }
+  
+  .col-3 {
+    width: 25%;
+  }
+  .col-4 {
+    width: 33.33%;
+  }
+  
+  .col-5 {
+    width: 41.66%;
+  }
+  
+  .col-6 {
+    width: 50%;
+  }
+  
+  .col-7 {
+    width: 58.33%;
+  }
+  
+  .col-8 {
+    width: 66.66%;
+  }
+  
+  .col-9 {
+    width: 75%;
+  }
+  
+  .col-10 {
+    width: 83.33%;
+  }
+  
+  .col-11 {
+    width: 91.66%;
+  }
+  
+  .col-12 {
+    width: 100%;
+  }
+  }
+}
+
+
 </style>
 {{super()}}
 {% endblock head %}
+
+{% block sidenav %}{% endblock sidenav %}
+
+{% block subbar %}{% endblock subbar %}
+
+
 {% block content %}
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
@@ -21,50 +166,81 @@
 
 <!-- Main Content -->
 <div id="main" class="main">
-    <h1>About Us</h1>
-    <p>
-        At <strong>DORNUEL HEALTH CONSULT</strong>, we believe that <strong>wellbeing is the foundation of success</strong>. 
-        Our mission is to empower individuals to lead healthier, happier lives by providing the resources, tools, and support 
-        they need to prioritize their health.
-    </p>
+    <section class="row">
+        <div id="div" class="col-3">
+            <h1>About Us</h1>
+            <p>
+                At <strong>DORNUEL HEALTH CONSULT</strong>, we believe that <strong>wellbeing is the foundation of success</strong>. 
+                Our mission is to empower individuals to lead healthier, happier lives by providing the resources, tools, and support 
+                they need to prioritize their health.
+            </p>
+            </div>
+            <div id="div" class="col-6">
+                <img src="{{ url_for('static', filename='images/DM.jpg') }}" alt="" class="">
+            </div>
+        
+            <div id="div" class="col-3" style="float: right;">
+            <h2>Our Vision</h2>
+            <p>
+                We envision a world where health and wellbeing are at the core of everyone’s daily life. Whether it's through 
+                professional advice, personalized plans, or simply fostering a community of support, we are committed to helping 
+                people achieve their personal health goals.
+            </p>
+            </div>
+    </section>
+    
+    <section class="row">
+        <div id="div" class="col-3">
+            <h2>Our Mission</h2>
+            <p>
+                We aim to provide accessible, reliable, and professional services that improve overall health and wellbeing of peaple living with Hypertension and Diabetes. By 
+                leveraging modern technologies, scientific research, and experienced professionals, we make health and wellness 
+                a top priority for all.
+            </p>
+            </div>
+        
+            <div id="div" class="col-6">
+                <img src="{{ url_for('static', filename='images/ab2.jpg') }}" alt="logo" class="">
+            </div>
 
-    <h2>Our Vision</h2>
-    <p>
-        We envision a world where health and wellbeing are at the core of everyone’s daily life. Whether it's through 
-        professional advice, personalized plans, or simply fostering a community of support, we are committed to helping 
-        people achieve their personal health goals.
-    </p>
+            <div id="div" class="col-2" style="float: right;">
+            <h2>Our Core Values</h2>
+            <ul>
+                <li><strong>Commitment to Health</strong>: Everything we do revolves around the importance of health.</li>
+                <li><strong>Compassion</strong>: We care deeply about our users and always put their needs first.</li>
+                <li><strong>Innovation</strong>: We embrace new ideas, technologies, and research to provide cutting-edge services.</li>
+                <li><strong>Integrity</strong>: We value transparency, honesty, and trust in every interaction.</li>
+            </ul>
+            </div>
+    </section>
+    
+    <section class="row">
+        <div id="div" class="col-3">
+            <h2>What We Offer</h2>
+            <ul>
+                <li><strong>Personalized Wellness Plans</strong>: Tailored health and wellness plans designed specifically for you.</li>
+                <li><strong>Expert Advice</strong>: Access to a network of healthcare professionals who are ready to guide you every step of the way.</li>
+                <li><strong>Resources</strong>: Articles, guides, and tips to help you make informed decisions about your health.</li>
+                <li><strong>Community Support</strong>: Join a community of like-minded individuals who share the goal of achieving health lives.</li>
+            </ul>
+            </div>
 
-    <h2>Our Mission</h2>
-    <p>
-        We aim to provide accessible, reliable, and professional services that improve overall health and wellbeing of peaple living with Hypertension and Diabetes. By 
-        leveraging modern technologies, scientific research, and experienced professionals, we make health and wellness 
-        a top priority for all.
-    </p>
+            <div id="div" class="col-6">
+                <img src="{{ url_for('static', filename='images/ab4.jpg') }}" alt="logo" class="logo">
+            </div>
+        
+            <div id="div" class="col-3" style="float: right;">
+            <h2>Our Journey</h2>
+            <p>
+                Founded in 2021, <strong>DORNUEL HEALTH CONSULT</strong> started with a simple goal: to bridge the gap between health education 
+                and everyday wellness. Over the years, we’ve grown into a trusted platform used by thousands to improve their lifestyle 
+                through proper health management and professional guidance.
+            </p>
+            </div>
+    </section>
+    
 
-    <h2>Our Core Values</h2>
-    <ul>
-        <li><strong>Commitment to Health</strong>: Everything we do revolves around the importance of health.</li>
-        <li><strong>Compassion</strong>: We care deeply about our users and always put their needs first.</li>
-        <li><strong>Innovation</strong>: We embrace new ideas, technologies, and research to provide cutting-edge services.</li>
-        <li><strong>Integrity</strong>: We value transparency, honesty, and trust in every interaction.</li>
-    </ul>
-
-    <h2>What We Offer</h2>
-    <ul>
-        <li><strong>Personalized Wellness Plans</strong>: Tailored health and wellness plans designed specifically for you.</li>
-        <li><strong>Expert Advice</strong>: Access to a network of healthcare professionals who are ready to guide you every step of the way.</li>
-        <li><strong>Resources</strong>: Articles, guides, and tips to help you make informed decisions about your health.</li>
-        <li><strong>Community Support</strong>: Join a community of like-minded individuals who share the goal of achieving health lives.</li>
-    </ul>
-
-    <h2>Our Journey</h2>
-    <p>
-        Founded in 2021, <strong>DORNUEL HEALTH CONSULT</strong> started with a simple goal: to bridge the gap between health education 
-        and everyday wellness. Over the years, we’ve grown into a trusted platform used by thousands to improve their lifestyle 
-        through proper health management and professional guidance.
-    </p>
-</div>
+  </div>
     
 
 {% endblock content %}

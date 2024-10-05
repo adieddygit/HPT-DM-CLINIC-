@@ -1,3 +1,10 @@
+body{
+    background-color: rgb(71, 129, 129);
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
 .appointment-container {
     max-width: 600px;
     margin: 0 auto;

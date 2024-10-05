@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %} Sign Up {% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    {{super()}}
+{% endblock head %}
+
+{% block subbar %}{% endblock subbar %}
+
+{% block content %}
+
+<form action="/sign_up" method="POST" class="form-signup">
+    <div class="avatar-container">
+        <img src="{{ url_for('static', filename='images/AVATER.jpg') }}" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input type="text" id="username" name="username" placeholder="Enter username" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-container">
+            <i class="fa fa-envelope icon"></i>
+            <input type="email" id="email" name="email" placeholder="Enter email" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="role">Role</label>
+        <select name="role" id="role" required>
+            <option value="" disabled selected>[Choose Role]</option>
+            <option value="ADMIN">Admin</option>
+            <option value="CLIENT">Client</option>
+            <option value="CLINICAL">Clinical</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-container">
+            <i class="fa fa-lock icon"></i>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="cpassword">Confirm Password</label>
+        <div class="input-container">
+            <i class="fa fa-lock icon"></i>
+            <input type="password" id="cpassword" name="cpassword" placeholder="Confirm password" required>
+        </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit</button>
+</form>
+
+
+
+{% endblock content %}
+
+{% block footer %}
+    {{super()}}
+{% endblock footer %}

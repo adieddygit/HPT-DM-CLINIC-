@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <title>{% block title %} My Website {% endblock title %}</title>
+    <title>{% block title %} Base {% endblock title %}</title>
     {% endblock head %}
 </head>
 
@@ -17,7 +18,7 @@
 <header>
     <nav class="navbar">
         <div>
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" class="logo">
+            <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo">
         </div>
         <div class="navbar-title">
             <h1>DORNUEL HEALTH CONSULT</h1>
@@ -25,8 +26,8 @@
 
         <!-- Navigation Links -->
         <ul class="nav-menu" id="navMenu">
-            <li class="nav-item"><a href="">About</a></li>
-            <li class="nav-item"><a href="">Logout</a></li>
+            <li class="nav-item"><a href="{{ url_for('about')}}">About</a></li>
+            <li class="nav-item"><a href="{{ url_for('login')}}">Logout</a></li>
         </ul>
     </nav>
 </header>
@@ -36,6 +37,11 @@
     <div class="subbar">
         <!-- Toggle Button for Small Screens -->
         <div class="hamburger-menu" onclick="toggleNav()">&#9776;
+            <marquee style="font-size: small; position: absolute; top: 35%; color: #f0f0f0;" direction="left" scrollamount="3" scrolldelay="10" loop="infinite">
+                Dornuel Health Consult is dedicated to providing comprehensive care for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments. Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
+                From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic issues. Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live your life.        </div>
+    
+            </marquee>    
         </div>
      </div>
 </div>
@@ -48,6 +54,20 @@
 
 <!-- Main Content -->
 <div class="main-content">
+    <!-- Flash message section -->
+    <div class="container">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} fade-out" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
     {% block content %}{% endblock content %}
 </div>
 
@@ -59,9 +79,19 @@
         <h3>Contact Us Now On </h3>
         <div>+1234567890</div>
     </div>
-    &copy; Copyright 2024 by <a style="color: cyan" href="https://dornuelconsult.com">Dornuel Health Consult</a>
+    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com">Dornuel Health Consult</a>
     {% endblock footer %}
 </footer>
+<!-- Include jQuery or any other JavaScript libraries here -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Flash message pop-up script -->
+<script>
+    $(document).ready(function() {
+        // Display the flash messages
+        $(".alert").fadeIn(500).delay(3000).fadeOut(5000); // Adjust timing as needed
+    });
+</script>
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
