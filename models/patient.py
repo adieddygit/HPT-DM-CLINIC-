@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy import Integer, String, ForeignKey, DateTime, func
-from sqlalchemy.orm import DeclarativeBase, mapped_column,scoped_session, sessionmaker, relationship, Mapped
+from sqlalchemy.orm import DeclarativeBase, mapped_column, scoped_session, sessionmaker, relationship, Mapped
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import Enum as SQLAlchemyEnum
@@ -68,10 +68,10 @@ class PatientReg(Base, BaseModel):
     upated_by:Mapped[str] = mapped_column(String(200))
     patient_id:Mapped[str] = mapped_column(String(100), unique=True)
     first_name:Mapped[str] = mapped_column(String(100))
-    middle_name:Mapped[str] = mapped_column(String(100))
+    middle_name:Mapped[Optional[str]] = mapped_column(String(100))
     last_name:Mapped[str] = mapped_column(String(100))
-    date_of_birth:Mapped[datetime] = mapped_column(DateTime)
-    country_of_birth:Mapped[str] = mapped_column(String(100))
+    dob:Mapped[datetime] = mapped_column(DateTime)
+    cob:Mapped[str] = mapped_column(String(100))
     gender: Mapped[Gender] = mapped_column(SQLAlchemyEnum(Gender))
     marital_status:Mapped[str] = mapped_column(String(100))
     occupation:Mapped[str] = mapped_column(String(100))
@@ -85,7 +85,6 @@ class PatientReg(Base, BaseModel):
     emergency_contact_number:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     emergency_contact_ralation:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     emergency_contact_address:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
-
     health_metrics = relationship("PatientHealthMetrics", backref="patient", cascade="all, delete-orphan")
     risk_assessments = relationship("RiskAssessment", backref="patient", cascade="all, delete-orphan")
     appointments = relationship("Appointment", backref="patient", cascade="all, delete-orphan")
@@ -146,5 +145,4 @@ class PatientTreatment(Base, BaseModel):
     provider_name:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     provider_contact:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     treatment_plan:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
-    treatment_notes:Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
-   
+    treatment_notes:Mapped[Optional[str]] = mapped_column(String(255), nullable=True)  
