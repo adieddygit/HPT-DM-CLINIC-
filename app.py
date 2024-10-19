@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, session, url_for, g, flash
 from sqlalchemy import create_engine, text 
+import sqlalchemy
 # import sys
 # import os
 from flask import render_template
@@ -25,7 +26,7 @@ def create_app()->Flask:
     app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{settings.dbuser}:@{settings.dbhost}/{settings.dbname}'
     
     # Create the engine
-    engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True)
+    engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True, pool_pre_ping=True)
     
     # Initialize the Base class
     Base.metadata.create_all(engine, checkfirst=True)
@@ -47,7 +48,7 @@ def login():
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         #get the form values
-        username = request.form['username'].lower()
+        username = request.form['username']
         password_entered = request.form['password']
         
         # decrypt the password
@@ -81,7 +82,7 @@ def sign_up():
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         result = request.form
-        username = result['username'].lower()
+        username = result['username']
         email = result['email'].lower()
         role = result['role']
         
@@ -97,7 +98,7 @@ def sign_up():
         
         # Check if the username already exists in the database
         with engine.connect() as con:
-            result = con.execute(text(f"SELECT * FROM user WHERE username = :username"), {"username": username})
+            result = con.execute(text(f"SELECT * FROM user WHERE username = username"), {"username": username})
             account = result.fetchone()
 
         if account:
@@ -174,7 +175,7 @@ def register_client():
         email = request.form['email']
         ethnicity = request.form['ethnicity']
         race = request.form['race']
-        #check if the patient_id is already in the database
+        #check if the unique_id is already in the database
         with engine.connect() as con:
             result = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{unique_id}'"))
             client = result.fetchone()
@@ -225,7 +226,6 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-# SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 @app.route('/about')
 def about():
@@ -274,61 +274,90 @@ def retrieve_client():
                 return redirect(url_for('register', msg = msg))
     return redirect(url_for('profile'))
 
-@app.route('/update_profile', methods=['GET' 'POST'])
+@app.route('/update_profile', methods=['POST'])
 def update_profile():
-    msg=""
     client_id = request.form['unique_id']
+    print(f"Client ID: {client_id}")
+    
     if 'loggedin' in session:
-        if client_id:
-            #get the client data from the database
-            with engine.connect() as con:
+        with engine.connect() as con:
+            try:
+                # Check if the client already exists
                 result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
                 client_profile = result_profile.fetchone()
-                con.commit()
-            if client_profile:
-                update_at = datetime.now()
-                updated_by = session['username']
-                first_name = request.form['first_name']
-                middle_name = request.form['middle_name']
-                last_name = request.form['last_name']
-                dob = request.form['dob']
-                cob = request.form['cob']
-                gender = request.form['gender']
-                marital_status = request.form['marital-status']
-                occupation = request.form['occupation']
-                phone_number = request.form['phone']
-                email = request.form['email']
-                address = request.form['line1']
-                city = request.form['city']
-                zip_code = request.form['zip-code']
-                country = request.form['country']
-                state = request.form['state']
-                ethnicity = request.form['ethnicity']
-                race = request.form['race']
-                emergency_contact_name = request.form['emergency_contact_name']
-                emergency_contact_number = request.form['emergency_contact_number']
-                emergency_contact_ralation = request.form['emergency_contact_ralation']
-                emergency_contact_address = request.form['emergency_contact_address']
-                
-                with engine.connect() as con:
-                    result = con.execute(text(f"UPDATE patient_reg SET updated_at = '{update_at}', updated_by = '{updated_by}',\
-                                              first_name = '{first_name}', last_name = '{last_name}',\
-                                                middle_name = '{middle_name}', dob = '{dob}',\
-                                                cob = '{cob}', gender = '{gender}',\
-                                                marital_status = '{marital_status}', occupation = '{occupation}',\
-                                                phone_number = '{phone_number}', address = '{address}', city = '{city}',\
-                                                state = '{state}', zip_code = '{zip_code}', country = '{country}',\
-                                                email = '{email}', ethnicity = '{ethnicity}', race ='{race}', emergency_contact_name = '{emergency_contact_name}',\
-                                                emergency_contact_number = '{emergency_contact_number}', emergency_contact_ralation = '{emergency_contact_ralation}',\
-                                                emergency_contact_address = '{emergency_contact_address}'  WHERE unique_id = '{client_id}'"))
+                print(f"Client Profile: {client_profile}")
+
+                if client_profile:
+                    # Update existing record
+                    update_at = datetime.now()
+                    updated_by = session['username']
+                    
+                    # Retrieve form data
+                    first_name = request.form['first_name']
+                    last_name = request.form['last_name']
+                    middle_name = request.form['middle_name']
+                    date_of_birth = request.form['dob']
+                    country_of_birth = request.form['country_of_birth']
+                    gender = request.form['gender']
+                    marital_status = request.form['marital-status']
+                    occupation = request.form['occupation']
+                    gender_identity = request.form['gender-identity']
+                    sexual_orientation = request.form['sexual-orientation']
+                    phone_number = request.form['phone']
+                    address = request.form['line1']
+                    city = request.form['city']
+                    state = request.form['state']
+                    zip_code = request.form['zip-code']
+                    country = request.form['country']
+                    email = request.form['email']
+                    ethnicity = request.form['ethnicity']
+                    race = request.form['race']
+
+                    print(f"Updating Client: {client_id}")
+                    con.execute(text(f"""
+                        UPDATE client_profile 
+                        SET updated_at = '{update_at}', updated_by = '{updated_by}',
+                            first_name = '{first_name}', last_name = '{last_name}',
+                            middle_name = '{middle_name}', date_of_birth = '{date_of_birth}',
+                            country_of_birth = '{country_of_birth}', gender = '{gender}',
+                            marital_status = '{marital_status}', occupation = '{occupation}',
+                            gender_identity ='{gender_identity}', sexual_orientation = '{sexual_orientation}',
+                            phone_number = '{phone_number}', address = '{address}', city = '{city}',
+                            state = '{state}', zip_code = '{zip_code}', country = '{country}',
+                            email = '{email}', ethnicity = '{ethnicity}', race ='{race}' 
+                        WHERE unique_id = '{client_id}'
+                    """))
                     con.commit()
-                msg = "Client profile updated successfully"
-                return render_template('register.html', msg=msg)
-                
-            else:
-                #redirect to the home page
-                msg = 'The client does not exist.'
-                return redirect(url_for('register', msg = msg))
+                    msg = "Client profile updated successfully"
+                else:
+                    # Insert new record if it doesn't exist
+                    created_at = updated_at = datetime.now()
+                    created_by = updated_by = session['username']
+                    
+                    print(f"Inserting new Client: {client_id}")
+                    con.execute(text(f"""
+                        INSERT INTO client_profile (created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, date_of_birth, 
+                        country_of_birth, gender, marital_status, occupation, gender_identity, sexual_orientation, phone_number, address, city, state, 
+                        zip_code, country, email, ethnicity, race)
+                        VALUES ('{created_by}', '{created_at}', '{updated_at}', '{updated_by}', '{client_id}', '{first_name}', '{last_name}', 
+                        '{middle_name}', '{date_of_birth}', '{country_of_birth}', '{gender}', '{marital_status}', '{occupation}', '{gender_identity}', 
+                        '{sexual_orientation}', '{phone_number}', '{address}', '{city}', '{state}', '{zip_code}', '{country}', '{email}', '{ethnicity}', '{race}')
+                    """))
+                    con.commit()
+                    msg = "Client profile created successfully"
+
+                print(f"Message: {msg}")
+                return render_template('home.html', msg=msg)
+
+            except sqlalchemy.exc.IntegrityError as e:
+                con.rollback()
+                msg = f"Integrity error: {str(e)}"
+                print(msg)
+                return render_template('home.html', msg=msg)
+    else:
+        msg = "You need to be logged in to update profiles."
+        print(msg)
+        return redirect(url_for('login', msg=msg))
 
 
 @app.route('/appointment')

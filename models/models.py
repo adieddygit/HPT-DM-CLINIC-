@@ -59,25 +59,24 @@ class Role(enum.Enum):
     CLIENT = 'client'
     CLINICAL = 'clinical'
     
-class Users(Base, BaseModel):
+class User(Base, BaseModel):
     __tablename__ = 'user'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    username:Mapped[str] = mapped_column(String(200))
-    email:Mapped[str] = mapped_column(String(100), unique=True)
-    password:Mapped[str] = mapped_column(String(200))
-    role:Mapped[Role] = mapped_column(SQLAlchemyEnum(Role))
-    created_at:Mapped[str] = mapped_column(DateTime, default=func.now())
-
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    username: Mapped[str] = mapped_column(String(200), unique=True)
+    email: Mapped[str] = mapped_column(String(100), unique=True)
+    password: Mapped[str] = mapped_column(String(200))
+    role: Mapped[Role] = mapped_column(SQLAlchemyEnum(Role))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     
-class PatientReg(Base, BaseModel):
+class ClientProfile(Base, BaseModel):
     __tablename__ = 'client_profile'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
-    updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
-    unique_id:Mapped[str] = mapped_column(String(100), unique=True)
-    first_name:Mapped[str] = mapped_column(String(100))
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
+    updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
+    unique_id: Mapped[str] = mapped_column(String(100), unique=True)
+    first_name: Mapped[str] = mapped_column(String(100))
     middle_name:Mapped[Optional[str]] = mapped_column(String(100))
     last_name:Mapped[str] = mapped_column(String(100))
     dob:Mapped[datetime] = mapped_column(DateTime)
@@ -135,7 +134,7 @@ class Appointment(Base, BaseModel):
     last_appointment_date:Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
 
-class PatientHealthMetrics(Base, BaseModel):
+class HealthMetrics(Base, BaseModel):
     __tablename__ = 'health_metrics'
     id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
@@ -167,7 +166,7 @@ class PatientHealthMetrics(Base, BaseModel):
     complications:Mapped[str] = mapped_column(String(100))
     
 
-class PatientTreatment(Base, BaseModel):
+class Treatment(Base, BaseModel):
     __tablename__ = 'treatment'
     id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())

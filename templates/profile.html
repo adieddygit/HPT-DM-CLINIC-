@@ -28,122 +28,122 @@
                         <p>The retrieved data is displayed here</p>
 
                         <div class="form-group">
-                            <label for="patient_id">Client ID</label>
-                            <input type="text" class="form-control" id="patient_id" name="patient_id" value="{{ patient.patient_id }}" readonly>
+                            <label for="client_id">Client ID</label>
+                            <input type="text" class="form-control" id="client_id" name="client_id" value="{{ client.client_id }}" readonly>
                         </div>
 
                         <div class="form-group">
                             <label for="first_name">First Name</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ patient.first_name }}">
+                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ client.first_name }}">
                         </div>
 
                         <div class="form-group">
                             <label for="middle_name">Middle Name</label>
-                            <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{ patient.middle_name }}">
+                            <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{ client.middle_name }}">
                         </div>
 
                         <div class="form-group">
                             <label for="last_name">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ patient.last_name }}">
+                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ client.last_name }}">
                         </div>
 
                         <div class="form-group">
                             <label for="dob">Date of Birth</label>
-                            <input type="datetime-local" class="form-control" id="dob" name="dob" value="{{ patient.dob }}">
+                            <input type="datetime-local" class="form-control" id="dob" name="dob" value="{{ client.dob }}">
                         </div>
 
                         <div class="form-group">
                             <label for="country-of-birth">Country of Birth</label>
-                            <input type="text" class="form-control" id="cob" name="cob" value="{{ patient.cob }}">
+                            <input type="text" class="form-control" id="cob" name="cob" value="{{ client.cob }}">
                         </div>
 
                         <div class="form-group">
                             <label for="gender">Gender: </label><br />
-                            <input type="radio" name="gender" value="female" {% if patient.gender == 'female' %}checked{% endif %}> Female
-                            <input type="radio" name="gender" value="male" {% if patient.gender == 'male' %}checked{% endif %}> Male
-                            <input type="radio" name="gender" value="intersex" {% if patient.gender == 'intersex' %}checked{% endif %}> Intersex
+                            <input type="radio" name="gender" value="female" {% if client.gender == 'female' %}checked{% endif %}> Female
+                            <input type="radio" name="gender" value="male" {% if client.gender == 'male' %}checked{% endif %}> Male
+                            <input type="radio" name="gender" value="intersex" {% if client.gender == 'intersex' %}checked{% endif %}> Intersex
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="marital-status">Marital Status:</label><br />
-                            <input type="radio" name="marital-status" value="single" {% if patient.marital_status == 'single' %}checked{% endif %}> Single
-                            <input type="radio" name="marital-status" value="married" {% if patient.marital_status == 'married' %}checked{% endif %}> Married
-                            <input type="radio" name="marital-status" value="divorced" {% if patient.marital_status == 'divorced' %}checked{% endif %}> Divorced
-                            <input type="radio" name="marital-status" value="widowed" {% if patient.marital_status == 'widowed' %}checked{% endif %}> Widowed
-                            <input type="radio" name="marital-status" value="separated" {% if patient.marital_status == 'separated' %}checked{% endif %}> Separated
-                            <input type="radio" name="marital-status" value="cohabiting" {% if patient.marital_status == 'cohabiting' %}checked{% endif %}> Cohabiting
-                            <input type="radio" name="marital-status" value="other" {% if patient.marital_status == 'other' %}checked{% endif %}> Other
+                            <input type="radio" name="marital-status" value="single" {% if client.marital_status == 'single' %}checked{% endif %}> Single
+                            <input type="radio" name="marital-status" value="married" {% if client.marital_status == 'married' %}checked{% endif %}> Married
+                            <input type="radio" name="marital-status" value="divorced" {% if client.marital_status == 'divorced' %}checked{% endif %}> Divorced
+                            <input type="radio" name="marital-status" value="widowed" {% if client.marital_status == 'widowed' %}checked{% endif %}> Widowed
+                            <input type="radio" name="marital-status" value="separated" {% if client.marital_status == 'separated' %}checked{% endif %}> Separated
+                            <input type="radio" name="marital-status" value="cohabiting" {% if client.marital_status == 'cohabiting' %}checked{% endif %}> Cohabiting
+                            <input type="radio" name="marital-status" value="other" {% if client.marital_status == 'other' %}checked{% endif %}> Other
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="occupation">Occupation: </label><br />
-                            <input type="radio" name="occupation" value="employed" {% if patient.occupation == 'employed' %}checked{% endif %}> Employed
-                            <input type="radio" name="occupation" value="unemployed" {% if patient.occupation == 'unemployed' %}checked{% endif %}> Unemployed
-                            <input type="radio" name="occupation" value="student" {% if patient.occupation == 'student' %}checked{% endif %}> Student
-                            <input type="radio" name="occupation" value="retired" {% if patient.occupation == 'retired' %}checked{% endif %}> Retired
-                            <input type="radio" name="occupation" value="housewife" {% if patient.occupation == 'housewife' %}checked{% endif %}> Housewife
-                            <input type="radio" name="occupation" value="self-employed" {% if patient.occupation == 'self-employed' %}checked{% endif %}> Self-employed
-                            <input type="radio" name="occupation" value="other" {% if patient.occupation == 'other' %}checked{% endif %}> Other
+                            <input type="radio" name="occupation" value="employed" {% if client.occupation == 'employed' %}checked{% endif %}> Employed
+                            <input type="radio" name="occupation" value="unemployed" {% if client.occupation == 'unemployed' %}checked{% endif %}> Unemployed
+                            <input type="radio" name="occupation" value="student" {% if client.occupation == 'student' %}checked{% endif %}> Student
+                            <input type="radio" name="occupation" value="retired" {% if client.occupation == 'retired' %}checked{% endif %}> Retired
+                            <input type="radio" name="occupation" value="housewife" {% if client.occupation == 'housewife' %}checked{% endif %}> Housewife
+                            <input type="radio" name="occupation" value="self-employed" {% if client.occupation == 'self-employed' %}checked{% endif %}> Self-employed
+                            <input type="radio" name="occupation" value="other" {% if client.occupation == 'other' %}checked{% endif %}> Other
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="{{ patient.phone }}">
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ client.phone }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" name="line1" value="{{ patient.address }}">
-                            <input type="text" class="form-control" name="city" value="{{ patient.city }}">
-                            <input type="text" class="form-control" name="state" value="{{ patient.state }}">
-                            <input type="text" class="form-control" name="zip-code" value="{{ patient.zip_code }}">
-                            <input type="text" class="form-control" name="country" value="{{ patient.country }}">
+                            <input type="text" class="form-control" id="address" name="line1" value="{{ client.address }}">
+                            <input type="text" class="form-control" name="city" value="{{ client.city }}">
+                            <input type="text" class="form-control" name="state" value="{{ client.state }}">
+                            <input type="text" class="form-control" name="zip-code" value="{{ client.zip_code }}">
+                            <input type="text" class="form-control" name="country" value="{{ client.country }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ patient.email }}">
+                            <input type="email" class="form-control" id="email" name="email" value="{{ client.email }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="ethnicity">Ethnicity</label>
-                            <input type="text" class="form-control" id="ethnicity" name="ethnicity" value="{{ patient.ethnicity }}">
+                            <input type="text" class="form-control" id="ethnicity" name="ethnicity" value="{{ client.ethnicity }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="race">Race</label>
-                            <input type="text" class="form-control" id="race" name="race" value="{{ patient.race }}">
+                            <input type="text" class="form-control" id="race" name="race" value="{{ client.race }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="emergency_contact_name">Emergency Contact</label>
-                            <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name" value="{{ patient.emergency_contact_name }}">
+                            <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name" value="{{ client.emergency_contact_name }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="emergency_contact_number">Contact Number</label>
-                            <input type="text" class="form-control" id="emergency_contact_number" name="emergency_contact_number" value="{{ patient.emergency_contact_number }}">
+                            <input type="text" class="form-control" id="emergency_contact_number" name="emergency_contact_number" value="{{ client.emergency_contact_number }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="emergency_contact_relation">Contact Relation</label>
-                            <input type="text" class="form-control" id="emergency_contact_relation" name="emergency_contact_relation" value="{{ patient.emergency_contact_relation }}">
+                            <input type="text" class="form-control" id="emergency_contact_relation" name="emergency_contact_relation" value="{{ client.emergency_contact_relation }}">
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="emergency_contact_address">Contact Address</label>
-                            <input type="text" class="form-control" id="emergency_contact_address" name="emergency_contact_address" value="{{ patient.emergency_contact_address }}">
+                            <input type="text" class="form-control" id="emergency_contact_address" name="emergency_contact_address" value="{{ client.emergency_contact_address }}">
                         </div>
                         <hr />
 
