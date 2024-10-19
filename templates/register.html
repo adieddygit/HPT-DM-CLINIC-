@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Profile {% endblock title %}
+{% block title %} Register {% endblock title %}
 
 {% block head %}
 {% block stylesheet %}{% endblock stylesheet %}
@@ -13,22 +13,20 @@
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
-    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('appointment') }}" class="active"><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
     <a href="#services"><i class="fas fa-cogs"></i> Services</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
 </div>
-
+Hi {{session.username}}!!</br></br> Welcome to the Registration Page
 <div class ="row">
-    <div class ="col-md-7">
-       <div class ="card">
-        <div class ="card-header bg-danger">
-        <p class="mt-4">Register a new client</p>
-        </div>
-        <div class ="card-body">
+    <div class ="col-8">
+       <div class ="">
+       
+        <div>
             <p> Client Registration form</p>
-    <form method ="post" action ="{{ url_for('register') }}" class="form-signup">
+    <form method ="post" action ="/register_client" class="form-signup">
         <div class="input-container" class="form-group">
             <label for="client_id">Client ID</label>
             <input type="text" class="form-control" id="client_id" name="unique_id" placeholder="Enter Client ID">
@@ -53,12 +51,12 @@
         </div> 
 
         <div class="input-container" class="form-group">
-            <label for="country-of-birth">Country of birth</label>
-            <input type="text" class="form-control" id="country-of-birth" name="country_of_birth" placeholder="Country of birth">
+            <label for="cob">Country of birth</label>
+            <input type="text" class="form-control" id="cob" name="cob" placeholder="Country of birth">
         </div>
         
         <div class="input-container" class="form-group">
-            <label for="gender">Sex: </label><br/>
+            <label for="gender">Gender: </label><br/>
             <input type="radio"  id="gender" name="gender" value = "female"> Female
             <input type="radio" id="gender" name="gender" value = "male"> Male
             <input type="radio" id="gender" name="gender" value = "intersex"> Intersex
@@ -85,16 +83,6 @@
             <input type="radio" id="occupation" name="occupation" value="self-employed">self-employed
             <input type="radio" id="occupation" name="occupation" value="other">other
 
-        </div>
-        
-        <div class="input-container" class="form-group">
-            <label for="gender-identity">Gender Identity</label>
-            <input type="text" class="form-control" id="gender-identity" name="gender-identity" placeholder="Gender identity">
-        </div>
-       
-        <div class="input-container" class="form-group">
-            <label for="sexual-orientation">Sexual Orientation</label>
-            <input type="text" class="form-control" id="sexual-orientation" name="sexual-orientation" placeholder="Sexual Orientation">
         </div>
         
         <div class="input-container" class="form-group">
@@ -125,6 +113,36 @@
             <label for="race">Race</label>
             <input type="text" class="form-control" id="race" name="race" placeholder="race">
         </div>
+
+        <div class="input-container" class="form-group">
+            <label for="country">Country</label>
+            <input type="text" class="form-control" id="country" name="country" placeholder="Emergency Contact">
+        </div>
+
+        <div class="input-container" class="form-group">
+            <label for="emergency_contact_name">Emergency Contact</label>
+            <input type="text" class="emergency_contact_name" id="emergency_contact_name" name="emergency_contact_name" placeholder="Emergency Contact">
+        </div>
+
+        <div class="input-container" class="form-group">
+            <label for="emergency_contact_number">Emergency Contact Number</label>
+            <input type="text" class="form-control" id="emergency_contact_number" name="emergency_contact_number" placeholder="Emergency Contact Number">
+        </div>
+
+        <div class="input-container" class="form-group">
+            <label for="emergency_contact_ralation">Contact Relation</label>
+            <input type="text" class="form-control" id="emergency_contact_ralation" name="emergency_contact_ralation" placeholder="Contact Relation">
+        </div>
+
+        <div class="input-container" class="form-group">
+            <label for="emergency_contact_address">Contact Address</label>
+            <input type="text" class="form-control" id="emergency_contact_address" name="emergency_contact_address" placeholder="Contact Address">
+        </div>
+
+        <div class="input-container" class="form-group">
+            <label for="emergency_contact_number">Emergency Contact Number</label>
+            <input type="text" class="form-control" id="emergency_contact_number" name="emergency_contact_number" placeholder="Emergency Contact Number">
+        </div>
         
         <input type ="submit" value = "Register Client" class ="submit-btn"> 
     </form>
@@ -132,13 +150,143 @@
 </div>
 </div>
 
-<div class = "col-md-5">
-    <div class ="card">
-    <div class = "card-header bg-info"><p class="mt-4">Get client Information</p></div>
-    <div class ="card-body">
+<div class = "col-4">
+    <div class ="">
+        <p> Risk Assessment form</p>
+    <form method ="post" action ="{{ url_for('register_client') }}" class="risk_ass">
+    <div class="input-container" class="form-group">
+        <label for="family_has_history_of_hpt_dm">Client's Family History of Hypertension & Diabetes </label>
+        <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm">Hypertension
+        <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm">Diabetes
+        <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm">Both
+        <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm">None
+        <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm">Unknown
+
+    </div>
+
+    <div class="input-container" class="form-group">
+        <label for="has_underlying_medical_condition">Client has an underlying medical condition(s): </label>
+        <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition">Yes.
+        <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition">No.
+        <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition">Unknown. &nbsp;&nbsp;
+
+        <p>If Yes, State Condition</p><input type="text" class="form-control" id="has_underlying_medical_condition" name="has_underlying_medical_condition" placeholder="Conditon">
+    </div>
+
+    <div class="input-container" class="form-group">
+        <label for="alcohol_intake">Alcohol Intake: </label><br/>
+        <input type="radio" id="alcohol_intake" name="alcohol_intake">Occational
+        <input type="radio" id="alcohol_intake" name="alcohol_intake">Moderate
+        <input type="radio" id="alcohol_intake" name="alcohol_intake">Heavy
+        <input type="radio" id="alcohol_intake" name="alcohol_intake">None
+    </div>
+
+    <div class="input-container" class="form-group">
+        <label for="smoking_tobacco_use">Smokes/Tobacco Use: </label><br/>
+        <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use">Yes
+        <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use">No
+    </div>
+
+    <div class="input-container" class="form-group">
+        <label for="type_of_diet">Diet Intake: </label><br/>
+        <input type="radio" id="type_of_diet" name="type_of_diet">Normal Diet
+        <input type="radio" id="type_of_diet" name="type_of_diet">Low Salt Diet
+        <input type="radio" id="type_of_diet" name="type_of_diet">Low Fat Diet
+        <input type="radio" id="type_of_diet" name="type_of_diet">Vegan
+    </div>
+
+    <div class="input-container" class="form-group">
+        <label for="overweight_obese">Body Mass Index: </label><br/>
+        <input type="radio" id="bmi" name="bmi" value="employed">Underweight
+        <input type="radio" id="bmi" name="bmi" value="unemployed">Normal 
+        <input type="radio" id="bmi" name="bmi" value="student">Overweight
+        <input type="radio" id="bmi" name="bmi" value="retired">Obesity
+    </div>
+
+    <div class="input-container" class="form-group">
+        <label for="dose_exercise">Engage In Aerobics:</label><br/>
+        <input type="radio" id="dose_exercise" name="dose_exercise">Yes
+        <input type="radio" id="dose_exercise" name="dose_exercise">No
+    </div>
+
+    <input type ="submit" value = "Submit" class ="submit-btn">
+    </form><br><br>
+
+    <hr style="border: solid 3 white;"><br>
+
+    <marquee class="input-container2" class="form-group" style="height: 200px; background-color: #f9f9f9;" direction="up" srollamount="10" scrolldelay="500" loop="infinite" onmousemove="this.stop()" onmouseout="this.start()">
+        
+            <p>Health Tips<br><br><strong>Managing</strong> hypertension (high blood pressure) and diabetes (high blood sugar) together requires a balanced approach to diet, exercise, and lifestyle habits.<br><br> Here are some evidence-based tips to help you optimize both conditions: </p>
+            
+            <p><strong>Follow a Balanced Diet</strong><br> 
+                <em><u>Prioritize Whole Grains:</u></em> Choose whole grains like brown rice, quinoa, oats, and whole wheat. They have a lower glycemic index and help maintain stable blood sugar levels.<br>
+                <em><u>Eat Plenty of Vegetables:</u></em> Aim for a variety of colorful, non-starchy vegetables (e.g., spinach, kale, broccoli, bell peppers). Leafy greens are rich in potassium and help manage blood pressure.
+                Lean Proteins: Choose lean meats (chicken, turkey, fish), plant-based proteins (lentils, beans), and tofu. Fatty fish like salmon and mackerel contain omega-3 fatty acids, which can help reduce inflammation and protect heart health.
+                Limit Salt and Processed Foods: Reduce sodium intake by avoiding processed foods, packaged snacks, and restaurant meals. Opt for herbs and spices instead of salt to flavor your food.
+                Reduce Refined Sugars and Carbohydrates: Avoid sugary drinks, sweets, and processed carbs (like white bread and pastries). Choose natural sweeteners like stevia if necessary.
+                Increase Fiber Intake: Fiber helps control blood sugar and reduces blood pressure. Include foods like oats, beans, lentils, chia seeds, and flaxseeds. </p>
+    
+            <p><strong>Maintain a Healthy Weight</strong><br>
+                Even modest weight loss can have a significant impact on both blood pressure and blood sugar levels. Aim for a gradual and sustainable reduction in body weight through diet and regular physical activity.
+                Calculate and track your BMI (Body Mass Index) and strive for a normal range (18.5–24.9). </p>
+    
+            <p>
+                3. Exercise Regularly
+                Aerobic Exercise: Engage in moderate physical activities like walking, cycling, swimming, or dancing for at least 30 minutes most days of the week. Aim for a total of 150 minutes per week.
+                Strength Training: Incorporate strength training exercises (using resistance bands, weights, or body weight) 2–3 times per week. Building muscle mass helps improve insulin sensitivity and can lower blood pressure.
+                Flexibility and Balance: Activities like yoga and Tai Chi can reduce stress, which is beneficial for managing both conditions.
+            </p>
+    
+            <p>
+                4. Monitor Your Blood Pressure and Blood Sugar Levels
+                Regularly check your blood pressure using a home monitor, and keep it below 120/80 mm Hg if possible.
+                Monitor your blood glucose (both fasting and post-meal). Aiming for an A1C level of less than 7% (or per your doctor’s recommendation) is ideal for diabetes management.
+            </p>
+    
+            <p>
+                5. Stay Hydrated
+                Drink plenty of water throughout the day. Avoid sugary drinks and limit alcohol, which can raise blood pressure and spike blood sugar.
+            </p>
+    
+            <p>
+                6. Manage Stress
+                Chronic stress can raise both blood pressure and blood sugar. Practice stress-reducing activities like meditation, deep breathing, journaling, or spending time in nature.
+            </p>
+    
+            <p>
+                Sleep Well
+                Ensure you get 7–9 hours of sleep per night. Poor sleep is linked to worsened insulin resistance and elevated blood pressure.
+            </p>
+    
+            <p>
+                8. Limit Alcohol and Avoid Smoking
+                Excessive alcohol intake can raise blood pressure and affect blood sugar control. If you drink, limit it to one drink per day for women and two drinks per day for men.
+                Smoking cessation is essential as smoking constricts blood vessels, raises blood pressure, and worsens insulin resistance.
+            </p>
+    
+            <p>
+                9. Medications
+                Adhere to prescribed medications for both hypertension and diabetes. Common medications for high blood pressure (ACE inhibitors, ARBs, diuretics) and diabetes (metformin, insulin) are important for managing the conditions.
+
+            </p>
+
+            <p>
+                10. Regular Doctor Visits
+                Regular checkups with your healthcare provider are essential to monitor and adjust your treatment plan, track your blood pressure, and review blood sugar levels.
+            </p> 
+        </marquee><br>
+        
+        <div>
+            <img src="{{ url_for('static', filename='images/ab3.jpg') }}" alt="logo">
+        </div><br>
+
+        <hr style="border: solid 3 white;">
+    
+    <div class ="">
         <p>Retrieve Information</p>
+        
         <div class="msg">{{ msg }}</div>
-        <form method ="post" action ="{{ url_for('patients') }}">
+        <form method ="post" action ="{{ url_for('retrieve_client') }}">
             
         <div class ="form-group">
             <label for="client_id">Client ID</label>
@@ -147,8 +295,10 @@
             <input type ="submit" value = "Retrieve Client" class ="submit-btn">
         </div>
         </form>
+        </div>
     </div>
-  
+    
+</div>
 </div>
 </div> 
 {% endblock content %}

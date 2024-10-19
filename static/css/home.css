@@ -5,6 +5,12 @@ body{
     text-align: center;
 }
 
+.container-fluid{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 
 .hamburger-menu {
   font-size: 24px;            

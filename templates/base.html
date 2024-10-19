@@ -27,7 +27,7 @@
         <!-- Navigation Links -->
         <ul class="nav-menu" id="navMenu">
             <li class="nav-item"><a href="{{ url_for('about')}}">About</a></li>
-            <li class="nav-item"><a href="{{ url_for('login')}}">Logout</a></li>
+            <li class="nav-item"><a href="{{ url_for('logout')}}">Logout</a></li>
         </ul>
     </nav>
 </header>
@@ -37,9 +37,9 @@
     <div class="subbar">
         <!-- Toggle Button for Small Screens -->
         <div class="hamburger-menu" onclick="toggleNav()">&#9776;
-            <marquee style="font-size: small; position: absolute; top: 35%; color: #f0f0f0;" direction="left" scrollamount="3" scrolldelay="10" loop="infinite">
-                Dornuel Health Consult is dedicated to providing comprehensive care for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments. Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
-                From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic issues. Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live your life.        </div>
+            <marquee style="font-size: small; position: absolute; top: 35%; color: rgb(248, 248, 161);" direction="left" scrollamount="3" scrolldelay="10" loop="infinite" onmousemove="this.stop()" onmouseout="this.start()">
+                Dornuel Health Consult is dedicated to providing comprehensive healthcare for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments. Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
+                From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic conditions. Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live the best of your life.</div>
     
             </marquee>    
         </div>
