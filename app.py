@@ -7,6 +7,7 @@ from flask import render_template
 # sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from models.models import *
 import settings
+import random
 from utils import insert_data
 # from app import app
 from flask_simple_crypt import SimpleCrypt
@@ -72,7 +73,8 @@ def login():
             return redirect(url_for('home',msg=msg))
 
         else:
-            msg = 'Incorrect username/password!'
+            msg = 'Incorrect username or password!'
+            flash(msg, 'Incorect')
     
     return render_template('login.html', msg=msg)
            
@@ -107,6 +109,7 @@ def sign_up():
         
         if not username or not password or not cpassword:
             msg = 'Please fill out the form'
+            flash(msg, 'form')
             return render_template('sign_up.html', msg=msg)
 
         # Hash the password
@@ -117,8 +120,7 @@ def sign_up():
         # Insert the new user into the database
         try:
             with engine.connect() as con:
-                con.execute(text(f"INSERT INTO user (username, email, password, role) VALUES (:username, :email, :password, :role)"),
-                            {"username": username, "email": enc_email, "password": password_hashed, "role": role})
+                con.execute(text(f"INSERT IGNORE INTO user (username, email, password, role) VALUES ('{username}', '{email}', '{password}', '{role}'"))
                 con.commit()
             msg = 'Account created successfully'
             flash(msg, 'success')
@@ -127,6 +129,7 @@ def sign_up():
         except Exception as e:
             print(f"Error during sign-up: {e}")
             msg = 'There was an issue creating your account'
+            flash(msg, 'error')
     
     return render_template('sign_up.html', msg=msg)
 
@@ -153,11 +156,12 @@ def profile():
     return render_template('profile.html')
 
 
+
 @app.route('/register_client', methods=['POST'])
 def register_client():
     #get the data from the form
     if request.method=='POST' and 'unique_id' in request.form:
-        unique_id = request.form['unique_id']
+        unique_id = random.randint(10000, 19999)
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         middle_name = request.form['middle_name']
@@ -181,6 +185,7 @@ def register_client():
             client = result.fetchone()
             if client:
                 msg = 'The client already exists.'
+                flash(msg, 'exists')
                 return redirect(url_for('register', msg = msg))
         #check if all the required fields are filled
         
@@ -190,7 +195,7 @@ def register_client():
         created_by = session['username']
         updated_by = session['username']
         with engine.connect() as con:
-            con.execute(text(f"INSERT INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob,\
+            con.execute(text(f"INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob,\
                                       cob, gender, marital_status, occupation,\
                                       phone, address, city, state, zip_code, country,\
                                       email, ethnicity, race)\
@@ -201,20 +206,21 @@ def register_client():
                                       '{ethnicity}', '{race}'\
                                     )"))
             
-            con.execute(text(f"INSERT INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
         
-            con.execute(text(f"INSERT INTO risk_assessment(created_by, created_at, updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT IGNORE INTO risk_assessment(created_by, created_at, updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
-            con.execute(text(f"INSERT INTO appointment(created_by, created_at,updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT IGNORE INTO appointment(created_by, created_at,updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
-            con.execute(text(f"INSERT INTO health_metrics(created_by, created_at,updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT IGNORE INTO health_metrics(created_by, created_at,updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
             
-            con.execute(text(f"INSERT INTO treatment(created_by, created_at, updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT IGNORE INTO treatment(created_by, created_at, updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
             con.commit()
         msg = 'You have successfully registered the client.'
+        flash(msg, 'success')
         # redirect the user to the home page
         return redirect(url_for('register', msg = msg))
     return render_template('register.html')
@@ -224,6 +230,8 @@ def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
+    msg = f'You are logged out'
+    flash(msg, 'logged out')
     return redirect(url_for('login'))
 
 
@@ -271,28 +279,30 @@ def retrieve_client():
             else:
                 #redirect to the home page
                 msg = 'The client does not exist.'
+                flash(msg, 'exist')
                 return redirect(url_for('register', msg = msg))
-    return redirect(url_for('profile'))
+    return redirect(url_for('profile', client=client_client_profile))
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
-    client_id = request.form['unique_id']
-    print(f"Client ID: {client_id}")
+    if request.method == 'POST' and client_id in  request.form:
+        client_id = request.form['unique_id']
     
     if 'loggedin' in session:
-        with engine.connect() as con:
+        if client_id:
+         with engine.connect() as con:
             try:
                 # Check if the client already exists
                 result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
                 client_profile = result_profile.fetchone()
-                print(f"Client Profile: {client_profile}")
+                
 
                 if client_profile:
                     # Update existing record
                     update_at = datetime.now()
                     updated_by = session['username']
                     
-                    # Retrieve form data
+                    # Retrieve form data  
                     first_name = request.form['first_name']
                     last_name = request.form['last_name']
                     middle_name = request.form['middle_name']
@@ -329,6 +339,7 @@ def update_profile():
                     """))
                     con.commit()
                     msg = "Client profile updated successfully"
+                    flash(msg, 'success') 
                 else:
                     # Insert new record if it doesn't exist
                     created_at = updated_at = datetime.now()
@@ -345,18 +356,19 @@ def update_profile():
                     """))
                     con.commit()
                     msg = "Client profile created successfully"
+                    flash(msg, 'success')
 
-                print(f"Message: {msg}")
+                
                 return render_template('home.html', msg=msg)
 
             except sqlalchemy.exc.IntegrityError as e:
                 con.rollback()
                 msg = f"Integrity error: {str(e)}"
                 print(msg)
-                return render_template('home.html', msg=msg)
+                return render_template('profile.html', msg=msg)
     else:
         msg = "You need to be logged in to update profiles."
-        print(msg)
+        flash(msg, 'update')
         return redirect(url_for('login', msg=msg))
 
 

@@ -48,11 +48,6 @@ class BaseModel:
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
-
     
 class Role(enum.Enum):
     ADMIN = 'admin'

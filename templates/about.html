@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %} About {% endblock title %}
 {% block head %}
-{% block style%}{% endblock style%}
+{% block style%}
 <style>
 
     #div{
@@ -143,14 +143,11 @@
   }
 }
 
-
 </style>
+{% endblock style%}
 {{super()}}
+
 {% endblock head %}
-
-{% block sidenav %}{% endblock sidenav %}
-
-{% block subbar %}{% endblock subbar %}
 
 
 {% block content %}
