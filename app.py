@@ -248,7 +248,7 @@ def vitals():
 def retrieve_client():
     msg = ''
     #get the client_id from the urlß
-    client_id = request.form['unique_id']
+    client_id = request.form['client_id']
     #validate the client_id
     #if the client_id is not valid, redirect to the home page
     #if the client_id is valid, continue
@@ -256,13 +256,13 @@ def retrieve_client():
         if client_id:
             #get the client data from the database
             with engine.connect() as con:
-                result_client_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
+                result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
                 result_risk_assessment = con.execute(text(f"SELECT * FROM risk_assessment WHERE unique_id = '{client_id}'"))
                 result_appointment = con.execute(text(f"SELECT * FROM appointment WHERE unique_id = '{client_id}'"))
                 result_health_metrics = con.execute(text(f"SELECT * FROM health_metrics WHERE unique_id = '{client_id}'"))
                 result_treatment = con.execute(text(f"SELECT * FROM treatment WHERE unique_id = '{client_id}'"))
                 
-                client_client_profile = result_client_profile.fetchone()
+                client_profile = result_profile.fetchone()
                 client_risk_assessment = result_risk_assessment.fetchone()
                 client_appointment = result_appointment.fetchone()
                 client_health_metrics = result_health_metrics.fetchone()
@@ -270,9 +270,9 @@ def retrieve_client():
                 
 
                 con.commit()
-            if client_client_profile and client_risk_assessment and client_appointment and client_health_metrics and client_treatment:
+            if client_profile and client_risk_assessment and client_appointment and client_health_metrics and client_treatment:
                 #display the client data
-                return render_template('profile.html', client_profile = client_client_profile,
+                return render_template('profile.html', client = client_profile,
                                         risk_assessment = client_risk_assessment, appointment = client_appointment,
                                           health_metrics = client_health_metrics, 
                                           treatment = client_treatment)
@@ -281,11 +281,12 @@ def retrieve_client():
                 msg = 'The client does not exist.'
                 flash(msg, 'exist')
                 return redirect(url_for('register', msg = msg))
-    return redirect(url_for('profile', client=client_client_profile))
+    return redirect(url_for('index'))
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
-    if request.method == 'POST' and client_id in  request.form:
+    msg=""
+    if request.method == 'POST':
         client_id = request.form['unique_id']
     
     if 'loggedin' in session:
@@ -306,14 +307,12 @@ def update_profile():
                     first_name = request.form['first_name']
                     last_name = request.form['last_name']
                     middle_name = request.form['middle_name']
-                    date_of_birth = request.form['dob']
-                    country_of_birth = request.form['country_of_birth']
+                    dob = request.form['dob']
+                    cob = request.form['cob']
                     gender = request.form['gender']
-                    marital_status = request.form['marital-status']
+                    marital_status = request.form['marital_status']
                     occupation = request.form['occupation']
-                    gender_identity = request.form['gender-identity']
-                    sexual_orientation = request.form['sexual-orientation']
-                    phone_number = request.form['phone']
+                    phone = request.form['phone']
                     address = request.form['line1']
                     city = request.form['city']
                     state = request.form['state']
@@ -328,11 +327,10 @@ def update_profile():
                         UPDATE client_profile 
                         SET updated_at = '{update_at}', updated_by = '{updated_by}',
                             first_name = '{first_name}', last_name = '{last_name}',
-                            middle_name = '{middle_name}', date_of_birth = '{date_of_birth}',
-                            country_of_birth = '{country_of_birth}', gender = '{gender}',
+                            middle_name = '{middle_name}', dob = '{dob}',
+                            cob = '{cob}', gender = '{gender}',
                             marital_status = '{marital_status}', occupation = '{occupation}',
-                            gender_identity ='{gender_identity}', sexual_orientation = '{sexual_orientation}',
-                            phone_number = '{phone_number}', address = '{address}', city = '{city}',
+                            phone = '{phone}', address = '{address}', city = '{city}',
                             state = '{state}', zip_code = '{zip_code}', country = '{country}',
                             email = '{email}', ethnicity = '{ethnicity}', race ='{race}' 
                         WHERE unique_id = '{client_id}'
@@ -351,8 +349,8 @@ def update_profile():
                         country_of_birth, gender, marital_status, occupation, gender_identity, sexual_orientation, phone_number, address, city, state, 
                         zip_code, country, email, ethnicity, race)
                         VALUES ('{created_by}', '{created_at}', '{updated_at}', '{updated_by}', '{client_id}', '{first_name}', '{last_name}', 
-                        '{middle_name}', '{date_of_birth}', '{country_of_birth}', '{gender}', '{marital_status}', '{occupation}', '{gender_identity}', 
-                        '{sexual_orientation}', '{phone_number}', '{address}', '{city}', '{state}', '{zip_code}', '{country}', '{email}', '{ethnicity}', '{race}')
+                        '{middle_name}', '{dob}', '{cob}', '{gender}', '{marital_status}', '{occupation}', 
+                         '{phone}', '{address}', '{city}', '{state}', '{zip_code}', '{country}', '{email}', '{ethnicity}', '{race}')
                     """))
                     con.commit()
                     msg = "Client profile created successfully"
