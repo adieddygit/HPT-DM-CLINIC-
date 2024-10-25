@@ -63,6 +63,7 @@ class User(Base, BaseModel):
     role: Mapped[Role] = mapped_column(SQLAlchemyEnum(Role))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     
+    
 class ClientProfile(Base, BaseModel):
     __tablename__ = 'client_profile'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -90,17 +91,9 @@ class ClientProfile(Base, BaseModel):
     race:Mapped[Optional[str]] = mapped_column(String(100))
     emergency_contact_name:Mapped[Optional[str]] = mapped_column(String(100))
     emergency_contact_number:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_relation:Mapped[Optional[str]] = mapped_column(String(100))
+    emergency_contact_relationship:Mapped[Optional[str]] = mapped_column(String(100))
     emergency_contact_address:Mapped[Optional[str]] = mapped_column(String(100))
-   
-class RiskAssessment(Base, BaseModel):
-    __tablename__ = 'risk_assessment'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
-    updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
-    unique_id:Mapped[str] = mapped_column(String(100), ForeignKey('client_profile.unique_id', ondelete='CASCADE', onupdate='CASCADE'))
+   #For the risk assessment
     family_has_history_of_hpt_dm:Mapped[str] = mapped_column(String(100))
     has_underlying_medical_condition:Mapped[str] = mapped_column(String(100))
     alcohol_intake:Mapped[str] = mapped_column(String(100))
@@ -120,12 +113,10 @@ class Appointment(Base, BaseModel):
     username:Mapped[str] = mapped_column(String(100))
     email:Mapped[str] = mapped_column(String(100))
     phone:Mapped[str] = mapped_column(String(100))
-    provider_type:Mapped[str] = mapped_column(String(200))
     purpose:Mapped[str] = mapped_column(String(100))
     message:Mapped[Optional[str]] = mapped_column(String(100))
     appointment_date:Mapped[datetime] = mapped_column(DateTime)
     appointment_time:Mapped[datetime] = mapped_column(DateTime)
-    appointment_status:Mapped[str] = mapped_column(String(200))
     last_appointment_date:Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
 
@@ -173,7 +164,6 @@ class Treatment(Base, BaseModel):
     treatment_type:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     defaulted_treatment:Mapped[str] = mapped_column(String(100))
     health_care_facility:Mapped[Optional[str]] = mapped_column(String(100))
-    provider_type:Mapped[Optional[str]] = mapped_column(String(100))
     provider_contact:Mapped[Optional[str]] = mapped_column(String(100))
     treatment_plan:Mapped[Optional[str]] = mapped_column(String(100))
     treatment_notes:Mapped[Optional[str]] = mapped_column(String(255))  

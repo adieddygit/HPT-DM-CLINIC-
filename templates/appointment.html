@@ -26,7 +26,7 @@
         <h1>Book an Appointment</h1>
         <p>Please fill out the form below to schedule an appointment with us. Our team will contact you for confirmation.</p>
     
-        <form action="{{ url_for('book_appointment') }}" method="POST" class="appointment-form">
+        <form action="/book_appointment" method="POST" class="appointment-form">
             <div class="form-group">
                 <label for="name">Username</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required>

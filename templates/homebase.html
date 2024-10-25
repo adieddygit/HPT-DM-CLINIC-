@@ -10,47 +10,78 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
     crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
    
 </head>
 <body>
 
-<div class="d-flex" id="wrapper">
+<!-- Main Header -->
+<header>
+    <nav class="navbar">
+        <div>
+            <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo">
+        </div>
+        <div class="navbar-title">
+            <h1>DORNUEL HEALTH CONSULT</h1>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-menu" id="navMenu">
+            <li class="nav-item"><a href="{{ url_for('about')}}">About</a></li>
+            <li class="nav-item"><a href="{{ url_for('logout')}}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<div class="toggle-button">
+    <div class="subbar">
+        <!-- Toggle Button for Small Screens -->
+        <div class="hamburger-menu" onclick="toggleNav()">&#9776;
+            <marquee style="font-size: small; position: absolute; top: 35%; color: rgb(248, 248, 161);" direction="left" scrollamount="3" scrolldelay="10" loop="infinite" onmousemove="this.stop()" onmouseout="this.start()">
+                Dornuel Health Consult is dedicated to providing comprehensive healthcare for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments. Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
+                From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic conditions. Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live the best of your life.</div>
     
-   
-    <div id="page-content-wrapper">
-        <!-- Top navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                        <li class="nav-item active"><a class="nav-link" href="/home">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+            </marquee>    
+        </div>
+     </div>
+</div>
         <!-- Page content-->
         {% block content %} {% endblock content %}
 
         {% block javascripts %} {% endblock javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
-    crossorigin="anonymous"></script>
-    <script src = "{{ url_for('static', filename='scripts.js')}}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+    crossorigin="anonymous"></script> -->
+    <script src = "{{ url_for('static', filename='js/scripts.js')}}"></script>
     
-    <div class ="container">
-        <div class="row">
-            <div class="col-md-12">
-                <footer class="text-center text-muted">
-                    <p>STI DATA &copy; 2023</p>
-                </footer>
-            </div>
+
         </div>
     </div>
-    {% block footer %}{% endblock footer %}
-</div>
-</div>
+
+<!-- Footer -->
+<footer>
+    {% block footer %}
+    <div>
+        <h3>Contact Us Now On </h3>
+        <div>+1234567890</div>
+    </div>
+    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com">Dornuel Health Consult</a>
+    {% endblock footer %}
+</footer>
+<!-- Include jQuery or any other JavaScript libraries here -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+<!-- Flash message pop-up script -->
+<script>
+    $(document).ready(function() {
+        // Display the flash messages
+        $(".alert").fadeIn(500).delay(3000).fadeOut(5000); // Adjust timing as needed
+    });
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='js/tabs.js') }}"></script> -->
+
 </body>
 
 </html>

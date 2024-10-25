@@ -9,6 +9,14 @@
 
 {% block content %}
 
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+    <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
+    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+    
+</div>
+
 <form action="/sign_up" method="POST" class="form-signup">
     <div class="avatar-container">
         <img src="{{ url_for('static', filename='images/AVATER.jpg') }}" alt="Avatar" class="avatar">
@@ -58,8 +66,6 @@
 
     <button type="submit" class="submit-btn">Submit</button>
 </form>
-
-
 
 {% endblock content %}
 

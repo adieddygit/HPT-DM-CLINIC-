@@ -4,12 +4,17 @@
     {% block stylesheet %}{% endblock stylesheet %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
     {{super()}}
-    {% block script %}{% endblock script %}
 {% endblock head %}
 
-{% block subbar %}{% endblock subbar %}
-
 {% block content %}
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+    
+    <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
+    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+
+</div>
 
     <div id="msg" class="login">
         <form action="/login" method="POST" class="form-signup">
@@ -39,7 +44,6 @@
         </form>
     </div>
  
-    
 {% endblock content %}
 
 {% block footer %}

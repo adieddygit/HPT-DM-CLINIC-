@@ -1,137 +1,113 @@
-from flask import Flask, render_template, redirect, request, session, url_for, g, flash
-from sqlalchemy import create_engine, text 
-import sqlalchemy
-# import sys
-# import os
-from flask import render_template
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from flask import Flask, render_template, redirect, request, session, url_for, flash
+from sqlalchemy import create_engine, text
 from models.models import *
-import settings
 import random
-from utils import insert_data
-# from app import app
-from flask_simple_crypt import SimpleCrypt
+# from utils import insert_data
 import hashlib
-# from flask_bcrypt import Bcrypt
 
-def create_app()->Flask:
-    app = Flask(__name__)
-    
-    # Set the SECRET_KEY
-    app.config['SECRET_KEY'] = settings.secret_key
-    
-    # Initialize Flask-Simple-Crypt
-    crypt = SimpleCrypt(app)
-    
-    # Set up the database URI
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{settings.dbuser}:@{settings.dbhost}/{settings.dbname}'
-    
-    # Create the engine
-    engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True, pool_pre_ping=True)
-    
-    # Initialize the Base class
-    Base.metadata.create_all(engine, checkfirst=True)
-    
-    return app
-
-app = create_app()
-cipher = SimpleCrypt()
-cipher.init_app(app)
-
+app = Flask(__name__)
+# Set the SECRET_KEY
+app.secret_key="somesecretkey"
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:@localhost/hpt_dm_clinic_management_db'
+# Create the engine
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True)
+# Initialize the Base class
+Base.metadata.create_all(engine, checkfirst=True)
 
 @app.route('/')
 def index():
       return render_template('login.html')
 
-@app.route('/login', methods = ['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        #get the form values
+        # Get the form values
         username = request.form['username']
         password_entered = request.form['password']
         
-        # decrypt the password
-        hash = password_entered + app.config['SECRET_KEY']
+        # Hash the password entered by the user
+        hash = password_entered + app.secret_key
         hash = hashlib.sha256(hash.encode())
         password = hash.hexdigest()
         
         # Check if the user exists in the database
         with engine.connect() as con:
-            result = con.execute(text("SELECT * FROM user WHERE username = :username AND password = :password"),
-                     {"username": username, "password": password})
+            result = con.execute(text(f"Select * from user where username = '{username}' and password = '{password}'"))
             account = result.fetchone()
-            # con.commit()
-        
+            con.commit()
+
+        # Verify if the account exists
         if account:
             session['loggedin'] = True
             session['id'] = account.id
             session['username'] = account.username
-            msg = f'You are welcome {username}'
-            flash(msg, 'logged In')
-            return redirect(url_for('home',msg=msg))
-
+            msg = "You are logged in successfully"
+            flash(msg, 'success')
+            return redirect(url_for('home', msg=msg))
         else:
-            msg = 'Incorrect username or password!'
-            flash(msg, 'Incorect')
-    
+            msg = "Incorrect username/password"
+            flash(msg, 'Incorrect')
     return render_template('login.html', msg=msg)
-           
+          
 
 @app.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        result = request.form
-        username = result['username']
-        email = result['email'].lower()
-        role = result['role']
+        #get the form values
+        username = request.form['username']
+        email = request.form['email'].lower()
+        role = request.form['role']
+        password = request.form['password'].lower()
+        cpassword = request.form['cpassword'].lower()
+
+         # Check if passwords match
         
-        # Encrypt the email (not necessary for most apps, just as an example)
-        enc_email = cipher.encrypt(email)
-        
-        # Check if passwords match
-        password = result['password'].lower()
-        cpassword = result['cpassword'].lower()
         if password != cpassword:
             msg = 'Passwords do not match'
+            flash(msg, 'Password')
             return render_template('sign_up.html', msg=msg)
         
         # Check if the username already exists in the database
         with engine.connect() as con:
-            result = con.execute(text(f"SELECT * FROM user WHERE username = username"), {"username": username})
+            result = con.execute(text(f"Select * from user where username = '{username}'"))            
             account = result.fetchone()
+            con.commit()
 
         if account:
             msg = 'Account already exists!'
+            flash(msg, 'Account')
             return render_template('sign_up.html', msg=msg)
         
         if not username or not password or not cpassword:
             msg = 'Please fill out the form'
             flash(msg, 'form')
             return render_template('sign_up.html', msg=msg)
+        else:
+            #Encrypt the email (not necessary for most apps, just as an example)
+            # enc_email = cipher.encrypt(email)
+            # Hash the password
+            hash = password + app.secret_key
+            hash = hashlib.sha256(hash.encode())
+            password = hash.hexdigest()
 
-        # Hash the password
-        hash_string = password + app.config['SECRET_KEY']
-        hash = hashlib.sha256(hash_string.encode())
-        password_hashed = hash.hexdigest()
-
-        # Insert the new user into the database
-        try:
+            # Insert the new user into the database
+        # try:
             with engine.connect() as con:
-                con.execute(text(f"INSERT IGNORE INTO user (username, email, password, role) VALUES ('{username}', '{email}', '{password}', '{role}'"))
+                con.execute(text(f"INSERT INTO user (username, email, password, role) VALUES ('{username}', '{email}', '{password}', '{role}')"))
                 con.commit()
             msg = 'Account created successfully'
             flash(msg, 'success')
             return redirect(url_for('login'))  # Redirect to login after successful sign up
         
-        except Exception as e:
-            print(f"Error during sign-up: {e}")
-            msg = 'There was an issue creating your account'
-            flash(msg, 'error')
+        # except Exception as e:
+            # print(f"Error during sign-up: {e}")
+            # msg = 'There was an issue creating your account'
+            # flash(msg, 'error')
     
     return render_template('sign_up.html', msg=msg)
+         
 
 # return render_template('response.html', result=result)
 
@@ -179,6 +155,20 @@ def register_client():
         email = request.form['email']
         ethnicity = request.form['ethnicity']
         race = request.form['race']
+        emergency_contact_name = request.form['emergency_contact_name']
+        emergency_contact_number = request.form['emergency_contact_number']
+        emergency_contact_address = request.form['emergency_contact_address']
+        family_has_history_of_hpt_dm = request.form['family_has_history_of_hpt_dm']
+        has_underlying_medical_condition = request.form['has_underlying_medical_condition']
+        alcohol_intake = request.form['alcohol_intake']
+        smoking_tobacco_use = request.form['smoking_tobacco_use']
+        type_of_diet = request.form['type_of_diet']
+        bmi = request.form['bmi']
+        dose_exercise = request.form['dose_exercise']
+
+
+
+      
         #check if the unique_id is already in the database
         with engine.connect() as con:
             result = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{unique_id}'"))
@@ -195,28 +185,27 @@ def register_client():
         created_by = session['username']
         updated_by = session['username']
         with engine.connect() as con:
-            con.execute(text(f"INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob,\
+            con.execute(text(f"""INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob,\
                                       cob, gender, marital_status, occupation,\
                                       phone, address, city, state, zip_code, country,\
-                                      email, ethnicity, race)\
+                                      email, ethnicity, race, emergency_contact_name, emergency_contact_number,\
+                                      emergency_contact_address, family_has_history_of_hpt_dm, has_underlying_medical_condition,\
+                             alcohol_intake, smoking_tobacco_use, type_of_diet, bmi, dose_exercise)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}', '{first_name}', '{last_name}', '{middle_name}',\
                                       '{dob}', '{cob}', '{gender}', '{marital_status}',\
-                                      '{occupation}', '{phone}',\
-                                      '{address}', '{city}', '{state}', '{zip_code}', '{country}', '{email}',\
-                                      '{ethnicity}', '{race}'\
-                                    )"))
+                                      '{occupation}', '{phone}','{address}', '{city}', '{state}', '{zip_code}', '{country}', '{email}',\
+                                    '{ethnicity}', '{race}', '{emergency_contact_name}', '{emergency_contact_number}',\
+                                    '{emergency_contact_address}', '{family_has_history_of_hpt_dm}', '{has_underlying_medical_condition}', '{alcohol_intake}', '{smoking_tobacco_use}',\
+                                    '{type_of_diet}', '{bmi}', '{dose_exercise}'\
+                                    )"""))
+    
             
-            con.execute(text(f"INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT INTO appointment(created_by, created_at,updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
-        
-            con.execute(text(f"INSERT IGNORE INTO risk_assessment(created_by, created_at, updated_at, updated_by, unique_id)\
-                                      VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
-            con.execute(text(f"INSERT IGNORE INTO appointment(created_by, created_at,updated_at, updated_by, unique_id)\
-                                      VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
-            con.execute(text(f"INSERT IGNORE INTO health_metrics(created_by, created_at,updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT INTO health_metrics(created_by, created_at,updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
             
-            con.execute(text(f"INSERT IGNORE INTO treatment(created_by, created_at, updated_at, updated_by, unique_id)\
+            con.execute(text(f"INSERT INTO treatment(created_by, created_at, updated_at, updated_by, unique_id)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
             con.commit()
         msg = 'You have successfully registered the client.'
@@ -292,7 +281,7 @@ def update_profile():
     if 'loggedin' in session:
         if client_id:
          with engine.connect() as con:
-            try:
+            # try:
                 # Check if the client already exists
                 result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
                 client_profile = result_profile.fetchone()
@@ -359,11 +348,11 @@ def update_profile():
                 
                 return render_template('home.html', msg=msg)
 
-            except sqlalchemy.exc.IntegrityError as e:
-                con.rollback()
-                msg = f"Integrity error: {str(e)}"
-                print(msg)
-                return render_template('profile.html', msg=msg)
+            # except sqlalchemy.exc.IntegrityError as e:
+                # con.rollback()
+                # msg = f"Integrity error: {str(e)}"
+                # print(msg)
+        return render_template('profile.html', msg=msg)
     else:
         msg = "You need to be logged in to update profiles."
         flash(msg, 'update')
@@ -383,18 +372,17 @@ def book_appointment():
         email = request.form['email']
         phone = request.form['phone']
         purpose = request.form['purpose']
-        provider_type = request.form['provider_type'] 
         appointment_date = request.form['appointment_date']
         appointment_time = request.form['appointment_time']
-        appointment_status = request.form['appointment_status']
         last_appointment_date = request.form['last_appointment_date']
-        treatment_notes = request.form['treatment_notes']
+        message = request.form['message']
         #check if the unique_id is already in the database
         with engine.connect() as con:
-            result = con.execute(text(f"SELECT * FROM appointment WHERE unique_id = '{client_id}'"))
-            client_id = result.fetchone()
-            if client_id:
+            result = con.execute(text(f"SELECT * FROM appointment WHERE unique_id = '{unique_id}'"))
+            appointment = result.fetchone()
+            if appointment:
                 msg = 'Pending Appointment.'
+                flash(msg, 'Pending')
                 return redirect(url_for('appointment', msg = msg))
         #check if all the required fields are filled
 
@@ -405,28 +393,23 @@ def book_appointment():
         updated_by = session['username']
         with engine.connect() as con:
             con.execute(text(f"INSERT INTO appointment(created_by, created_at, updated_at, updated_by, unique_id, username,\
-                              email, phone, provider_type, purpose, appointment_date, appointment_time, appointment_status,\
-                              last_appointment_date, treatment_notes)\
+                              email, phone,purpose, appointment_date, appointment_time,\
+                              last_appointment_date, message)\
                                       VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}', '{username}',\
-                            '{email}', '{phone}', '{provider_type}', '{purpose}', '{appointment_date}', '{appointment_time}', '{appointment_status}',\
-                                      '{last_appointment_date}', '{treatment_notes}')"))
+                            '{email}', '{phone}', '{purpose}', '{appointment_date}', '{appointment_time}',\
+                                      '{last_appointment_date}', '{message}')"))
             
             
             con.commit()
-        msg = 'You have successfully booked for an appointment.'
+        msg = 'Appointment Registered.'
+        flash(msg, 'Appointment')
         # redirect the user to the home page
-        return redirect(url_for('appointment', msg = msg))
+        return redirect(url_for('home', msg = msg))
     return render_template('appointment.html')
         
 @app.route('/patient')
 def patient():
     return render_template('patient.html')
-
-# Hashing a password
-# password_hash = bcrypt.generate_password_hash(password_entered).decode('utf-8')
-
-# Verifying a password
-# is_valid = bcrypt.check_password_hash(password_hash, password_entered)
 
 if __name__ == '__main__':
     app.run(debug=True)

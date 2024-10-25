@@ -77,7 +77,7 @@
 }
 
 /* Risk Assessment */
-.risk_ass {
+#risk_ass {
   display: flex;
   flex-direction: column;
   background-color: rgb(210, 210, 152);
