@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy import Integer, String, ForeignKey, DateTime, func
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func
+from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import Enum as SQLAlchemyEnum
@@ -61,14 +61,14 @@ class User(Base, BaseModel):
     email: Mapped[str] = mapped_column(String(100), unique=True)
     password: Mapped[str] = mapped_column(String(200))
     role: Mapped[Role] = mapped_column(SQLAlchemyEnum(Role))
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     
     
 class ClientProfile(Base, BaseModel):
     __tablename__ = 'client_profile'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
     updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
     unique_id: Mapped[str] = mapped_column(String(100), unique=True)
@@ -89,53 +89,62 @@ class ClientProfile(Base, BaseModel):
     country:Mapped[Optional[str]] = mapped_column(String(100))
     ethnicity:Mapped[Optional[str]] = mapped_column(String(100))
     race:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_name:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_number:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_relationship:Mapped[Optional[str]] = mapped_column(String(100))
-    emergency_contact_address:Mapped[Optional[str]] = mapped_column(String(100))
-   #For the risk assessment
+    emergency_contact_name:Mapped[str] = mapped_column(String(100))
+    emergency_contact_number:Mapped[str] = mapped_column(String(100))
+    emergency_contact_relationship:Mapped[str] = mapped_column(String(100))
+    emergency_contact_address:Mapped[str] = mapped_column(String(100))
+   #Data for the risk assessment form
     family_has_history_of_hpt_dm:Mapped[str] = mapped_column(String(100))
     has_underlying_medical_condition:Mapped[str] = mapped_column(String(100))
+    underlying_condition:Mapped[Optional[str]] = mapped_column(String(100))
     alcohol_intake:Mapped[str] = mapped_column(String(100))
     smoking_tobacco_use:Mapped[str] = mapped_column(String(100))
     type_of_diet:Mapped[str] = mapped_column(String(100))
     bmi:Mapped[str] = mapped_column(String(100))
     dose_exercise:Mapped[str] = mapped_column(String(100))
 
-class Appointment(Base, BaseModel):
+
+class Appointment(Base):
     __tablename__ = 'appointment'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now)
     created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
     updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
-    unique_id:Mapped[str] = mapped_column(String(100), ForeignKey('client_profile.unique_id', ondelete='CASCADE', onupdate='CASCADE'))
-    username:Mapped[str] = mapped_column(String(100))
-    email:Mapped[str] = mapped_column(String(100))
-    phone:Mapped[str] = mapped_column(String(100))
-    purpose:Mapped[str] = mapped_column(String(100))
-    message:Mapped[Optional[str]] = mapped_column(String(100))
-    appointment_date:Mapped[datetime] = mapped_column(DateTime)
-    appointment_time:Mapped[datetime] = mapped_column(DateTime)
-    last_appointment_date:Mapped[datetime] = mapped_column(DateTime, default=func.now())
+    unique_id: Mapped[str] = mapped_column(String(100), ForeignKey('client_profile.unique_id', ondelete='CASCADE', onupdate='CASCADE'))
+    username: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    email: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    phone: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    purpose: Mapped[str] = mapped_column(String(100))
+    message: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    appointment_date: Mapped[datetime] = mapped_column(DateTime)
+    appointment_time: Mapped[datetime] = mapped_column(DateTime)
+
+    # Optional relationships if you need easy access to related records
+    user = relationship("User", foreign_keys=[created_by])
+    client_profile = relationship("ClientProfile", foreign_keys=[unique_id])
+
+    
 
 
 class HealthMetrics(Base, BaseModel):
     __tablename__ = 'health_metrics'
     id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
     updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
     unique_id:Mapped[str] = mapped_column(String(100), ForeignKey('client_profile.unique_id', ondelete='CASCADE', onupdate='CASCADE'))
-    recorded_date:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    recorded_date:Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     health_care_facility:Mapped[str] = mapped_column(String(100))
     provider_name:Mapped[str] = mapped_column(String(100))
     provider_contact:Mapped[str] = mapped_column(String(100))
     weight:Mapped[str] = mapped_column(String(100))
     height:Mapped[str] = mapped_column(String(100))
     blood_pressure:Mapped[str] = mapped_column(String(100))
-    blood_suger:Mapped[str] = mapped_column(String(100))
+    fasting_blood_suger:Mapped[str] = mapped_column(String(100))
+    random_blood_suger:Mapped[str] = mapped_column(String(100))
     temperature:Mapped[str] = mapped_column(String(100))
     respiration:Mapped[str] = mapped_column(String(100))
     pulse:Mapped[str] = mapped_column(String(100))
@@ -146,7 +155,6 @@ class HealthMetrics(Base, BaseModel):
     radiograph_investigation_type:Mapped[Optional[str]] = mapped_column(String(100))
     radiograph_investigation_result:Mapped[Optional[str]] = mapped_column(String(255))
     metric_notes:Mapped[Optional[str]] = mapped_column(String(255))
-    heart_conditions:Mapped[str] = mapped_column(String(255))
     diagnosis:Mapped[str] = mapped_column(String(100))    
     hospitalized_for_hpt_dm:Mapped[str] = mapped_column(String(100))
     complications:Mapped[str] = mapped_column(String(100))
@@ -155,12 +163,12 @@ class HealthMetrics(Base, BaseModel):
 class Treatment(Base, BaseModel):
     __tablename__ = 'treatment'
     id:Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
-    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    created_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    updated_at:Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
     updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", onupdate="CASCADE", ondelete="CASCADE"))
     unique_id:Mapped[str] = mapped_column(String(100), ForeignKey('client_profile.unique_id', ondelete='CASCADE', onupdate='CASCADE'))
-    date_of_treatment:Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    date_of_treatment:Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     treatment_type:Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     defaulted_treatment:Mapped[str] = mapped_column(String(100))
     health_care_facility:Mapped[Optional[str]] = mapped_column(String(100))

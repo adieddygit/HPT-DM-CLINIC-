@@ -26,10 +26,10 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
        
         <div>
             <p> Client Registration form</p>
-    <form method ="post" action ="/register_client" class="form-signup" >
-        <form method ="post" action ="/register_client" class="form-signup" id="risk_ass">
+   
+        <form method ="post" action ="/register_client" class="form-signup">
         <div class="input-container" class="form-group">
-            <label for="client_id">Client ID</label>
+            <label for="unique_id">Client ID</label>
             <input type="text" class="form-control" id="unique_id" name="unique_id" placeholder="Enter Client ID" readonly>
         </div>
 
@@ -58,31 +58,31 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
         
         <div class="input-container" class="form-group">
             <label for="gender">Gender: </label><br/>
-            <input type="radio"  id="gender" name="gender" value = "female"> Female
-            <input type="radio" id="gender" name="gender" value = "male"> Male
-            <input type="radio" id="gender" name="gender" value = "intersex"> Intersex
+            <input type="radio"  id="gender" name="gender" placeholder = "Female"> Female
+            <input type="radio" id="gender" name="gender" placeholder = "Male"> Male
+            <input type="radio" id="gender" name="gender" placeholder = "Intersex"> Intersex
         </div>
         
         <div class="input-container" class="form-group">
             <label for="marital-status">Marital Status:</label><br/>
-            <input type="radio" id="marital-status" name="marital-status" value ="single"> single
-            <input type="radio" id="marital-status" name="marital-status" value ="married"> married
-            <input type="radio" id="marital-status" name="marital-status" value ="divorced"> divorced
-            <input type="radio" id="marital-status" name="marital-status" value ="widowed"> widowed
-            <input type="radio" id="marital-status" name="marital-status" value ="separated"> separated
-            <input type="radio" id="marital-status" name="marital-status" value ="cohabiting"> cohabiting
-            <input type="radio" id="marital-status" name="marital-status" value ="other"> other
+            <input type="radio" id="marital-status" name="marital-status" placeholder ="Single"> Single
+            <input type="radio" id="marital-status" name="marital-status" placeholder ="Married"> Married
+            <input type="radio" id="marital-status" name="marital-status" placeholder ="Divorced"> Divorced
+            <input type="radio" id="marital-status" name="marital-status" placeholder ="Widowed"> Widowed
+            <input type="radio" id="marital-status" name="marital-status" placeholder ="Separated"> Separated
+            <input type="radio" id="marital-status" name="marital-status" placeholder ="Cohabiting"> Cohabiting
+            <input type="radio" id="marital-status" name="marital-status" placeholder ="Other"> Other
         </div>
 
         <div class="input-container" class="form-group">
             <label for="occupation">Occupation: </label><br/>
-            <input type="radio" id="occupation" name="occupation" value="employed">employed
-            <input type="radio" id="occupation" name="occupation" value="unemployed">unemployed
-            <input type="radio" id="occupation" name="occupation" value="student">student
-            <input type="radio" id="occupation" name="occupation" value="retired">retired
-            <input type="radio" id="occupation" name="occupation" value="housewife">housewife
-            <input type="radio" id="occupation" name="occupation" value="self-employed">self-employed
-            <input type="radio" id="occupation" name="occupation" value="other">other
+            <input type="radio" id="occupation" name="occupation" placeholder="Employed">Employed
+            <input type="radio" id="occupation" name="occupation" placeholder="Unemployed">Unemployed
+            <input type="radio" id="occupation" name="occupation" placeholder="Student">Student
+            <input type="radio" id="occupation" name="occupation" placeholder="Retired">Retired
+            <input type="radio" id="occupation" name="occupation" placeholder="Housewife">Housewife
+            <input type="radio" id="occupation" name="occupation" placeholder="Self-employed">Self-employed
+            <input type="radio" id="occupation" name="occupation" placeholder="Other">Other
 
         </div>
         
@@ -112,7 +112,7 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
         
         <div class="input-container" class="form-group">
             <label for="race">Race</label>
-            <input type="text" class="form-control" id="race" name="race" placeholder="race">
+            <input type="text" class="form-control" id="race" name="race" placeholder="Race">
         </div>
 
         <div class="input-container" class="form-group">
@@ -131,8 +131,8 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
         </div>
 
         <div class="input-container" class="form-group">
-            <label for="emergency_contact_ralationship">Emergency Contact Relation</label>
-            <input type="text" class="form-control" id="emergency_contact_ralationship" name="emergency_contact_ralationship" placeholder="Emergency Contact Relation">
+            <label for="emergency_contact_relationship">Emergency Contact Relation</label>
+            <input type="text" class="form-control" id="emergency_contact_relationship" name="emergency_contact_relationship" placeholder="Emergency Contact Relation">
         </div>
 
         <div class="input-container" class="form-group">
@@ -140,8 +140,6 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
             <input type="text" class="form-control" id="emergency_contact_address" name="emergency_contact_address" placeholder="Emergency Contact Address">
         </div>
         
-        <!-- <input type ="submit" value = "Register Client" class ="submit-btn">  -->
-    <!-- </form> -->
 </div>
 </div>
 </div>
@@ -166,7 +164,7 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
         <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition">No.
         <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition">Unknown. &nbsp;&nbsp;
 
-        <p>If Yes, State Condition</p><input type="text" class="form-control" id="has_underlying_medical_condition" name="has_underlying_medical_condition" placeholder="Conditon">
+        <p>If Yes, State Condition</p><input type="text" class="form-control" id="underlying_condition" name="underlying_condition" placeholder="Conditon">
     </div>
 
     <div class="input-container" class="form-group">
@@ -193,10 +191,10 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
 
     <div class="input-container" class="form-group">
         <label for="overweight_obese">Body Mass Index: </label><br/>
-        <input type="radio" id="bmi" name="bmi" value="employed">Underweight
-        <input type="radio" id="bmi" name="bmi" value="unemployed">Normal 
-        <input type="radio" id="bmi" name="bmi" value="student">Overweight
-        <input type="radio" id="bmi" name="bmi" value="retired">Obesity
+        <input type="radio" id="bmi" name="bmi" placeholder="Underweight">Underweight
+        <input type="radio" id="bmi" name="bmi" placeholder="Normal">Normal 
+        <input type="radio" id="bmi" name="bmi" placeholder="Overweight">Overweight
+        <input type="radio" id="bmi" name="bmi" placeholder="Obesity">Obesity
     </div>
 
     <div class="input-container" class="form-group">
@@ -207,71 +205,76 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
    </div>
    <br/>
 
-    <input type ="submit" value = "Register Client" class ="submit-btn">
+    <input type ="submit" placeholder = "Register Client" class ="submit-btn">
     </form><br><br>
 
-    <hr style="border: solid 3 white;"><br>
+    <hr style="border: solid 3 white;">
 
     <marquee class="input-container2" class="form-group" style="height: 200px; background-color: #f9f9f9;" direction="up" srollamount="10" scrolldelay="500" loop="infinite" onmousemove="this.stop()" onmouseout="this.start()">
         
             <p>Health Tips<br><br><strong>Managing</strong> hypertension (high blood pressure) and diabetes (high blood sugar) together requires a balanced approach to diet, exercise, and lifestyle habits.<br><br> Here are some evidence-based tips to help you optimize both conditions: </p>
             
             <p><strong>Follow a Balanced Diet</strong><br> 
-                <em><u>Prioritize Whole Grains:</u></em> Choose whole grains like brown rice, quinoa, oats, and whole wheat. They have a lower glycemic index and help maintain stable blood sugar levels.<br>
-                <em><u>Eat Plenty of Vegetables:</u></em> Aim for a variety of colorful, non-starchy vegetables (e.g., spinach, kale, broccoli, bell peppers). Leafy greens are rich in potassium and help manage blood pressure.
-                Lean Proteins: Choose lean meats (chicken, turkey, fish), plant-based proteins (lentils, beans), and tofu. Fatty fish like salmon and mackerel contain omega-3 fatty acids, which can help reduce inflammation and protect heart health.
-                Limit Salt and Processed Foods: Reduce sodium intake by avoiding processed foods, packaged snacks, and restaurant meals. Opt for herbs and spices instead of salt to flavor your food.
-                Reduce Refined Sugars and Carbohydrates: Avoid sugary drinks, sweets, and processed carbs (like white bread and pastries). Choose natural sweeteners like stevia if necessary.
-                Increase Fiber Intake: Fiber helps control blood sugar and reduces blood pressure. Include foods like oats, beans, lentils, chia seeds, and flaxseeds. </p>
+                <em><u>Prioritize Whole Grains:</u></em> Choose whole grains like brown rice, quinoa, oats, and whole wheat. They have a lower glycemic index and help maintain stable blood sugar levels.<br/><br/>
+                <em><u>Eat Plenty of Vegetables:</u></em> Aim for a variety of colorful, non-starchy vegetables (e.g., spinach, kale, broccoli, bell peppers). <u>Leafy greens are rich in potassium and help manage blood pressure.</u><br/><br/>
+                <em><u>Lean Proteins:</u></em> Choose lean meats (chicken, turkey, fish), plant-based proteins (lentils, beans), and tofu. Fatty fish like salmon and mackerel contain omega-3 fatty acids, which can help reduce inflammation and protect heart health.<br/><br/>
+                <em><u>Limit Salt and Processed Foods:</u></em> Reduce sodium intake by avoiding processed foods, packaged snacks, and restaurant meals. Opt for herbs and spices instead of salt to flavor your food.<br/><br/>
+                <em><u>Reduce Refined Sugars and Carbohydrates:</u></em> Avoid sugary drinks, sweets, and processed carbs (like white bread and pastries). Choose natural sweeteners like stevia if necessary.<br/><br/>
+                <em><u>Increase Fiber Intake:</u></em> Fiber helps control blood sugar and reduces blood pressure. Include foods like oats, beans, lentils, chia seeds, and flaxseeds. </p>
     
             <p><strong>Maintain a Healthy Weight</strong><br>
-                Even modest weight loss can have a significant impact on both blood pressure and blood sugar levels. Aim for a gradual and sustainable reduction in body weight through diet and regular physical activity.
+                Even modest weight loss can have a significant impact on both blood pressure and blood sugar levels. Aim for a gradual and sustainable reduction in body weight through diet and regular physical activity.<br/>
                 Calculate and track your BMI (Body Mass Index) and strive for a normal range (18.5–24.9). </p>
     
             <p>
-                3. Exercise Regularly
-                Aerobic Exercise: Engage in moderate physical activities like walking, cycling, swimming, or dancing for at least 30 minutes most days of the week. Aim for a total of 150 minutes per week.
-                Strength Training: Incorporate strength training exercises (using resistance bands, weights, or body weight) 2–3 times per week. Building muscle mass helps improve insulin sensitivity and can lower blood pressure.
-                Flexibility and Balance: Activities like yoga and Tai Chi can reduce stress, which is beneficial for managing both conditions.
+                <strong>Exercise Regularly</strong><br/>
+                <em><u>Aerobic Exercise:</u></em> Engage in moderate physical activities like walking, cycling, swimming, or dancing for at least 30 minutes most days of the week. Aim for a total of 150 minutes per week.<br/><br/>
+                <em><u>Strength Training:</u></em> Incorporate strength training exercises (using resistance bands, weights, or body weight) 2–3 times per week. Building muscle mass helps improve insulin sensitivity and can lower blood pressure.<br/><br/>
+                <em><u>Flexibility and Balance:</u></em> Activities like yoga and Tai Chi can reduce stress, which is beneficial for managing both conditions.
             </p>
     
             <p>
-                4. Monitor Your Blood Pressure and Blood Sugar Levels
+                <strong>Monitor Your Blood Pressure and Blood Sugar Levels</strong><br/>
                 Regularly check your blood pressure using a home monitor, and keep it below 120/80 mm Hg if possible.
                 Monitor your blood glucose (both fasting and post-meal). Aiming for an A1C level of less than 7% (or per your doctor’s recommendation) is ideal for diabetes management.
             </p>
     
             <p>
-                5. Stay Hydrated
+                <strong>Stay Hydrated</strong><br/>
                 Drink plenty of water throughout the day. Avoid sugary drinks and limit alcohol, which can raise blood pressure and spike blood sugar.
             </p>
     
             <p>
-                6. Manage Stress
+                <strong>Manage Stress</strong><br/>
                 Chronic stress can raise both blood pressure and blood sugar. Practice stress-reducing activities like meditation, deep breathing, journaling, or spending time in nature.
             </p>
     
             <p>
-                Sleep Well
+                <strong>Sleep Well</strong><br/>
                 Ensure you get 7–9 hours of sleep per night. Poor sleep is linked to worsened insulin resistance and elevated blood pressure.
             </p>
     
             <p>
-                8. Limit Alcohol and Avoid Smoking
+                <strong>Limit Alcohol and Avoid Smoking</strong><br/>
                 Excessive alcohol intake can raise blood pressure and affect blood sugar control. If you drink, limit it to one drink per day for women and two drinks per day for men.
                 Smoking cessation is essential as smoking constricts blood vessels, raises blood pressure, and worsens insulin resistance.
             </p>
     
             <p>
-                9. Medications
+                <strong>Medications</strong><br/>
                 Adhere to prescribed medications for both hypertension and diabetes. Common medications for high blood pressure (ACE inhibitors, ARBs, diuretics) and diabetes (metformin, insulin) are important for managing the conditions.
 
             </p>
 
             <p>
-                10. Regular Doctor Visits
+                <strong>Regular Doctor Visits</strong><br/>
                 Regular checkups with your healthcare provider are essential to monitor and adjust your treatment plan, track your blood pressure, and review blood sugar levels.
             </p> 
+
+            <p>
+                STAY HEALTHY<br/><br/>
+                Thank you
+            </p>
         </marquee><br>
         
         <div>
@@ -290,15 +293,14 @@ Hi {{session.username}}!!</br></br> Welcome to the Registration Page
             <label for="client_id">Client ID</label>
             <input type="text" class="form-control" id="client_id" name="client_id" placeholder="Enter Client ID">
             <hr/>
-            <input type ="submit" value = "Retrieve Client" class ="submit-btn">
+            <input type ="submit" placeholder = "Retrieve Client" class ="submit-btn">
         </div>
         </form>
-        </div>
     </div>
-    
+    </div>
 </div>
 </div>
-</div> 
+
 {% endblock content %}
 
 {% block footer %}

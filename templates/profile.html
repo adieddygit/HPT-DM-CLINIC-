@@ -5,6 +5,8 @@
 {% block title %}<title>Profile</title>{% endblock title %}
 {% block javascripts %}
 <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 {% endblock javascripts %}
 {% block content %}
 <!-- Side Navigation for Mobile -->
@@ -69,34 +71,34 @@
                         <div class="form-group">
                             <label for="gender">Sex: </label><br/>
                             <input type="radio" id="gender" name="gender" value="{{ client.gender }}" checked> {{ client.gender }}<br/>
-                            <input type="radio" id="gender" name="gender" value="female"> Female
-                            <input type="radio" id="gender" name="gender" value="male"> Male
-                            <input type="radio" id="gender" name="gender" value="intersex"> Intersex
+                            <input type="radio" id="gender" name="gender" value="Female"> Female
+                            <input type="radio" id="gender" name="gender" value="Male"> Male
+                            <input type="radio" id="gender" name="gender" value="Intersex"> Intersex
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <input type="radio" id="marital-status" name="marital_status" value="{{ client.marital_status }}" checked> {{ client.marital_status }}<br/>
-                            <input type="radio" id="marital-status" name="marital_status" value="single"> Single
-                            <input type="radio" id="marital-status" name="marital_status" value="married"> Married
-                            <input type="radio" id="marital-status" name="marital_status" value="divorced"> Divorced
-                            <input type="radio" id="marital-status" name="marital_status" value="widowed"> Widowed
-                            <input type="radio" id="marital-status" name="marital_status" value="separated"> Separated
-                            <input type="radio" id="marital-status" name="marital_status" value="cohabiting"> Cohabiting
-                            <input type="radio" id="marital-status" name="marital_status" value="other"> Other
+                            <input type="radio" id="marital-status" name="marital_status" value="Single"> Single
+                            <input type="radio" id="marital-status" name="marital_status" value="Married"> Married
+                            <input type="radio" id="marital-status" name="marital_status" value="Divorced"> Divorced
+                            <input type="radio" id="marital-status" name="marital_status" value="Widowed"> Widowed
+                            <input type="radio" id="marital-status" name="marital_status" value="Separated"> Separated
+                            <input type="radio" id="marital-status" name="marital_status" value="Cohabiting"> Cohabiting
+                            <input type="radio" id="marital-status" name="marital_status" value="Other"> Other
                         </div>
                         <hr />
 
                         <div class="form-group">
                             <label for="occupation">Occupation: </label><br/>
                             <input type="radio" id="occupation" name="occupation" value="{{ client.occupation }}" checked> {{ client.occupation }}<br/>
-                            <input type="radio" id="occupation" name="occupation" value="employed"> Employed
-                            <input type="radio" id="occupation" name="occupation" value="unemployed"> Unemployed
-                            <input type="radio" id="occupation" name="occupation" value="student"> Student
-                            <input type="radio" id="occupation" name="occupation" value="retired"> Retired
-                            <input type="radio" id="occupation" name="occupation" value="housewife"> Housewife
-                            <input type="radio" id="occupation" name="occupation" value="self-employed"> Self-employed
-                            <input type="radio" id="occupation" name="occupation" value="other"> Other
+                            <input type="radio" id="occupation" name="occupation" value="Employed"> Employed
+                            <input type="radio" id="occupation" name="occupation" value="Unemployed"> Unemployed
+                            <input type="radio" id="occupation" name="occupation" value="Student"> Student
+                            <input type="radio" id="occupation" name="occupation" value="Retired"> Retired
+                            <input type="radio" id="occupation" name="occupation" value="Housewife"> Housewife
+                            <input type="radio" id="occupation" name="occupation" value="Self-employed"> Self-employed
+                            <input type="radio" id="occupation" name="occupation" value="Other"> Other
                          </div>
                         <hr />
 
@@ -107,11 +109,12 @@
                         <hr />
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="address" name="line1" value="{{ client.address }}"><br/>
-                            <input type="text" class="form-control" name="city" value="{{ client.city }}"><br/>
-                            <input type="text" class="form-control" name="state" value="{{ client.state }}"><br/>
-                            <input type="text" class="form-control" name="zip-code" value="{{ client.zip_code }}"><br/>
-                            <input type="text" class="form-control" name="country" value="{{ client.country }}"><br/>
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" name="line1" value="{{ client.address }}" placeholder="Address Line1"><br/>
+                            <input type="text" class="form-control" name="city" value="{{ client.city }}" placeholder="City"><br/>
+                            <input type="text" class="form-control" name="state" value="{{ client.state }}" placeholder="State"><br/>
+                            <input type="text" class="form-control" name="zip-code" value="{{ client.zip_code }}" placeholder="Zip code"><br/>
+                            <input type="text" class="form-control" name="country" value="{{ client.country }}" placeholder="Country"><br/>
                          </div>
                         <hr />
 
@@ -157,9 +160,391 @@
                         </div>
                         <hr />
 
-                        <input type="submit" value="Update Profile" class="btn btn-success">
-                    </form>
+                        <div class ="">
+                            <h2> Risk Assessment form</h2>
+                       <div id="risk_ass">
+                        <div class="input-container" class="form-group">
+                            <label for="family_has_history_of_hpt_dm">Client's Family History of Hypertension & Diabetes </label><br/>
+                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="client.family_has_history_of_hpt_dm" checked>{{client.family_has_history_of_hpt_dm}}<br/>
+
+                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Hypertension">Hypertension
+                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Diabetes">Diabetes
+                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Both">Both
+                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="None">None
+                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Unknown">Unknown
+                    
+                        </div>
+                    <hr/>
+                        <div class="input-container" class="form-group">
+                            <label for="has_underlying_medical_condition">Client has an underlying medical condition(s): </label><br/>
+                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="client.has_underlying_medical_condition" checked>{{client.has_underlying_medical_condition}}<br/>
+
+                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="Yes">Yes.
+                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="No">No.
+                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="Unknown">Unknown. &nbsp;&nbsp;<br/>
+                    
+                            <label for="underlying_condition">If Yes, State Condition</label><input type="text" class="form-control" id="underlying_condition" name="underlying_condition" value="{{client.underlying_condition}}">
+                        </div>
+                        <hr/>
+
+                        <div class="input-container" class="form-group">
+                            <label for="alcohol_intake">Alcohol Intake: </label><br/>
+                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="client.alcohol_intake" checked>{{client.alcohol_intake}}<br/>
+
+                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Occational">Occational
+                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Moderate">Moderate
+                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Heavy">Heavy
+                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="None">None
+                        </div>
+                        <hr/>
+                    
+                        <div class="input-container" class="form-group">
+                            <label for="smoking_tobacco_use">Smokes/Tobacco Use: </label><br/>
+                            <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="client.smoking_tobacco_use" checked>{{client.smoking_tobacco_use}}<br/>
+
+                            <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="Yes">Yes
+                            <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="No">No
+                        </div>
+                        <hr/>
+                    
+                        <div class="input-container" class="form-group">
+                            <label for="type_of_diet">Diet Intake: </label><br/>
+                            <input type="radio" id="type_of_diet" name="type_of_diet" value="client.type_of_diet" checked>{{client.type_of_diet}}<br/>
+
+                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Normal Diet">Normal Diet
+                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Low Salt Diet">Low Salt Diet
+                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Low Fat Diet">Low Fat Diet
+                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Vegan">Vegan
+                        </div>
+                        <hr/>
+                    
+                        <div class="input-container" class="form-group">
+                            <label for="bmi">Body Mass Index: </label><br/>
+                            <input type="radio" id="bmi" name="bmi" value="client.bmi" checked>{{client.bmi}}
+
+                            <input type="radio" id="bmi" name="bmi" value="Underweight">Underweight
+                            <input type="radio" id="bmi" name="bmi" value="Normal">Normal 
+                            <input type="radio" id="bmi" name="bmi" value="Overweight">Overweight
+                            <input type="radio" id="bmi" name="bmi" value="Obesity">Obesity
+                        </div>
+                        <hr/>
+                    
+                        <div class="input-container" class="form-group">
+                            <label for="dose_exercise">Engage In Aerobics:</label><br/>
+                            <input type="radio" id="dose_exercise" name="dose_exercise" value="client.dose_exercise" checked>{{client.dose_exercise}}<br/>
+
+                            <input type="radio" id="dose_exercise" name="dose_exercise" value="Yes">Yes
+                            <input type="radio" id="dose_exercise" name="dose_exercise" value="No">No
+                        </div>
+                       </div>
+                       <hr/>
+                    
+                        <input type ="submit" value = "Update Client" class ="btn btn-success">
+                        </form><br><br>   
                 </nav>
+
+                <nav class="tabpage" id="tabpage_2">
+                    <div class="container-fluid">
+                        <h1>Appointment</h1>
+                           <p>Retrieve appointment here. Make updates here</p>
+                           <div class="msg">{{ msg }}</div>
+
+                            <form action="/update_appointment" method="POST">
+
+                                <div class="form-group">
+                                    <label for="unique_id">Client ID</label><br/>
+                                    <input type="text" id="unique_id" name="unique_id" placeholder="Enter Client ID" required value="{{ appointment.unique_id }}" readonly><br/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="username">Username</label><br/>
+                                    <input type="text" id="username" name="username" placeholder="Enter your username" required value="{{ appointment.username }}"><br/>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <label for="email">Email</label><br/>
+                                    <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ appointment.email }}"><br/>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label><br/>
+                                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required value="{{ appointment.phone }}"><br/>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <label for="appointment_date">Preferred Date</label><br/>
+                                    <input type="date" id="appointment_date" name="appointment_date" required value="{{ appointment.appointment_date }}"><br/>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <label for="appointment_time">Preferred Time</label><br/>
+                                    <input type="time" id="appointment_time" name="appointment_time" required value="{{ appointment.appointment_time }}"><br/>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <label for="purpose">Purpose of Appointment</label><br/>
+                                    <select id="purpose" name="purpose" required>
+                                        <option value="">Select purpose</option>
+                                        <option value="Consultation" {% if appointment.purpose == 'consultation' %}selected{% endif %}>Consultation</option>
+                                        <option value="Checkup" {% if appointment.purpose == 'checkup' %}selected{% endif %}>Health Checkup</option>
+                                        <option value="Followup" {% if appointment.purpose == 'followup' %}selected{% endif %}>Follow-up</option>
+                                        <option value="Other" {% if appointment.purpose == 'other' %}selected{% endif %}>Other</option><br/>
+                                    </select>
+                                </div>
+                                
+                        
+                                <div class="form-group">
+                                    <label for="message">Additional Information</label><br/>
+                                    <textarea id="message" name="message" rows="4" placeholder="Enter any additional information (optional)">{{ appointment.message }}</textarea><br/>
+                                </div>
+                        
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </form>
+                    </div>
+                </nav>
+
+                <nav>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Patient Health Metrics</h1>
+                        <h3>Health Records</h3>
+                        <div class="msg">{{ msg }}</div>
+                
+                                <form action="/update_metrics" method="POST">
+                                    <div class ="row">
+                                    <div class="col-5">
+                                    <label for="recorded_date">Date Recorded</label>
+                                    </div>
+                                    <div class="col-7">
+                                    <input type="date" name="recorded_date" id="recorded_date" value="{{ health_metrics.recorded_date }}">
+                                    </div>
+                                    </div>
+                                    <hr/>
+                                    <div class ="row">
+                                    <div class="col-5">
+                                    <label for="health_metrics.unique_id">Client ID</label>
+                                    </div>
+                                    <div class="col-7">
+                                    <input type="text" name="client.unique_id" id="client.unique_id" value="{{ health_metrics.unique_id }}">
+                                    </div>
+                                    </div>
+                                    <hr/>
+                                    <div class ="row">
+                                        <div class="col-5">
+                                            <label for="health_care_facility">Health Care Facility</label>
+                                            </div>
+                                            <div class="col-7">
+                                            <input type="text" name="health_care_facility" id="health_care_facility" value="{{health_metrics.health_care_facility}}"><br/>
+                                            
+                                            </div>
+                
+                                            <div class="col-5">
+                                                <label for="provider_name"></label>
+                                                </div>
+                                                <div class="col-7">
+                                                <input type="text" name="provider_name" id="provider_name" value="{{health_metrics.provider_name}}"><br/>
+                                                
+                                                </div>
+                                        <div class="col-5">
+                                        <label for="provider_contact">Health Provider's Contact</label>
+                                        </div>
+                                        <div class="col-7">
+                                        <input type="text" name="provider_contact" id="provider_contact" value="{{health_metrics.provider_contact}}"><br/>
+                                        
+                                        </div>
+                                        </div>
+                                        <hr/>
+                                        <div class ="row">
+                                        <div class="col-5">
+                                        <label for="trep-test">Vitals Signs</label>
+                                        </div>
+                                        <div class="col-7">
+                                           Weight: <input type ="text" class="form-control" name = "weight" value="{{ health_metrics.weight }}"><br/>
+                                           Height: <input type ="text" class="form-control" name = "height" value="{{ health_metrics.height }}"><br/>
+                                           Blood Pressure: <input type ="text" class="form-control" name = "blood_pressure" value="{{ health_metrics.blood_pressure }}"><br/>
+                                           Fasting Blood Suger: <input type ="text" class="form-control" name = "fasting_blood_suger" value="{{ health_metrics.fasting_blood_suger }}"><br/>
+                                           Random Blood Suger: <input type ="text" class="form-control" name = "random_blood_suger" value="{{ health_metrics.random_blood_suger }}"><br/>
+                                           Temperature: <input type ="text" class="form-control" name = "temperature" value="{{ health_metrics.temperature }}"><br/>
+                                           Respiration: <input type ="text" class="form-control" name = "respiration" value="{{ health_metrics.respiration }}"><br/>
+                                           Pulse: <input type ="text" class="form-control" name = "pulse" value="{{ health_metrics.pulse }}"><br/>
+                                           Oxygen Saturation: <input type ="text" class="form-control" name = "spo2" value="{{ health_metrics.spo2 }}"><br/>
+                
+                                        <hr/>
+                                        <div class ="row">
+                                        <div class="col-5">
+                                        <label for="urine_ketones">Urine_ketones</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="radio" id="urine_ketones" name="urine_ketones" value="{{ health_metrics.urine_ketones }}" checked>{{ health_metrics.urine_ketones }}<br/>
+
+                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="Nill"> Nill<br/>
+                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="1+"> 1+<br/>
+                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="2+"> 2+<br/>
+                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="3+"> 3+<br/>
+                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="No test"> No test<br/>
+                                        </div>
+                                        </div>
+                                        <hr/>
+                
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <label for="lab_investigation_type">Laboratory Investigation</label>
+                                            </div>
+                                            <div class="input-group" id="lab-investigation-group">
+                                                <input type="text" name="lab_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.lab_investigation_type }}" >
+                                                <input type="text" name="lab_investigation_result" placeholder="Enter Result" value="{{ health_metrics.lab_investigation_result }}" >
+                                                <button type="button" id="add-more">Add Another</button>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <label for="radiograph_investigation_type">Radiographic Investigation</label>
+                                            </div>
+                                            <div class="input-group" id="radiograph-investigation-group">
+                                                <input type="text" name="radiograph_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.radiograph_investigation_type }}">
+                                                <input type="text" name="radiograph_investigation_result" placeholder="Enter Result" value="{{ health_metrics.radiograph_investigation_result }}">
+                                                <button type="button" id="add-more-radiograph">Add Another</button>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                
+                
+                                        <div class ="form-group">
+                                            <label for="diagnosis">Diagnosis</label>
+                                            <input type="text" class="form-control" id="diagnosis" name="diagnosis" value="{{ health_metrics.diagnosis }}">
+                                        </div>
+                                        <hr/>
+                
+                                        <div class ="form-group">
+                                            <label for="hospitalized_for_hpt_dm">Has client been hospitalized before for HPT/DM ? </label>
+                                            <input type="text" class="form-control" id="hospitalized_for_hpt_dm" name="hospitalized_for_hpt_dm" value="{{ health_metrics.diagnosis }}">
+                                        </div>
+                                       <hr/>
+                
+                                       <div class ="form-group">
+                                        <label for="complications">Any Complications</label>
+                                        <input type="text" class="form-control" id="complications" name="complications" value="{{ health_metrics.diagnosis }}">
+                                    </div>
+                                   <hr/>
+                
+                                   <div class ="row">
+                                    <div class="col-5">
+                                    <label for="metric_notes">Add Note</label>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="form-group">
+                                            <label for="metric_notes">Additional Information</label>
+                                            <textarea id="metric_notes" name="metric_notes" rows="4" placeholder="Enter any additional information (optional)">{{ health_metrics.metric_notes }}</textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                             </form>
+                    </div>
+                            
+                </nav>
+
+                <nav>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Patient Treatment</h1>
+                        <h3>Treatment Types</h3>
+                        <div class="msg">{{ msg }}</div>
+                        <form action="/treatment" method="post">
+                            <div class ="row">
+                            <div class="col-5">
+                            <label for="date_of_treatment">Date of Treatment</label>
+                            </div>
+                            <div class="col-7">
+                            <input type="date" name="date_of_treatment" id="date_of_treatment" value="{{ treatment.date_of_treatment }}">
+                            </div>
+                            </div>
+                            <hr/>
+                            <div class ="row">
+                            <div class="col-5">
+                            <label for="unique_id">Client ID</label>
+                            </div>
+                            <div class="col-7">
+                            <input type="text" name="unique_id" id="unique_id" value="{{ treatment.patient_id }}">
+                            </div>
+                            </div>
+                            <hr/>
+                            <div class ="row">
+                                <div class="col-5">
+                                    <label for="health_care_facility">Health Care Facility</label>
+                                    </div>
+                                    <div class="col-7">
+                                    <input type="text" name="health_care_facility" id="health_care_facility" value="{{treatment.health_care_facility}}"><br/>
+                                    
+                                    </div>
+                                    <hr/>
+                                    <div class ="row">
+                                    <div class="col-5">
+                                        <label for="provider_type">Health Care Provider</label>
+                                        </div>
+                                        <div class="col-7">
+                                        <input type="text" name="provider_type" id="provider_type" value="{{treatment.provider_type}}"><br/>
+                                        
+                                        </div>
+                
+                                        <hr/>
+                                        <div class ="row">
+                                <div class="col-5">
+                                <label for="provider_contact">Health Provider's Contact</label>
+                                </div>
+                                <div class="col-7">
+                                <input type="text" name="provider_contact" id="provider_contact" value="{{treatment.provider_contact}}"><br/>
+                                
+                                </div>
+                                </div>
+                                <hr/>
+                
+                                <div class ="row">
+                                    <div class="col-5">
+                                <div class="col-5">
+                                    <label for="treatment_type">Treatment Type</label>
+                                    </div>
+                                    <div class="col-7">
+                                    <input type="text" name="treatment_type" id="treatment_type" value="{{treatment.treatment_type}}"><br/>
+                                    
+                                    </div>
+                                    <hr/>
+                
+                                    <div class ="row">
+                                        <div class="col-5">
+                                    <div class="col-5">
+                                        <label for="treatment_plan">Treatment Plan</label>
+                                        </div>
+                                        <div class="col-7">
+                                        <input type="text" name="treatment_plan" id="treatment_plan" value="{{treatment.treatment_plan}}"><br/>
+                                        
+                                        </div>
+                
+                                <div class ="row">
+                                <div class="col-5">
+                                    <label for="defaulted_treatment">Has client defaulted treatment</label>
+                                    </div>
+                                    <div class="col-7">
+                                    <input type="text" name="defaulted_treatment" id="defaulted_treatment" value="{{treatment.defaulted_treatment}}"><br/>
+                                    
+                                    </div>
+                
+                                    <hr/>
+                                    <div class ="row">
+                                        <div class="col-5">
+                                        <label for="treatment_notes">Add Note</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="form-group">
+                                                <label for="treatment_notes">Treatment Notes</label>
+                                                <textarea id="treatment_notes" name="treatment_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+   
+                        </form>
+                    </div>
+                </nav> 
             </div>
         </div>
     </div>
