@@ -25,97 +25,98 @@
         <h1 class="mt-4">Patient Treatment</h1>
         
         <div class="msg">{{ msg }}</div>
-        <form action="/treatment" method="post">
-            <div class ="row">
-            <div class="col-5">
-            <label for="date_of_treatment">Date of Treatment</label>
-            </div>
-            <div class="col-7">
-            <input type="date" name="date_of_treatment" id="date_of_treatment" value="">
-            </div>
-            </div>
-            <hr/>
-            <div class ="row">
-            <div class="col-5">
-            <label for="unique_id">Client ID</label>
-            </div>
-            <div class="col-7">
-            <input type="text" name="unique_id" id="unique_id" value="">
-            </div>
-            </div>
-            <hr/>
-            <div class ="row">
-                <div class="col-5">
-                    <label for="health_care_facility">Health Care Facility</label>
+           <form action="/add_treatment" method="post">
+                <div class ="row">
+                    <div class="col-5">
+                        <label for="date_of_treatment">Date of Treatment</label>
                     </div>
                     <div class="col-7">
-                    <input type="text" name="health_care_facility" id="health_care_facility" value=""><br/>
-                    
+                        <input type="date" name="date_of_treatment" id="date_of_treatment">
                     </div>
-                    <hr/>
-                    <div class ="row">
+                </div>
+                <hr/>
+                <div class ="row">
+                    <div class="col-5">
+                        <label for="unique_id">Client ID</label>
+                    </div>
+                    <div class="col-7">
+                        <input type="text" name="unique_id" id="unique_id" placeholder="Client ID">
+                    </div>
+                </div>
+                <hr/>
+                <div class ="row">
+                    <div class="col-5">
+                        <label for="health_care_facility">Health Care Facility</label>
+                    </div>
+                    <div class="col-7">
+                        <input type="text" name="health_care_facility" id="health_care_facility" value=""><br/>
+                </div>
+                <hr/>
+                <div class ="row">
                     <div class="col-5">
                         <label for="provider_type">Health Care Provider</label>
-                        </div>
-                        <div class="col-7">
+                    </div>
+                    <div class="col-7">
                         <input type="text" name="provider_type" id="provider_type" value=""><br/>
                         
-                        </div>
+                    </div>
 
-                        <hr/>
-                        <div class ="row">
-                <div class="col-5">
-                <label for="provider_contact">Health Provider's Contact</label>
+                    <hr/>
+                <div class ="row">
+                    <div class="col-5">
+                        <label for="provider_contact">Health Provider's Contact</label>
                 </div>
-                <div class="col-7">
-                <input type="text" name="provider_contact" id="provider_contact" value=""><br/>
+                    <div class="col-7">
+                        <input type="text" name="provider_contact" id="provider_contact" value=""><br/>
                 
-                </div>
+                    </div>
                 </div>
                 <hr/>
 
                 <div class ="row">
                     <div class="col-5">
-                <div class="col-5">
-                    <label for="treatment_type">Treatment Type</label>
+                        <label for="treatment_type">Treatment Type</label>
                     </div>
                     <div class="col-7">
-                    <input type="text" name="treatment_type" id="treatment_type" value=""><br/>
+                        <input type="text" name="treatment_type" id="treatment_type" value=""><br/>
                     
                     </div>
-                    <hr/>
-
-                    <div class ="row">
-                        <div class="col-5">
-                    <div class="col-5">
-                        <label for="treatment_plan">Treatment Plan</label>
-                        </div>
-                        <div class="col-7">
-                        <input type="text" name="treatment_plan" id="treatment_plan" value=""><br/>
-                        
-                        </div>
+                </div>
+                <hr/>
 
                 <div class ="row">
-                <div class="col-5">
-                    <label for="defaulted_treatment">Has client defaulted treatment</label>
+                    <div class="col-5">
+                        <label for="treatment_plan">Treatment Plan</label>
                     </div>
                     <div class="col-7">
-                    <input type="text" name="defaulted_treatment" id="defaulted_treatment" value=""><br/>
+                        <input type="text" name="treatment_plan" id="treatment_plan" value=""><br/>
+                        
+                    </div>
+                </div>
+                <hr/>
+
+                <div class ="row">
+                    <div class="col-5">
+                        <label for="defaulted_treatment">Has client defaulted treatment</label>
+                    </div>
+                    <div class="col-7">
+                        <input type="text" name="defaulted_treatment" id="defaulted_treatment" value=""><br/>
                     
                     </div>
+                </div>
+                <hr/>
 
-                    <hr/>
-                    <div class ="row">
-                        <div class="col-5">
+                <div class ="row">
+                    <div class="col-5">
                         <label for="treatment_notes">Add Note</label>
-                        </div>
-                        <div class="col-7">
-                            <div class="form-group">
-                                <label for="treatment_notes">Treatment Notes</label>
-                                <textarea id="treatment_notes" name="treatment_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="col-7">
+                            <label for="treatment_notes">Treatment Notes</label>
+                            <textarea id="treatment_notes" name="treatment_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
+                    </div>
+                </div>
+                <hr/>
+                            <button type="submit" class="submit-btn">Submit</button>
 
         </form>
 </div>

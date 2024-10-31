@@ -26,7 +26,7 @@
         <h3>Health Records</h3>
         <div class="msg">{{ msg }}</div>
 
-                <form action="/metrics" method="post">
+                <form action="/add_metrics" method="post">
                     <div class ="row">
                     <div class="col-5">
                     <label for="recorded_date">Date Recorded</label>
@@ -38,10 +38,10 @@
                     <hr/>
                     <div class ="row">
                     <div class="col-5">
-                    <label for="health_metrics.unique_id">Client ID</label>
+                    <label for="unique_id">Client ID</label>
                     </div>
                     <div class="col-7">
-                    <input type="text" name="client.unique_id" id="client.unique_id" placeholder="readonly" readonly>
+                    <input type="text" name="unique_id" id="unique_id" placeholder="Client ID">
                     </div>
                     </div>
                     <hr/>
@@ -112,11 +112,13 @@
                             <div class="col-5">
                                 <label for="lab_investigation_result">Laboratory Investigation</label>
                             </div>
+                        <div class="col-7">
                             <div class="input-group" id="lab-investigation-group">
-                                <input type="text" name="lab_investigation_type[]" placeholder="Enter Investigation" required>
-                                <input type="text" name="lab_investigation_result[]" placeholder="Enter Result" required>
+                                <input type="text" name="lab_investigation_type" placeholder="Enter Investigation" required>
+                                <input type="text" name="lab_investigation_result" placeholder="Enter Result" required>
                                 <button type="button" id="add-more">Add Another</button>
                             </div>
+                        </div>
                         </div>
                         <hr/>
 
@@ -124,43 +126,56 @@
                             <div class="col-5">
                                 <label for="radiograph_investigation_type">Radiographic Investigation</label>
                             </div>
+                        <div class="col-7">
                             <div class="input-group" id="radiograph-investigation-group">
-                                <input type="text" name="radiograph_investigation_type[]" placeholder="Enter Investigation" required>
-                                <input type="text" name="radiograph_investigation_result[]" placeholder="Enter Result" required>
+                                <input type="text" name="radiograph_investigation_type" placeholder="Enter Investigation" required>
+                                <input type="text" name="radiograph_investigation_result" placeholder="Enter Result" required>
                                 <button type="button" id="add-more-radiograph">Add Another</button>
+                            </div>
+                        </div>
+                        </div>
+                        <hr/>
+
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="diagnosis">Diagnosis</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="diagnosis" name="diagnosis" placeholder="Diagnosis">
                             </div>
                         </div>
                         <hr/>
 
-
-                        <div class ="form-group">
-                            <label for="diagnosis">Diagnosis</label>
-                            <input type="text" class="form-control" id="diagnosis" name="diagnosis" placeholder="Diagnosis">
-                        </div>
-                        <hr/>
-
-                        <div class ="form-group">
+                        <div class="row">
+                        <div class="col-5">
                             <label for="hospitalized_for_hpt_dm">Has client been hospitalized before for HPT/DM ? </label>
-                            <input type="text" class="form-control" id="hospitalized_for_hpt_dm" name="hospitalized_for_hpt_dm" placeholder="">
+                        </div>
+                        <div class="col-7">    
+                            <input type="text" id="hospitalized_for_hpt_dm" name="hospitalized_for_hpt_dm" placeholder="">
+                        </div>
+            
                         </div>
                        <hr/>
 
-                       <div class ="form-group">
-                        <label for="complications">Any Complications</label>
-                        <input type="text" class="form-control" id="complications" name="complications" value="Complicatons">
-                    </div>
+                       <div class="row">
+                            <div class="col-5">
+                                <label for="complications">Any Complications</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="text"id="complications" name="complications" value="Complicatons">
+                            </div>
+                       </div>
                    <hr/>
 
                    <div class ="row">
-                    <div class="col-5">
-                    <label for="metric_notes">Add Note</label>
-                    </div>
-                    <div class="col-7">
-                        <div class="form-group">
+                        <div class="col-5">
+                            <label for="metric_notes">Add Note</label>
+                        </div>
+                        <div class="col-7">
                             <label for="metric_notes">Additional Information</label>
                             <textarea id="metric_notes" name="metric_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
                         </div>
-                    </div>
+                   </div>
                 <hr/>
                 <input type ="submit" value = "Submit" class ="submit-btn">
         </form>

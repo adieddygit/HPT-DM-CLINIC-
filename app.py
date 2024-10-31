@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request, session, url_for, flash
 from sqlalchemy import create_engine, text
 from models.models import *
+import logging
 import random
 # from utils import insert_data
 import hashlib
@@ -143,7 +144,7 @@ def profile():
 def register_client():
     #get the data from the form
     if request.method=='POST' and 'unique_id' in request.form:
-        unique_id = random.randint(10000, 19999)
+        unique_id = request.form['unique_id'] 
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         middle_name = request.form['middle_name']
@@ -190,8 +191,9 @@ def register_client():
         updated_at = datetime.now()
         created_by = session['username']
         updated_by = session['username']
+
         with engine.connect() as con:
-            con.execute(text(f"""INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob,
+            result =  con.execute(text(f"""INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob,
                                   cob, gender, marital_status, occupation,
                                   phone, address, city, state, zip_code, country,
                                   email, ethnicity, race, emergency_contact_name, emergency_contact_number, emergency_contact_relationship,
@@ -203,18 +205,134 @@ def register_client():
                             '{emergency_contact_address}', '{family_has_history_of_hpt_dm}', '{has_underlying_medical_condition}', '{underlying_condition}',
                             '{alcohol_intake}', '{smoking_tobacco_use}', '{type_of_diet}', '{bmi}', '{dose_exercise}'\
                                                             )"""))
-    
-            con.execute(text(f"INSERT INTO health_metrics(created_by, created_at,updated_at, updated_by, unique_id)\
-                                      VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
             
-            con.execute(text(f"INSERT INTO treatment(created_by, created_at, updated_at, updated_by, unique_id)\
-                                      VALUES('{created_by}','{created_at}', '{updated_at}', '{updated_by}','{unique_id}')"))
             con.commit()
         msg = 'Client successfully registered'
         flash(msg, 'success')
         # redirect the user to the home page
         return redirect(url_for('home', msg = msg))
     return render_template('register.html')
+
+# Initialize logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+@app.route('/add_metrics', methods=['POST'])
+def add_metrics():
+    if request.method == 'POST' and 'unique_id' in request.form:
+        # Extract form data
+        data = {key: request.form.get(key, None) for key in [
+            'unique_id', 'recorded_date', 'health_care_facility', 'provider_name', 'provider_contact',
+            'weight', 'height', 'blood_pressure', 'fasting_blood_suger', 'random_blood_suger',
+            'temperature', 'respiration', 'pulse', 'spo2', 'urine_ketones', 'lab_investigation_type',
+            'lab_investigation_result', 'radiograph_investigation_type', 'radiograph_investigation_result',
+            'metric_notes', 'diagnosis', 'hospitalized_for_hpt_dm', 'complications'
+        ]}
+
+        # Add metadata
+        data['created_at'] = datetime.now()
+        data['updated_at'] = datetime.now()
+        data['created_by'] = session.get('username', 'system')  # Fallback to 'system' if no session
+        data['updated_by'] = data['created_by']
+
+        try:
+            with engine.begin() as con:
+                con.execute(
+                    text("""
+                        INSERT INTO health_metrics (
+                            created_by, created_at, updated_at, updated_by, unique_id, recorded_date, 
+                            health_care_facility, provider_name, provider_contact, weight, height, 
+                            blood_pressure, fasting_blood_suger, random_blood_suger, temperature, respiration, 
+                            pulse, spo2, urine_ketones, lab_investigation_type, lab_investigation_result, 
+                            radiograph_investigation_type, radiograph_investigation_result, metric_notes, 
+                            diagnosis, hospitalized_for_hpt_dm, complications
+                        ) VALUES (
+                            :created_by, :created_at, :updated_at, :updated_by, :unique_id, :recorded_date, 
+                            :health_care_facility, :provider_name, :provider_contact, :weight, :height, 
+                            :blood_pressure, :fasting_blood_suger, :random_blood_suger, :temperature, :respiration, 
+                            :pulse, :spo2, :urine_ketones, :lab_investigation_type, :lab_investigation_result, 
+                            :radiograph_investigation_type, :radiograph_investigation_result, :metric_notes, 
+                            :diagnosis, :hospitalized_for_hpt_dm, :complications
+                        )
+                    """), data
+                )
+            flash('Health records added successfully.', 'success')
+            return redirect(url_for('home'))
+        
+        except Exception as e:
+            logger.error(f"Error inserting data: {e}")
+            flash('Failed to submit records. Please try again.', 'error')
+            return render_template('metrics.html')  # Return to form with error message
+
+    # If method is not POST or 'unique_id' is missing in form data
+    flash('Invalid form submission.', 'error')
+    return render_template('metrics.html')
+
+
+
+
+@app.route('/add_treatment', methods=['POST'])
+def add_treatment():
+    # Check if request method is POST and unique_id is provided
+    if request.method == 'POST' and 'unique_id' in request.form:
+        unique_id = request.form['unique_id']
+        
+        # Optional fields; use get() with defaults as needed
+        date_of_treatment = request.form.get('date_of_treatment', datetime.now())
+        treatment_type = request.form.get('treatment_type')  # None if not provided
+        defaulted_treatment = request.form.get('defaulted_treatment', 'No')  # Default to 'No'
+        health_care_facility = request.form.get('health_care_facility')  # None if not provided
+        provider_contact = request.form.get('provider_contact')  # None if not provided
+        treatment_plan = request.form.get('treatment_plan')  # None if not provided
+        treatment_notes = request.form.get('treatment_notes')  # None if not provided
+
+        # Metadata fields
+        created_at = datetime.now()
+        updated_at = datetime.now()
+        created_by = session.get('username', 'system')
+        updated_by = session.get('username', 'system')
+
+        try:
+            # Insert data into database using a parameterized query
+            with engine.begin() as con:
+                con.execute(
+                    text("""
+                        INSERT INTO treatment (
+                            created_at, updated_at, created_by, updated_by, unique_id,
+                            date_of_treatment, treatment_type, defaulted_treatment,
+                            health_care_facility, provider_contact, treatment_plan, treatment_notes
+                        ) VALUES (
+                            :created_at, :updated_at, :created_by, :updated_by, :unique_id,
+                            :date_of_treatment, :treatment_type, :defaulted_treatment,
+                            :health_care_facility, :provider_contact, :treatment_plan, :treatment_notes
+                        )
+                    """),
+                    {
+                        'created_at': created_at,
+                        'updated_at': updated_at,
+                        'created_by': created_by,
+                        'updated_by': updated_by,
+                        'unique_id': unique_id,
+                        'date_of_treatment': date_of_treatment,
+                        'treatment_type': treatment_type,
+                        'defaulted_treatment': defaulted_treatment,
+                        'health_care_facility': health_care_facility,
+                        'provider_contact': provider_contact,
+                        'treatment_plan': treatment_plan,
+                        'treatment_notes': treatment_notes
+                    }
+                )
+            msg = 'Treatment record added successfully.'
+            flash(msg, 'success')
+            return redirect(url_for('home', msg=msg))
+
+        except Exception as e:
+            print(f"Error inserting treatment data: {e}")  # Log error for debugging
+            msg = 'Failed to submit treatment record. Please try again.'
+
+    # Render treatment form if method is not POST or unique_id is missing
+    return render_template('treatment.html')
+
 
 @app.route('/logout')
 def logout():
@@ -294,7 +412,8 @@ def update_profile():
                     update_at = datetime.now()
                     updated_by = session['username']
                     
-                    # Retrieve form data  
+                    # Retrieve form data 
+                    unique_id = request.form['uinque_id'] 
                     first_name = request.form['first_name']
                     last_name = request.form['last_name']
                     middle_name = request.form['middle_name']
@@ -325,12 +444,13 @@ def update_profile():
                     bmi = request.form['bmi']
                     dose_exercise = request.form['dose_exercise']
 
-                    print(f"Updating Client: {client_id}")
+                    with engine.connect() as con:
+                        print(f"Updating Client: {client_id}")
                     con.execute(text(f"""
                         UPDATE client_profile 
                         SET updated_at = '{update_at}', updated_by = '{updated_by}',\
                             first_name = '{first_name}', last_name = '{last_name}',\
-                            middle_name = '{middle_name}', dob = '{dob}',\
+                            unique_id = '{unique_id}', middle_name = '{middle_name}', dob = '{dob}',\
                             cob = '{cob}', gender = '{gender}',\
                             marital_status = '{marital_status}', occupation = '{occupation}',\
                             phone = '{phone}', address = '{address}', city = '{city}',\
@@ -377,6 +497,137 @@ def update_profile():
             msg = "You need to login to update client."
             flash(msg, 'update')
             return redirect(url_for('login', msg=msg))
+        
+@app.route('/update_metrics', methods=['POST'])
+def update_metrics():
+    msg = ""
+    if request.method == 'POST':
+        unique_id = request.form['unique_id']
+
+    if 'loggedin' in session:
+        if unique_id:
+            with engine.connect() as con:
+                # Check if health metrics already exist for the given unique_id
+                result_metrics = con.execute(text(f"SELECT * FROM health_metrics WHERE unique_id = '{unique_id}'"))
+                health_metrics = result_metrics.fetchone()
+
+                if health_metrics:
+                    # Update existing health metrics record
+                    updated_at = datetime.now()
+                    updated_by = session['username']
+
+                    # Retrieve form data
+                    recorded_date = request.form['recorded_date']
+                    health_care_facility = request.form['health_care_facility']
+                    provider_name = request.form['provider_name']
+                    provider_contact = request.form['provider_contact']
+                    weight = request.form['weight']
+                    height = request.form['height']
+                    blood_pressure = request.form['blood_pressure']
+                    fasting_blood_suger = request.form['fasting_blood_suger']
+                    random_blood_suger = request.form['random_blood_suger']
+                    temperature = request.form['temperature']
+                    respiration = request.form['respiration']
+                    pulse = request.form['pulse']
+                    spo2 = request.form['spo2']
+                    urine_ketones = request.form['urine_ketones']
+                    lab_investigation_type = request.form['lab_investigation_type']
+                    lab_investigation_result = request.form['lab_investigation_result']
+                    radiograph_investigation_type = request.form['radiograph_investigation_type']
+                    radiograph_investigation_result = request.form['radiograph_investigation_result']
+                    metric_notes = request.form['metric_notes']
+                    diagnosis = request.form['diagnosis']
+                    hospitalized_for_hpt_dm = request.form['hospitalized_for_hpt_dm']
+                    complications = request.form['complications']
+
+                    # Execute update query
+                    with engine.connect() as con:
+                        con.execute(text(f"""
+                        UPDATE health_metrics
+                        SET updated_at = '{updated_at}', updated_by = '{updated_by}', 
+                            recorded_date = '{recorded_date}', health_care_facility = '{health_care_facility}', 
+                            provider_name = '{provider_name}', provider_contact = '{provider_contact}', 
+                            weight = '{weight}', height = '{height}', blood_pressure = '{blood_pressure}', 
+                            fasting_blood_suger = '{fasting_blood_suger}', random_blood_suger = '{random_blood_suger}', 
+                            temperature = '{temperature}', respiration = '{respiration}', pulse = '{pulse}', 
+                            spo2 = '{spo2}', urine_ketones = '{urine_ketones}', lab_investigation_type = '{lab_investigation_type}', 
+                            lab_investigation_result = '{lab_investigation_result}', radiograph_investigation_type = '{radiograph_investigation_type}', 
+                            radiograph_investigation_result = '{radiograph_investigation_result}', metric_notes = '{metric_notes}', 
+                            diagnosis = '{diagnosis}', hospitalized_for_hpt_dm = '{hospitalized_for_hpt_dm}', 
+                            complications = '{complications}'
+                        WHERE unique_id = '{unique_id}'
+                    """))
+                    con.commit()
+                    msg = "Health metrics updated successfully"
+                    flash(msg, 'success')
+                else:
+                    msg = "No health metrics found for the provided ID"
+                    flash(msg, 'error')
+                return render_template('home.html', msg=msg)
+        else:
+            msg = "You need to login to update health metrics."
+            flash(msg, 'error')
+            return redirect(url_for('login', msg=msg))
+
+@app.route('/update_treatment', methods=['POST'])
+def update_treatment():
+    if request.method == 'POST':
+        treatment_id = request.form.get('treatment_id')  # Assuming treatment ID is part of form data
+        unique_id = request.form.get('unique_id')
+
+        with engine.connect() as con:
+            # Verify that the treatment record exists
+            result = con.execute(
+                text("SELECT * FROM treatment WHERE id = :treatment_id AND unique_id = :unique_id"),
+                {'treatment_id': treatment_id, 'unique_id': unique_id}
+            )
+            treatment = result.fetchone()
+
+            if treatment:
+                # Update treatment details
+                updated_at = datetime.now()
+                updated_by = session['username']
+                date_of_treatment = request.form['date_of_treatment']
+                treatment_type = request.form['treatment_type']
+                defaulted_treatment = request.form['defaulted_treatment']
+                health_care_facility = request.form['health_care_facility']
+                provider_contact = request.form['provider_contact']
+                treatment_plan = request.form['treatment_plan']
+                treatment_notes = request.form['treatment_notes']
+
+                con.execute(
+                    text("""
+                        UPDATE treatment SET
+                            updated_at = :updated_at,
+                            updated_by = :updated_by,
+                            date_of_treatment = :date_of_treatment,
+                            treatment_type = :treatment_type,
+                            defaulted_treatment = :defaulted_treatment,
+                            health_care_facility = :health_care_facility,
+                            provider_contact = :provider_contact,
+                            treatment_plan = :treatment_plan,
+                            treatment_notes = :treatment_notes
+                        WHERE id = :treatment_id AND unique_id = :unique_id
+                    """),
+                    {
+                        'updated_at': updated_at,
+                        'updated_by': updated_by,
+                        'date_of_treatment': date_of_treatment,
+                        'treatment_type': treatment_type,
+                        'defaulted_treatment': defaulted_treatment,
+                        'health_care_facility': health_care_facility,
+                        'provider_contact': provider_contact,
+                        'treatment_plan': treatment_plan,
+                        'treatment_notes': treatment_notes,
+                        'treatment_id': treatment_id,
+                        'unique_id': unique_id,
+                    }
+                )
+                flash("Treatment record updated successfully.", 'success')
+            else:
+                flash("Error: Treatment record not found.", 'error')
+
+        return redirect(url_for('home'))
 
 
 
