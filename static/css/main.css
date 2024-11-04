@@ -16,7 +16,7 @@
 
 @media only screen and (min-width:768px){
  body{
-    text-shadow: 0.5px 0.5px 1px black;
+    /* text-shadow: 0.5px 0.5px 1px black; */
  
 .col-s-1{
     width: 8.33%;

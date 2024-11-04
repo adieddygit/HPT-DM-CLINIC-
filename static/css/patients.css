@@ -1,44 +1,86 @@
-body{
+body {
     background-color: rgb(71, 129, 129);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
+/* Existing styles */
+
 .patients-container {
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 100%; /* Changed to allow full width on mobile */
+    margin: 40px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Adds horizontal scroll if content exceeds width */
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.actions {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.actions input {
-    width: 300px;
-    padding: 8px;
-    font-size: 1em;
-}
-
-.actions .btn-add {
+.actions .btn-add{
     padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
 }
 
-.actions .btn-add:hover {
-    background-color: #218838;
+
+/* Make table scrollable on mobile */
+table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    
+    /* Adjust table font and padding for small screens */
+    table, th, td {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+
+    td button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+    
+    /* Reduce margin and padding for a more compact look on mobile */
+    .patients-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+}
+
+
+/* Additional adjustments for very small screens */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .actions .btn-add {
+        width: 100%;
+        margin: 5px 0;
+        padding: 10px 15px;
+        text-decoration: none;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+    }
+}
+
+ .btn-add:hover {
+    background-color: #f1f1f1;
+    color: #28a745;
 }
 
 table {
@@ -54,6 +96,7 @@ table, th, td {
 th, td {
     padding: 12px;
     text-align: left;
+    font-size: 1em;
 }
 
 th {
@@ -67,6 +110,8 @@ td button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
 }
 
 td .btn-view {
@@ -94,4 +139,30 @@ td .btn-edit:hover {
 
 td .btn-delete:hover {
     background-color: #c82333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .patients-container {
+        padding: 15px;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .actions input, .actions .btn-add {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    table, th, td {
+        font-size: 0.9em;
+    }
+
+    td button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
 }

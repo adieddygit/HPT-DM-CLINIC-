@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, DATE, TIME
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
 from datetime import datetime
 from typing import Optional
@@ -76,7 +76,7 @@ class ClientProfile(Base):
     first_name: Mapped[str] = mapped_column(String(100))
     middle_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     last_name: Mapped[str] = mapped_column(String(100))
-    dob: Mapped[datetime] = mapped_column(DateTime)
+    dob: Mapped[datetime.date] = mapped_column(DateTime)
     cob: Mapped[str] = mapped_column(String(100))
     gender: Mapped[str] = mapped_column(String(100))
     marital_status: Mapped[str] = mapped_column(String(100))
@@ -114,7 +114,6 @@ class Appointment(Base):
     created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
     updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
     unique_id: Mapped[str] = mapped_column(String(100), ForeignKey('client_profile.unique_id', ondelete='CASCADE', onupdate='CASCADE'))
-    username: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     email: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     phone: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     purpose: Mapped[str] = mapped_column(String(100))
@@ -170,6 +169,7 @@ class Treatment(Base):
     treatment_type: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     defaulted_treatment: Mapped[str] = mapped_column(String(100))
     health_care_facility: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    provider_type: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     provider_contact: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     treatment_plan: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     treatment_notes: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)

@@ -1,6 +1,9 @@
 {% extends "homebase.html" %}
 {% block head %}
     <meta name="description" content="client profile page">
+{% block stylesheet %}{% endblock stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{{ super() }}
 {% endblock head %}
 {% block title %}<title>Profile</title>{% endblock title %}
 {% block javascripts %}
@@ -19,23 +22,34 @@
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
 </div>
 <div class="container-fluid">
-    <h1 class="mt-4">Client data collection profile</h1>
-    <h3>Personal Information</h3>
+    <h1 class="mt-4">Client Data Collection Profile</h1>
     <div id="wrapper2">
 
-        <div id="tabContainer">
+        <div id="tabContainer" >
             <div id="tabs">
                 <ul>
                     <li id="tabHeader_1">Personal Profile</li>
                     <li id="tabHeader_2">Appointment</li>
-                    <li id="tabHeader_3">Patient Health Metrics</li>
-                    <li id="tabHeader_4">Treatment</li>
+                    <li id="tabHeader_3">Health Metrics</li>
+                    <li id="tabHeader_4">Treatment</li><br/><br/>               
                 </ul>
+                <div id="avatar-container">
+                    <div id="info-container">
+                        <em class="avatar-info">{{session.username}}</em>
+                        <em class="avatar-info">{{client.unique_id}}</em>
+                        <em class="avatar-info">{{client.email}}</em>
+                        <em class="avatar-info">{{ client.gender }} </em>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/AVATER.jpg') }}" alt="Avatar" id="avatar">
+                </div>
+                
+             
             </div>
 
             <div id="tabscontent">
                 <nav class="tabpage" id="tabpage_1">
                     <form method='POST' action="/update_profile">
+                        <h1>Personal Information</h1>
                         <p>The retrieved data is displayed here</p>
 
                         <div class="form-group">
@@ -78,15 +92,15 @@
                         <hr />
 
                         <div class="form-group">
-                            <label for="gender">Marital Status: </label><br/>
-                            <input type="radio" id="marital_status" name="marital_status" value="{{ client.marital_status }}" checked> {{ client.marital_status }}<br/>
-                            <input type="radio" id="marital_status" name="marital_status" value="Single"> Single
-                            <input type="radio" id="marital_status" name="marital_status" value="Married"> Married
-                            <input type="radio" id="marital_status" name="marital_status" value="Divorced"> Divorced
-                            <input type="radio" id="marital_status" name="marital_status" value="Widowed"> Widowed
-                            <input type="radio" id="marital_status" name="marital_status" value="Separated"> Separated
-                            <input type="radio" id="marital_status" name="marital_status" value="Cohabiting"> Cohabiting
-                            <input type="radio" id="marital_status" name="marital_status" value="Other"> Other
+                            <label for="marital_status">Marital Status: </label><br/>
+                            <input type="radio" id="marital-status" name="marital_status" value="{{ client.marital_status }}" checked> {{ client.marital_status }}<br/>
+                            <input type="radio" id="marital-status" name="marital_status" value="Single"> Single
+                            <input type="radio" id="marital-status" name="marital_status" value="Married"> Married
+                            <input type="radio" id="marital-status" name="marital_status" value="Divorced"> Divorced
+                            <input type="radio" id="marital-status" name="marital_status" value="Widowed"> Widowed
+                            <input type="radio" id="marital-status" name="marital_status" value="Separated"> Separated
+                            <input type="radio" id="marital-status" name="marital_status" value="Cohabiting"> Cohabiting
+                            <input type="radio" id="marital-status" name="marital_status" value="Other"> Other
                         </div>
                         <hr />
 
@@ -166,23 +180,21 @@
                        <div id="risk_ass">
                         <div class="input-container" class="form-group">
                             <label for="family_has_history_of_hpt_dm">Client's Family History of Hypertension & Diabetes </label><br/>
-                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="client.family_has_history_of_hpt_dm" checked>{{client.family_has_history_of_hpt_dm}}<br/>
-
-                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Hypertension">Hypertension
-                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Diabetes">Diabetes
-                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Both">Both
-                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="None">None
-                            <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Unknown">Unknown
+                            <input type="radio" id="family-has-history-of-hpt-dm" name="family_has_history_of_hpt_dm" value="{{client.family_has_history_of_hpt_dm}}" checked>{{client.family_has_history_of_hpt_dm}}<br/>
+                            <input type="radio" id="family-has-history-of-hpt-dm" name="family_has_history_of_hpt_dm" value="Hypertension">Hypertension
+                            <input type="radio" id="family-has-history-of-hpt-dm" name="family_has_history_of_hpt_dm" value="Diabetes">Diabetes
+                            <input type="radio" id="family-has-history-of-hpt-dm" name="family_has_history_of_hpt_dm" value="Both">Both
+                            <input type="radio" id="family-has-history-of-hpt-dm" name="family_has_history_of_hpt_dm" value="None">None
+                            <input type="radio" id="family-has-history-of-hpt-dm" name="family_has_history_of_hpt_dm" value="Unknown">Unknown
                     
                         </div>
                     <hr/>
                         <div class="input-container" class="form-group">
                             <label for="has_underlying_medical_condition">Client has an underlying medical condition(s): </label><br/>
-                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="client.has_underlying_medical_condition" checked>{{client.has_underlying_medical_condition}}<br/>
-
-                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="Yes">Yes.
-                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="No">No.
-                            <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="Unknown">Unknown. &nbsp;&nbsp;<br/>
+                            <input type="radio" id="has-underlying-medical-condition" name="has_underlying_medical_condition" value="{{client.has_underlying_medical_condition}}" checked>{{client.has_underlying_medical_condition}}<br/>
+                            <input type="radio" id="has-underlying-medical-condition" name="has_underlying_medical_condition" value="Yes">Yes.
+                            <input type="radio" id="has-underlying-medical-condition" name="has_underlying_medical_condition" value="No">No.
+                            <input type="radio" id="has-underlying-medical-condition" name="has_underlying_medical_condition" value="Unknown">Unknown. &nbsp;&nbsp;<br/>
                     
                             <label for="underlying_condition">If Yes, State Condition</label><input type="text" class="form-control" id="underlying_condition" name="underlying_condition" value="{{client.underlying_condition}}">
                         </div>
@@ -190,38 +202,37 @@
 
                         <div class="input-container" class="form-group">
                             <label for="alcohol_intake">Alcohol Intake: </label><br/>
-                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="client.alcohol_intake" checked>{{client.alcohol_intake}}<br/>
-
-                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Occational">Occational
-                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Moderate">Moderate
-                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Heavy">Heavy
-                            <input type="radio" id="alcohol_intake" name="alcohol_intake" value="None">None
+                            <input type="radio" id="alcohol-intake" name="alcohol_intake" value="{{client.alcohol_intake}}" checked>{{client.alcohol_intake}}<br/>
+                            <input type="radio" id="alcohol-intake" name="alcohol_intake" value="Occational">Occational
+                            <input type="radio" id="alcohol-intake" name="alcohol_intake" value="Moderate">Moderate
+                            <input type="radio" id="alcohol-intake" name="alcohol_intake" value="Heavy">Heavy
+                            <input type="radio" id="alcohol-intake" name="alcohol_intake" value="None">None
                         </div>
                         <hr/>
                     
                         <div class="input-container" class="form-group">
                             <label for="smoking_tobacco_use">Smokes/Tobacco Use: </label><br/>
-                            <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="client.smoking_tobacco_use" checked>{{client.smoking_tobacco_use}}<br/>
+                            <input type="radio" id="smoking-tobacco-use" name="smoking_tobacco_use" value="{{client.smoking_tobacco_use}}" checked>{{client.smoking_tobacco_use}}<br/>
 
-                            <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="Yes">Yes
-                            <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="No">No
+                            <input type="radio" id="smoking-tobacco-use" name="smoking_tobacco_use" value="Yes">Yes
+                            <input type="radio" id="smoking-tobacco-use" name="smoking_tobacco_use" value="No">No
                         </div>
                         <hr/>
                     
                         <div class="input-container" class="form-group">
                             <label for="type_of_diet">Diet Intake: </label><br/>
-                            <input type="radio" id="type_of_diet" name="type_of_diet" value="client.type_of_diet" checked>{{client.type_of_diet}}<br/>
+                            <input type="radio" id="type-of-diet" name="type_of_diet" value="{{client.type_of_diet}}" checked>{{client.type_of_diet}}<br/>
 
-                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Normal Diet">Normal Diet
-                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Low Salt Diet">Low Salt Diet
-                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Low Fat Diet">Low Fat Diet
-                            <input type="radio" id="type_of_diet" name="type_of_diet" value="Vegan">Vegan
+                            <input type="radio" id="type-of-diet" name="type_of_diet" value="Normal Diet">Normal Diet
+                            <input type="radio" id="type-of-diet" name="type_of_diet" value="Low Salt Diet">Low Salt Diet
+                            <input type="radio" id="type-of-diet" name="type_of_diet" value="Low Fat Diet">Low Fat Diet
+                            <input type="radio" id="type-of-diet" name="type_of_diet" value="Vegan">Vegan
                         </div>
                         <hr/>
                     
                         <div class="input-container" class="form-group">
                             <label for="bmi">Body Mass Index: </label><br/>
-                            <input type="radio" id="bmi" name="bmi" value="client.bmi" checked>{{client.bmi}}
+                            <input type="radio" id="bmi" name="bmi" value="{{client.bmi}}" checked>{{client.bmi}}<br/>
 
                             <input type="radio" id="bmi" name="bmi" value="Underweight">Underweight
                             <input type="radio" id="bmi" name="bmi" value="Normal">Normal 
@@ -232,10 +243,10 @@
                     
                         <div class="input-container" class="form-group">
                             <label for="dose_exercise">Engage In Aerobics:</label><br/>
-                            <input type="radio" id="dose_exercise" name="dose_exercise" value="client.dose_exercise" checked>{{client.dose_exercise}}<br/>
+                            <input type="radio" id="dose-exercise" name="dose_exercise" value="{{client.dose_exercise}}" checked>{{client.dose_exercise}}<br/>
 
-                            <input type="radio" id="dose_exercise" name="dose_exercise" value="Yes">Yes
-                            <input type="radio" id="dose_exercise" name="dose_exercise" value="No">No
+                            <input type="radio" id="dose-exercise" name="dose_exercise" value="Yes">Yes
+                            <input type="radio" id="dose-exercise" name="dose_exercise" value="No">No
                         </div>
                        </div>
                        <hr/>
@@ -257,30 +268,31 @@
                                     <input type="text" id="unique_id" name="unique_id" placeholder="Enter Client ID" required value="{{ appointment.unique_id }}" readonly><br/>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="username">Username</label><br/>
-                                    <input type="text" id="username" name="username" placeholder="Enter your username" required value="{{ appointment.username }}"><br/>
-                                </div>
+                                <hr/>
                         
                                 <div class="form-group">
                                     <label for="email">Email</label><br/>
                                     <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ appointment.email }}"><br/>
                                 </div>
+                                <hr/>
                         
                                 <div class="form-group">
                                     <label for="phone">Phone Number</label><br/>
                                     <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required value="{{ appointment.phone }}"><br/>
                                 </div>
+                                <hr/>
                         
                                 <div class="form-group">
                                     <label for="appointment_date">Preferred Date</label><br/>
                                     <input type="date" id="appointment_date" name="appointment_date" required value="{{ appointment.appointment_date }}"><br/>
                                 </div>
+                                <hr/>
                         
                                 <div class="form-group">
                                     <label for="appointment_time">Preferred Time</label><br/>
                                     <input type="time" id="appointment_time" name="appointment_time" required value="{{ appointment.appointment_time }}"><br/>
                                 </div>
+                                <hr/>
                         
                                 <div class="form-group">
                                     <label for="purpose">Purpose of Appointment</label><br/>
@@ -292,19 +304,21 @@
                                         <option value="Other" {% if appointment.purpose == 'other' %}selected{% endif %}>Other</option><br/>
                                     </select>
                                 </div>
+                                <hr/>
                                 
                         
                                 <div class="form-group">
                                     <label for="message">Additional Information</label><br/>
                                     <textarea id="message" name="message" rows="4" placeholder="Enter any additional information (optional)">{{ appointment.message }}</textarea><br/>
                                 </div>
+                                <hr/>
                         
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </form>
                     </div>
                 </nav>
 
-                <nav>
+                <nav class="tabpage" id="tabpage_3">
                     <div class="container-fluid">
                         <h1 class="mt-4">Patient Health Metrics</h1>
                         <h3>Health Records</h3>
@@ -339,7 +353,7 @@
                                             </div>
                 
                                             <div class="col-5">
-                                                <label for="provider_name"></label>
+                                                <label for="provider_name">Health Provider Name</label>
                                                 </div>
                                                 <div class="col-7">
                                                 <input type="text" name="provider_name" id="provider_name" value="{{health_metrics.provider_name}}"><br/>
@@ -391,11 +405,13 @@
                                                 <label for="lab_investigation_type">Laboratory Investigation</label>
                                             </div>
                                             <div class="input-group" id="lab-investigation-group">
-                                                <input type="text" name="lab_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.lab_investigation_type }}" >
-                                                <input type="text" name="lab_investigation_result" placeholder="Enter Result" value="{{ health_metrics.lab_investigation_result }}" >
+                                                <input type="text" name="lab_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.lab_investigation_type }}" ><br/>
+                                                <input type="text" name="lab_investigation_result" placeholder="Enter Result" value="{{ health_metrics.lab_investigation_result }}" ><br/>
                                                 <button type="button" id="add-more">Add Another</button>
+                                                <button type="button" id="delete">Delete</button>
                                             </div>
                                         </div>
+                                        
                                         <hr/>
                 
                                         <div class="row">
@@ -403,9 +419,10 @@
                                                 <label for="radiograph_investigation_type">Radiographic Investigation</label>
                                             </div>
                                             <div class="input-group" id="radiograph-investigation-group">
-                                                <input type="text" name="radiograph_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.radiograph_investigation_type }}">
-                                                <input type="text" name="radiograph_investigation_result" placeholder="Enter Result" value="{{ health_metrics.radiograph_investigation_result }}">
+                                                <input type="text" name="radiograph_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.radiograph_investigation_type }}"><br/>
+                                                <input type="text" name="radiograph_investigation_result" placeholder="Enter Result" value="{{ health_metrics.radiograph_investigation_result }}"><br/>
                                                 <button type="button" id="add-more-radiograph">Add Another</button>
+                                                <button type="button" id="delete-radiograph">Delete</button>
                                             </div>
                                         </div>
                                         <hr/>
@@ -439,18 +456,23 @@
                                             <textarea id="metric_notes" name="metric_notes" rows="4" placeholder="Enter any additional information (optional)">{{ health_metrics.metric_notes }}</textarea>
                                         </div>
                                     </div>
+                                   </div>
+                                        </div>
+                                        </div>
+                                        
                                     <button type="submit" class="btn btn-success">Submit</button>
                              </form>
                     </div>
                             
                 </nav>
 
-                <nav>
+                <nav class="tabpage" id="tabpage_4">
                     <div class="container-fluid">
                         <h1 class="mt-4">Patient Treatment</h1>
                         <h3>Treatment Types</h3>
                         <div class="msg">{{ msg }}</div>
                         <form action="/update_treatment" method="post">
+                            <hr/>
                             <div class="row">
                                 <div class="col-5">
                                     <label for="date_of_treatment">Date of Treatment</label>

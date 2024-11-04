@@ -13,12 +13,10 @@ body{
 }
 
 .login{
-  /* border: 2px solid; */
   display: flex;
   padding: 10px 10px;
   justify-content: space-between;
   width: 300px;
-  /* margin: 30px; */
   margin-inline: auto;
   font-size: small;
 }
@@ -53,6 +51,7 @@ body{
 .avatar-container {
   text-align: center;
   margin-bottom: 20px;
+  
 }
 .avatar {
   width: 100px;

@@ -1,14 +1,4 @@
 // Toggle the Side Navigation
-// function toggleNav() {
-//     const sidenav = document.getElementById("mySidenav");
-//     if (sidenav.style.width === "250px") {
-//         sidenav.style.width = "0";
-//     } else {
-//         sidenav.style.width = "250px";
-//     }
-// }
-
-// Toggle the Side Navigation
 function toggleNav() {
     const sidenav = document.getElementById("mySidenav");
     const mainContent = document.querySelector(".main-content");
@@ -22,9 +12,10 @@ function toggleNav() {
     }
 }
 
+// Add event listener for adding more lab investigations
 document.getElementById('add-more').addEventListener('click', function() {
     const investigationGroup = document.getElementById('lab-investigation-group');
-    
+
     // Create a new div for the additional input group
     const newInputGroup = document.createElement('div');
     newInputGroup.classList.add('input-group');
@@ -47,13 +38,24 @@ document.getElementById('add-more').addEventListener('click', function() {
     newInputGroup.appendChild(newInvestigationInput);
     newInputGroup.appendChild(newResultInput);
 
-    // Add new input group before the button
+    // Add new input group before the "Add Another" button
     investigationGroup.insertBefore(newInputGroup, document.getElementById('add-more'));
 });
 
+// Add event listener for removing the last lab investigation group
+document.getElementById('delete').addEventListener('click', function() {
+    const investigationGroup = document.getElementById('lab-investigation-group');
+    const inputGroups = investigationGroup.getElementsByClassName('input-group');
+
+    if (inputGroups.length > 0) {
+        investigationGroup.removeChild(inputGroups[inputGroups.length - 1]);
+    }
+});
+
+// Add event listener for adding more radiograph investigations
 document.getElementById('add-more-radiograph').addEventListener('click', function() {
     const radiographGroup = document.getElementById('radiograph-investigation-group');
-    
+
     // Create a new div for the additional input group
     const newRadiographGroup = document.createElement('div');
     newRadiographGroup.classList.add('input-group');
@@ -76,7 +78,19 @@ document.getElementById('add-more-radiograph').addEventListener('click', functio
     newRadiographGroup.appendChild(newRadiographInput);
     newRadiographGroup.appendChild(newRadiographResultInput);
 
-    // Add new input group before the button
+    // Add new input group before the "Add Another" button
     radiographGroup.insertBefore(newRadiographGroup, document.getElementById('add-more-radiograph'));
 });
+
+// Add event listener for removing the last radiograph investigation group
+document.getElementById('delete-radiograph').addEventListener('click', function() {
+    const radiographGroup = document.getElementById('radiograph-investigation-group');
+    const inputGroups = radiographGroup.getElementsByClassName('input-group');
+
+    if (inputGroups.length > 0) {
+        radiographGroup.removeChild(inputGroups[inputGroups.length - 1]);
+    }
+});
+
+
 
