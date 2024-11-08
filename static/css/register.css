@@ -115,7 +115,7 @@ input[type="password"],
 select {
   border: 1px solid grey;
   border-radius: 4px;
-  color: #e9e4e4;
+  color: gray;
   width: 100%;
   outline: none;
   padding-left: 10px;
@@ -145,3 +145,4 @@ img {
   height: auto;
   margin-left: 6px;
 }
+

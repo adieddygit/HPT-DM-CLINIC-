@@ -3,12 +3,18 @@
 {% block title %} Register {% endblock title %}
 
 {% block head %}
-{% block stylesheet %}{% endblock stylesheet %}
+{% block stylesheet %}
+{% if "register" in request.path %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
-{{ super() }}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+{% endif %}
+{% endblock %}
 {% endblock head %}
 
 {% block content %}
+
 
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
@@ -16,8 +22,12 @@
     <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
     <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="{{ url_for('metrics') }}"><i class="fa fa-stethoscope"></i> Metrics</a>
+    <a href="{{ url_for('treatment') }}"><i class="fa fa-pills"></i> Treatment</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
+    <a href="{{ url_for('login') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
 </div>
 Hi {{session.username}} !!</br></br> Welcome to the Registration Page
 <div class ="row">
@@ -30,7 +40,7 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
         <form method ="post" action ="/register_client" class="form-signup">
         <div class="input-container" class="form-group">
             <label for="unique_id">Client ID</label>
-            <input type="text" class="form-control" id="unique_id" name="unique_id" placeholder="Enter Client ID">
+            <input type="text" class="form-control" id="unique_id" name="unique_id" placeholder="This field is for staff use only" readonly>
         </div>
 
         <div class="input-container" class="form-group">
@@ -116,13 +126,8 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
         </div>
 
         <div class="input-container" class="form-group">
-            <label for="country">Country</label>
-            <input type="text" class="form-control" id="country" name="country" placeholder="Emergency Contact">
-        </div>
-
-        <div class="input-container" class="form-group">
-            <label for="emergency_contact_name">Emergency Contact Name</label>
-            <input type="text" class="emergency_contact_name" id="emergency_contact_name" name="emergency_contact_name" placeholder="Emergency Contact">
+            <label for="emergency_contact_name">Emergency Contact</label>
+            <input type="text" class="emergency_contact_name" id="emergency_contact_name" name="emergency_contact_name" placeholder="Emergency Contact Name">
         </div>
 
         <div class="input-container" class="form-group">
@@ -139,8 +144,10 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
             <label for="emergency_contact_address">Emergency Contact Address</label>
             <input type="text" class="form-control" id="emergency_contact_address" name="emergency_contact_address" placeholder="Emergency Contact Address">
         </div>
-        
+
 </div>
+<p style="font-family:'Dancing Script', cursive; color: rgb(248, 248, 161); text-shadow: 0.5px 0.5px 1px black; text-align: center; ">Good Life!, It's an everyday thing..</p>
+
 </div>
 </div>
 
@@ -279,9 +286,9 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
         
         <div>
             <img src="{{ url_for('static', filename='images/ab3.jpg') }}" alt="logo">
-        </div><br>
+        </div>
 
-        <hr style="border: solid 3 white;">
+
     
     <div class ="">
         <p>Retrieve Information</p>
@@ -304,5 +311,20 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
 {% endblock content %}
 
 {% block footer %}
-{{ super() }}
+<footer>
+
+    <div style="float:inline-start">
+        <h3>Contact Us Now On </h3>
+        <div style="color: rgb(99, 201, 201)">+1234567890</div>
+        <p class="mb-2"><i class="fa fa-envelope me-3"></i>dornuel@gmail.com</p>
+    </div><br/> follow us on
+    <div class="" style="font-size: xx-large;">
+        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+        <a style="color: rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
+        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+    </div><br/>
+    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com">Dornuel Health Consult</a>
+    
+</footer>
+
 {% endblock footer %}

@@ -14,9 +14,11 @@
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
     <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
-    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="{{ url_for('treatment') }}"><i class="fa fa-pills"></i> Treatment</a>
+    <a href="{{ url_for('patient') }}"><i class="fa fa-procedures"></i> Patient</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
+    <a href="{{ url_for('login') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
 <!-- Main Content -->
@@ -32,7 +34,7 @@
                     <label for="recorded_date">Date Recorded</label>
                     </div>
                     <div class="col-7">
-                    <input type="date" name="recorded_date" id="recorded_date">
+                    <input type="date" class="form-control" name="recorded_date" id="recorded_date">
                     </div>
                     </div>
                     <hr/>
@@ -41,7 +43,7 @@
                     <label for="unique_id">Client ID</label>
                     </div>
                     <div class="col-7">
-                    <input type="text" name="unique_id" id="unique_id" placeholder="Client ID">
+                    <input type="text" class="form-control" name="unique_id" id="unique_id" placeholder="Client ID">
                     </div>
                     </div>
                     <hr/>
@@ -50,7 +52,7 @@
                             <label for="health_care_facility">Health Care Facility</label>
                             </div>
                             <div class="col-7">
-                            <input type="text" name="health_care_facility" id="health_care_facility"><br/>
+                            <input type="text" class="form-control" name="health_care_facility" id="health_care_facility"><br/>
                             </div>
                             </div>
                             <hr/>
@@ -60,7 +62,7 @@
                                 <label for="provider_name">Health Provider Name</label>
                                 </div>
                                 <div class="col-7">
-                                <input type="text" name="provider_name" id="provider_name"><br/>
+                                <input type="text" class="form-control" name="provider_name" id="provider_name"><br/>
                                 
                                 </div>
                             </div>
@@ -71,7 +73,7 @@
                         <label for="provider_contact">Health Provider's Contact</label>
                         </div>
                         <div class="col-7">
-                        <input type="text" name="provider_contact" id="provider_contact" value=><br/>
+                        <input type="text" class="form-control" name="provider_contact" id="provider_contact" value=><br/>
                         
                         </div>
                         </div>
@@ -114,9 +116,9 @@
                             </div>
                         <div class="col-7">
                             <div class="input-group" id="lab-investigation-group">
-                                <input type="text" name="lab_investigation_type" placeholder="Enter Investigation" required><br/>
-                                <input type="text" name="lab_investigation_result" placeholder="Enter Result" required><br/>
-                                <button type="button" id="add-more">Add Another</button>
+                                <input type="text" class="form-control" name="lab_investigation_type" placeholder="Enter Investigation" required><br/>
+                                <input type="text" class="form-control" name="lab_investigation_result" placeholder="Enter Result" required><br/>
+                                <button type="button" id="add-more" name="lab_investigation_type">Add Another</button>
                                 <button type="button" id="delete">Delete</button>
                             </div>
                         </div>
@@ -129,9 +131,9 @@
                             </div>
                         <div class="col-7">
                             <div class="input-group" id="radiograph-investigation-group">
-                                <input type="text" name="radiograph_investigation_type" placeholder="Enter Investigation" required><br/>
-                                <input type="text" name="radiograph_investigation_result" placeholder="Enter Result" required><br/>
-                                <button type="button" id="add-more-radiograph">Add Another</button>
+                                <input type="text" class="form-control" name="radiograph_investigation_type" placeholder="Enter Investigation" required><br/>
+                                <input type="text" class="form-control" name="radiograph_investigation_result" placeholder="Enter Result" required><br/>
+                                <button type="button" id="add-more-radiograph" name="radiograph_investigation_type">Add Another</button>
                                 <button type="button" id="delete-radiograph">Delete</button>
 
                             </div>
@@ -144,7 +146,7 @@
                                 <label for="diagnosis">Diagnosis</label>
                             </div>
                             <div class="col-7">
-                                <input type="text" id="diagnosis" name="diagnosis" placeholder="Diagnosis">
+                                <input type="text" class="form-control" id="diagnosis" name="diagnosis" placeholder="Diagnosis">
                             </div>
                         </div>
                         <hr/>
@@ -154,7 +156,7 @@
                             <label for="hospitalized_for_hpt_dm">Has client been hospitalized before for HPT/DM ? </label>
                         </div>
                         <div class="col-7">    
-                            <input type="text" id="hospitalized_for_hpt_dm" name="hospitalized_for_hpt_dm" placeholder="">
+                            <input type="text" class="form-control" id="hospitalized_for_hpt_dm" name="hospitalized_for_hpt_dm" placeholder="">
                         </div>
             
                         </div>
@@ -165,7 +167,7 @@
                                 <label for="complications">Any Complications</label>
                             </div>
                             <div class="col-7">
-                                <input type="text"id="complications" name="complications" value="Complicatons">
+                                <input type="text" class="form-control" id="complications" name="complications" value="Complicatons">
                             </div>
                        </div>
                    <hr/>
@@ -176,13 +178,15 @@
                         </div>
                         <div class="col-7">
                             <label for="metric_notes">Additional Information</label>
-                            <textarea id="metric_notes" name="metric_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
+                            <textarea id="metric_notes" class="form-control" name="metric_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
                         </div>
                    </div>
                 <hr/>
                 <input type ="submit" value = "Submit" class ="submit-btn">
         </form>
 </div>
+</div>
+
 
 {% endblock content %}
 

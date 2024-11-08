@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <title>{% block title %} Base {% endblock title %}</title>
     {% endblock head %}
@@ -75,14 +76,15 @@
 <!-- Footer -->
 <footer>
     {% block footer %}
-    <div>
+    <div style="float:inline-start">
         <h3>Contact Us Now On </h3>
         <div style="color: rgb(99, 201, 201)">+1234567890</div>
+        <p class="mb-2"><i class="fa fa-envelope me-3"></i>dornuel@gmail.com</p>
     </div><br/> follow us on:
-    <div class="d-flex pt-2">
+    <div class="">
         <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
         <a style="color: rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
-        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
     </div><br/>
     &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com">Dornuel Health Consult</a>
     {% endblock footer %}

@@ -90,36 +90,30 @@ def sign_up():
             flash(msg, 'form')
             return render_template('sign_up.html', msg=msg)
         else:
-            #Encrypt the email (not necessary for most apps, just as an example)
-            # enc_email = cipher.encrypt(email)
+            
             # Hash the password
             hash = password + app.secret_key
             hash = hashlib.sha256(hash.encode())
             password = hash.hexdigest()
 
             # Insert the new user into the database
-        # try:
+        try: # For error handling
             with engine.connect() as con:
                 con.execute(text(f"INSERT INTO user (username, email, password, role) VALUES ('{username}', '{email}', '{password}', '{role}')"))
                 con.commit()
             msg = 'Account created successfully'
             flash(msg, 'success')
             return redirect(url_for('login'))  # Redirect to login after successful sign up
-        
-        # except Exception as e:
-            # print(f"Error during sign-up: {e}")
-            # msg = 'There was an issue creating your account'
-            # flash(msg, 'error')
+        except Exception as e:
+            msg = 'There was an issue creating your account'
+            flash(msg, 'error',e)
     
     return render_template('sign_up.html', msg=msg)
          
-
-# return render_template('response.html', result=result)
-
 @app.route('/home')
 def home():
     if 'loggedin' in session:
-        return render_template('home.html', username=session['username'])
+        return render_template('home.html')
     return redirect(url_for(''))
 
 @app.route('/register')
@@ -128,20 +122,15 @@ def register():
         return render_template('register.html', username=session['username'])
     return redirect(url_for('login'))
 
-# @app.route('/profile')
-# def profile():
-#       return render_template('profile.html')
-
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
 
-
-
 @app.route('/register_client', methods=['POST'])
 def register_client():
-    #get the data from the form
-    
+    msg=''
+
+    #get the data from the form 
     if request.method=='POST' and 'unique_id' in request.form:
         unique_id = random.randint(111, 1111) 
         first_name = request.form['first_name']
@@ -174,7 +163,6 @@ def register_client():
         bmi = request.form['bmi']
         dose_exercise = request.form['dose_exercise']
 
-      
         #check if the unique_id is already in the database
         with engine.connect() as con:
             result = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{unique_id}'"))
@@ -191,6 +179,7 @@ def register_client():
         created_by = session['username']
         updated_by = session['username']
 
+    try:
         with engine.connect() as con:
             result =  con.execute(text(f"""INSERT IGNORE INTO client_profile(created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob,
                                   cob, gender, marital_status, occupation,
@@ -206,15 +195,19 @@ def register_client():
                                                             )"""))
             
             con.commit()
-        msg = 'Client successfully registered'
-        flash(msg, 'success')
+            msg = 'Client successfully registered'
+            flash(msg, 'success')
         # redirect the user to the home page
-        return redirect(url_for('home', msg = msg))
-    return render_template('register.html', age=age)
+            return redirect(url_for('register', msg = msg))
+    except Exception as e:
+            msg= f"Please fill out the form: {e}."
+            flash(msg,'fill form')
+    return render_template('register.html')
 
 
 @app.route('/add_metrics', methods=['POST'])
 def add_metrics():
+    msg =''
     if request.method == 'POST' and 'unique_id' in request.form:
         # Extract form data
         data = {key: request.form.get(key, None) for key in [
@@ -252,8 +245,9 @@ def add_metrics():
                         )
                     """), data
                 )
-            flash('Health records added successfully.', 'success')
-            return redirect(url_for('home'))
+            msg = 'Health records added successfully.'
+            flash(msg, 'success')
+            return redirect(url_for('home', msg=msg))
         
         except Exception as e:
             logging.error(f"Error inserting data: {e}")
@@ -261,12 +255,15 @@ def add_metrics():
             return render_template('metrics.html')  # Return to form with error message
 
     # If method is not POST or 'unique_id' is missing in form data
-    flash('Invalid form submission.', 'error')
-    return render_template('metrics.html')
+    
+    msg = 'Invalid form submission.'
+    flash(msg, 'error')
+    return render_template('metrics.html', msg=msg)
 
 
 @app.route('/add_treatment', methods=['POST'])
 def add_treatment():
+    msg=''
     # Check if request method is POST and unique_id is provided
     if request.method == 'POST' and 'unique_id' in request.form:
         unique_id = request.form['unique_id']
@@ -289,7 +286,7 @@ def add_treatment():
 
         try:
             # Insert data into database using a parameterized query
-         with engine.begin() as con:
+         with engine.connect() as con:
             con.execute(text("""INSERT INTO treatment (
                             created_at, updated_at, created_by, updated_by, unique_id,
                             date_of_treatment, defaulted_treatment,
@@ -316,13 +313,15 @@ def add_treatment():
                         'treatment_notes': treatment_notes
                     }
                 )
+            
+            con.commit()
             msg = 'Treatment record added successfully.'
             flash(msg, 'success')
             return redirect(url_for('home', msg=msg))
 
         except Exception as e:
-            print(f"Error inserting treatment data: {e}")  # Log error for debugging
-            msg = 'Failed to submit treatment record. Please try again.'
+            msg = 'Please fill out the form.'
+            flash(msg, 'fill')
 
     # Render treatment form if method is not POST or unique_id is missing
     return render_template('treatment.html')
@@ -347,286 +346,290 @@ def vitals():
     return render_template('vitals.html')
 
 
-#The retieve client page based on passed client_id
 @app.route('/retrieve_client', methods=['POST'])
 def retrieve_client():
     msg = ''
-   
-    client_id = request.form['client_id']  # Retrieving client using the Client's ID
+    client_id = request.form.get('client_id')  # Retrieve client ID safely
 
-    if 'loggedin' in session:
-        if client_id:
-            
-            # Get the client data from the database
-            with engine.connect() as con:
-                # Fetch each result
-                result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
-                result_appointment = con.execute(text(f"SELECT * FROM appointment WHERE unique_id = '{client_id}'"))
-                result_health_metrics = con.execute(text(f"SELECT * FROM health_metrics WHERE unique_id = '{client_id}'"))
-                result_treatment = con.execute(text(f"SELECT * FROM treatment WHERE unique_id = '{client_id}'"))
-                
-                # Fetchone for each query to retrieve data as dictionaries
-                client_profile = result_profile.fetchone()
-                client_appointment = result_appointment.fetchone()
-                client_health_metrics = result_health_metrics.fetchone()
-                client_treatment = result_treatment.fetchone()
+    if client_id:
+        # Get the client data from the database
+        with engine.connect() as con:
+            # Fetch each result
+            result_profile = con.execute(text("SELECT * FROM client_profile WHERE unique_id = :client_id"), {'client_id': client_id})
+            result_appointment = con.execute(text("SELECT * FROM appointment WHERE unique_id = :client_id"), {'client_id': client_id})
+            result_health_metrics = con.execute(text("SELECT * FROM health_metrics WHERE unique_id = :client_id"), {'client_id': client_id})
+            result_treatment = con.execute(text("SELECT * FROM treatment WHERE unique_id = :client_id"), {'client_id': client_id})
 
-                con.commit()
-            # Check if data is available for each
-            if client_profile or client_appointment or client_health_metrics or client_treatment:
-                return render_template(
-                    'profile.html', 
-                    client=client_profile, 
-                    appointment=client_appointment, 
-                    health_metrics=client_health_metrics, 
-                    treatment=client_treatment
-                )
-            
-            else:
-                msg = 'The client does not exist.'
-                flash(msg, 'exist')
-                return redirect(url_for('register', msg=msg))
-    
+            # Fetch data as dictionaries
+            client_profile = result_profile.fetchone()  
+            client_appointment = result_appointment.fetchone()  
+            client_health_metrics = result_health_metrics.fetchone()  
+            client_treatment = result_treatment.fetchone()  
+
+        # Check if any data is available
+        if client_profile or client_appointment or client_health_metrics or client_treatment:
+            return render_template(
+                'profile.html',
+                client=client_profile,
+                appointment=client_appointment,
+                health_metrics=client_health_metrics,
+                treatment=client_treatment
+            )
+        else:
+            msg = 'The client does not exist.'
+            flash(msg, 'exist')
+            return redirect(url_for('register', msg=msg))
+
+    flash('Please enter a valid Client ID.', 'error')
     return redirect(url_for('profile'))
 
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
     msg=""
-    if request.method == 'POST':
-        client_id = request.form['unique_id']
-    
+    client_id = request.form['unique_id']
     if 'loggedin' in session:
         if client_id:
-         with engine.connect() as con:
-            
-                # Check if the client already exists
+            #get the client data from the database
+            with engine.connect() as con:
                 result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
                 client_profile = result_profile.fetchone()
-
-                if client_profile:
-                    # Update existing record
-                    update_at = datetime.now()
-                    updated_by = session['username']
-                    
-                    # Retrieve form data 
-                    unique_id = request.form['unique_id'] 
-                    first_name = request.form['first_name']
-                    last_name = request.form['last_name']
-                    middle_name = request.form['middle_name']
-                    dob = request.form['dob']
-                    cob = request.form['cob']
-                    gender = request.form['gender']
-                    marital_status = request.form['marital_status']
-                    occupation = request.form['occupation']
-                    phone = request.form['phone']
-                    address = request.form['line1']
-                    city = request.form['city']
-                    state = request.form['state']
-                    zip_code = request.form['zip-code']
-                    country = request.form['country']
-                    email = request.form['email']
-                    ethnicity = request.form['ethnicity']
-                    race = request.form['race']
-                    emergency_contact_name = request.form['emergency_contact_name']
-                    emergency_contact_number = request.form['emergency_contact_number']
-                    emergency_contact_relationship = request.form['emergency_contact_relationship']
-                    emergency_contact_address = request.form['emergency_contact_address']
-                    family_has_history_of_hpt_dm = request.form['family_has_history_of_hpt_dm']
-                    has_underlying_medical_condition = request.form['has_underlying_medical_condition']
-                    underlying_condition = request.form['underlying_condition']
-                    alcohol_intake = request.form['alcohol_intake']
-                    smoking_tobacco_use = request.form['smoking_tobacco_use']
-                    type_of_diet = request.form['type_of_diet']
-                    bmi = request.form['bmi']
-                    dose_exercise = request.form['dose_exercise']
-
-                    with engine.connect() as con:
-                     print(f"Updating Client: {client_id}")
-                     con.execute(text(f"""
-                        UPDATE client_profile 
-                        SET updated_at = '{update_at}', updated_by = '{updated_by}',\
-                            first_name = '{first_name}', last_name = '{last_name}',\
-                            unique_id = '{unique_id}', middle_name = '{middle_name}', dob = '{dob}',\
-                            cob = '{cob}', gender = '{gender}',\
-                            marital_status = '{marital_status}', occupation = '{occupation}',\
-                            phone = '{phone}', address = '{address}', city = '{city}',\
-                            state = '{state}', zip_code = '{zip_code}', country = '{country}',\
-                            email = '{email}', ethnicity = '{ethnicity}', race ='{race}',\
-                            emergency_contact_name = '{emergency_contact_name}',\
-                            emergency_contact_number = '{emergency_contact_number}',\
-                             
-                            emergency_contact_relationship = '{emergency_contact_relationship}',\
-                            emergency_contact_address = '{emergency_contact_address}',\
-                            family_has_history_of_hpt_dm = '{family_has_history_of_hpt_dm}',\
-                            has_underlying_medical_condition = '{has_underlying_medical_condition}',\
-                            underlying_condition = '{underlying_condition}',\
-                            alcohol_intake = '{alcohol_intake}', smoking_tobacco_use = '{smoking_tobacco_use}',\
-                            type_of_diet = '{type_of_diet}', bmi = '{bmi}', dose_exercise = '{dose_exercise}'\
-                        WHERE unique_id = '{client_id}'"""))
+                con.commit()
+            if client_profile:
+                #display the client data
+                updated_at = datetime.now()
+                updated_by = session['username']
+                first_name = request.form['first_name']
+                last_name = request.form['last_name']
+                middle_name = request.form['middle_name']
+                dob = request.form['dob']
+                cob = request.form['cob']
+                gender = request.form['gender']
+                marital_status = request.form['marital_status']
+                occupation = request.form['occupation']
+                gender = request.form['gender']
+                phone = request.form['phone']
+                address = request.form['line1']
+                city = request.form['city']
+                state = request.form['state']
+                zip_code = request.form['zip-code']
+                country = request.form['country']
+                email = request.form['email']
+                ethnicity = request.form['ethnicity']
+                race = request.form['race']
+                emergency_contact_name = request.form['emergency_contact_name']
+                emergency_contact_number = request.form['emergency_contact_number']
+                emergency_contact_relationship = request.form['emergency_contact_relationship']
+                emergency_contact_address = request.form['emergency_contact_address']
+                family_has_history_of_hpt_dm = request.form['family_has_history_of_hpt_dm']
+                has_underlying_medical_condition = request.form['has_underlying_medical_condition']
+                underlying_condition = request.form['underlying_condition']
+                alcohol_intake = request.form['alcohol_intake']
+                smoking_tobacco_use = request.form['smoking_tobacco_use']
+                type_of_diet = request.form['type_of_diet']
+                bmi = request.form['bmi']
+                dose_exercise = request.form['dose_exercise']
+                with engine.connect() as con:
+                    result = con.execute(text(f"UPDATE client_profile SET updated_at = '{updated_at}', updated_by = '{updated_by}',\
+                                              first_name = '{first_name}', last_name = '{last_name}',\
+                                                middle_name = '{middle_name}', dob = '{dob}',\
+                                                cob = '{cob}', gender = '{gender}',\
+                                                marital_status = '{marital_status}', occupation = '{occupation}',\
+                                                gender ='{gender}',\
+                                                phone = '{phone}', address = '{address}', city = '{city}',\
+                                                state = '{state}', zip_code = '{zip_code}', country = '{country}',\
+                                                email = '{email}', ethnicity = '{ethnicity}', race ='{race}',\
+                                                emergency_contact_name = '{emergency_contact_name}', emergency_contact_number = '{emergency_contact_number}',\
+                                                emergency_contact_relationship = '{emergency_contact_relationship}', emergency_contact_address = '{emergency_contact_address}',\
+                                                family_has_history_of_hpt_dm = '{family_has_history_of_hpt_dm}', has_underlying_medical_condition = '{has_underlying_medical_condition}',\
+                                                underlying_condition = '{underlying_condition}', alcohol_intake = '{alcohol_intake}', smoking_tobacco_use = '{smoking_tobacco_use}',\
+                                                type_of_diet = '{type_of_diet}', bmi = '{bmi}', dose_exercise = '{dose_exercise}'  WHERE unique_id = '{client_id}'"))
                     con.commit()
-                    msg = "Client profile updated successfully"
-                    flash(msg, 'success') 
-                else:
-                    # Insert new record if it doesn't exist
-                    created_at = updated_at = datetime.now()
-                    created_by = updated_by = session['username']
-                    
-                    print(f"Inserting new Client: {client_id}")
-                    con.execute(text(f"""
-                        INSERT INTO client_profile (created_by, created_at, updated_at, updated_by, unique_id, first_name, last_name, middle_name, dob, 
-                        cob, gender, marital_status, occupation,  phone, address, city, state, 
-                        zip_code, country, email, ethnicity, race, emergency_contact_name, emergency_contact_number,
-                        emergency_contact_relationship, emergency_contact_address, family_has_history_of_hpt_dm, 
-                        has_underlying_medical_condition, underlying_condition, alcohol_intake, smoking_tobacco_use, type_of_diet, bmi, dose_exercise)
-                        VALUES ('{created_by}', '{created_at}', '{updated_at}', '{updated_by}', '{unique_id}', '{first_name}', '{last_name}', 
-                        '{middle_name}', '{dob}', '{cob}', '{gender}', '{marital_status}', '{occupation}', 
-                         '{phone}', '{address}', '{city}', '{state}', '{zip_code}', '{country}', '{email}', '{ethnicity}', '{race}', '{emergency_contact_name}',
-                         '{emergency_contact_number}', '{emergency_contact_relationship}', '{emergency_contact_address}', '{family_has_history_of_hpt_dm}', '{has_underlying_medical_condition}',
-                          '{underlying_condition}', '{alcohol_intake}', '{smoking_tobacco_use}', '{type_of_diet}',
-                         '{bmi}', '{dose_exercise}')
-                    """))
-                    con.commit()
-                    msg = "Client profile created successfully"
-                    flash(msg, 'success')
+                msg = "Client profile updated successfully"
+                flash(msg, 'success')
                 return render_template('home.html', msg=msg)
-        else:
-            msg = "You need to login to update client."
-            flash(msg, 'update')
-            return redirect(url_for('login', msg=msg))
-        
-        
+                
+            else:
+                #redirect to the home page
+                msg = 'The client does not exist.'
+                flash(msg, 'exist')
+                return redirect(url_for('home', msg = msg))
+
+
+
 @app.route('/update_metrics', methods=['POST'])
 def update_metrics():
     msg = ""
-    if request.method == 'POST':
-        unique_id = request.form['unique_id']
+    client_id = request.form['unique_id']
+    
+    if 'loggedin' not in session:
+        msg = "Error: User not logged in."
+        flash(msg, 'error')
+        return redirect(url_for('login'))
+    
+    if not client_id:
+        msg = "Error: Client ID is required."
+        flash(msg, 'error')
+        return redirect(url_for('home'))
 
-    if 'loggedin' in session:
-        if unique_id:
-            with engine.connect() as con:
-                # Check if health metrics already exist for the given unique_id
-                result_metrics = con.execute(text(f"SELECT * FROM health_metrics WHERE unique_id = '{unique_id}'"))
-                health_metrics = result_metrics.fetchone()
+    with engine.connect() as con:
+        # Check if health metrics already exist for the given unique_id
+        result_metrics = con.execute(
+            text("SELECT * FROM health_metrics WHERE unique_id = :client_id"),
+            {'client_id': client_id}
+        )
+        health_metrics = result_metrics.fetchone()
 
-                if health_metrics:
-                    # Update existing health metrics record
-                    updated_at = datetime.now()
-                    updated_by = session['username']
+        if health_metrics:
+            # Update existing health metrics record
+            updated_at = datetime.now()
+            updated_by = session['username']
 
-                    # Retrieve form data
-                    recorded_date = request.form['recorded_date']
-                    health_care_facility = request.form['health_care_facility']
-                    provider_name = request.form['provider_name']
-                    provider_contact = request.form['provider_contact']
-                    weight = request.form['weight']
-                    height = request.form['height']
-                    blood_pressure = request.form['blood_pressure']
-                    fasting_blood_suger = request.form['fasting_blood_suger']
-                    random_blood_suger = request.form['random_blood_suger']
-                    temperature = request.form['temperature']
-                    respiration = request.form['respiration']
-                    pulse = request.form['pulse']
-                    spo2 = request.form['spo2']
-                    urine_ketones = request.form['urine_ketones']
-                    lab_investigation_type = request.form['lab_investigation_type']
-                    lab_investigation_result = request.form['lab_investigation_result']
-                    radiograph_investigation_type = request.form['radiograph_investigation_type']
-                    radiograph_investigation_result = request.form['radiograph_investigation_result']
-                    metric_notes = request.form['metric_notes']
-                    diagnosis = request.form['diagnosis']
-                    hospitalized_for_hpt_dm = request.form['hospitalized_for_hpt_dm']
-                    complications = request.form['complications']
+            # Retrieve form data
+            form_data = {
+                'recorded_date': request.form['recorded_date'],
+                'health_care_facility': request.form['health_care_facility'],
+                'provider_name': request.form['provider_name'],
+                'provider_contact': request.form['provider_contact'],
+                'weight': request.form['weight'],
+                'height': request.form['height'],
+                'blood_pressure': request.form['blood_pressure'],
+                'fasting_blood_suger': request.form['fasting_blood_suger'],
+                'random_blood_suger': request.form['random_blood_suger'],
+                'temperature': request.form['temperature'],
+                'respiration': request.form['respiration'],
+                'pulse': request.form['pulse'],
+                'spo2': request.form['spo2'],
+                'urine_ketones': request.form['urine_ketones'],
+                'lab_investigation_type': request.form['lab_investigation_type'],
+                'lab_investigation_result': request.form['lab_investigation_result'],
+                'radiograph_investigation_type': request.form['radiograph_investigation_type'],
+                'radiograph_investigation_result': request.form['radiograph_investigation_result'],
+                'metric_notes': request.form['metric_notes'],
+                'diagnosis': request.form['diagnosis'],
+                'hospitalized_for_hpt_dm': request.form['hospitalized_for_hpt_dm'],
+                'complications': request.form['complications']
+            }
 
-                    # Execute update query
-                    with engine.connect() as con:
-                        con.execute(text(f"""
-                        UPDATE health_metrics
-                        SET updated_at = '{updated_at}', updated_by = '{updated_by}', 
-                            recorded_date = '{recorded_date}', health_care_facility = '{health_care_facility}', 
-                            provider_name = '{provider_name}', provider_contact = '{provider_contact}', 
-                            weight = '{weight}', height = '{height}', blood_pressure = '{blood_pressure}', 
-                            fasting_blood_suger = '{fasting_blood_suger}', random_blood_suger = '{random_blood_suger}', 
-                            temperature = '{temperature}', respiration = '{respiration}', pulse = '{pulse}', 
-                            spo2 = '{spo2}', urine_ketones = '{urine_ketones}', lab_investigation_type = '{lab_investigation_type}', 
-                            lab_investigation_result = '{lab_investigation_result}', radiograph_investigation_type = '{radiograph_investigation_type}', 
-                            radiograph_investigation_result = '{radiograph_investigation_result}', metric_notes = '{metric_notes}', 
-                            diagnosis = '{diagnosis}', hospitalized_for_hpt_dm = '{hospitalized_for_hpt_dm}', 
-                            complications = '{complications}'
-                        WHERE unique_id = '{unique_id}'
-                    """))
-                    con.commit()
-                    msg = "Health metrics updated successfully"
-                    flash(msg, 'success')
-                else:
-                    msg = "No health metrics found for the provided ID"
-                    flash(msg, 'error')
-                return render_template('home.html', msg=msg)
-        else:
-            msg = "You need to login to update health metrics."
-            flash(msg, 'error')
-            return redirect(url_for('login', msg=msg))
+            # Execute update query using parameterized queries to prevent SQL injection
+            con.execute(
+                text("""
+                    UPDATE health_metrics 
+                    SET updated_at = :updated_at,
+                        updated_by = :updated_by,
+                        recorded_date = :recorded_date,
+                        health_care_facility = :health_care_facility,
+                        provider_name = :provider_name,
+                        provider_contact = :provider_contact,
+                        weight = :weight,
+                        height = :height,
+                        blood_pressure = :blood_pressure,
+                        fasting_blood_suger = :fasting_blood_suger,
+                        random_blood_suger = :random_blood_suger,
+                        temperature = :temperature,
+                        respiration = :respiration,
+                        pulse = :pulse,
+                        spo2 = :spo2,
+                        urine_ketones = :urine_ketones,
+                        lab_investigation_type = :lab_investigation_type,
+                        lab_investigation_result = :lab_investigation_result,
+                        radiograph_investigation_type = :radiograph_investigation_type,
+                        radiograph_investigation_result = :radiograph_investigation_result,
+                        metric_notes = :metric_notes,
+                        diagnosis = :diagnosis,
+                        hospitalized_for_hpt_dm = :hospitalized_for_hpt_dm,
+                        complications = :complications
+                    WHERE unique_id = :client_id
+                """),
+                {**form_data, 'updated_at': updated_at, 'updated_by': updated_by, 'client_id': client_id}
+            )
+
+            con.commit()  # Commit the transaction after the update
+            msg = "Health metrics updated successfully."
+            flash(msg, 'success')
+            return render_template('treatment.html', msg=msg)
         
+        else:
+            msg = "No health records found for the provided ID."
+            flash(msg, 'error')
+            return redirect(url_for('home'))
+
+
+                
 
 @app.route('/update_treatment', methods=['POST'])
 def update_treatment():
-    if request.method == 'POST':
-        treatment_id = request.form.get('treatment_id')  # Assuming treatment ID is part of form data
-        unique_id = request.form.get('unique_id')
-
-        with engine.connect() as con:
-            # Verify that the treatment record exists
-            result = con.execute(
-                text("SELECT * FROM treatment WHERE id = :treatment_id AND unique_id = :unique_id"),
-                {'treatment_id': treatment_id, 'unique_id': unique_id}
-            )
-            treatment = result.fetchone()
-
-            if treatment:
-                # Update treatment details
-                updated_at = datetime.now()
-                updated_by = session['username']
-                date_of_treatment = request.form['date_of_treatment']
-                treatment_type = request.form['treatment_type']
-                defaulted_treatment = request.form['defaulted_treatment']
-                health_care_facility = request.form['health_care_facility']
-                provider_contact = request.form['provider_contact']
-                treatment_plan = request.form['treatment_plan']
-                treatment_notes = request.form['treatment_notes']
-
-                con.execute(
-                    text("""
-                        UPDATE treatment SET
-                            updated_at = :updated_at,
-                            updated_by = :updated_by,
-                            date_of_treatment = :date_of_treatment,
-                            treatment_type = :treatment_type,
-                            defaulted_treatment = :defaulted_treatment,
-                            health_care_facility = :health_care_facility,
-                            provider_contact = :provider_contact,
-                            treatment_plan = :treatment_plan,
-                            treatment_notes = :treatment_notes
-                        WHERE id = :treatment_id AND unique_id = :unique_id
-                    """),
-                    {
-                        'updated_at': updated_at,
-                        'updated_by': updated_by,
-                        'date_of_treatment': date_of_treatment,
-                        'treatment_type': treatment_type,
-                        'defaulted_treatment': defaulted_treatment,
-                        'health_care_facility': health_care_facility,
-                        'provider_contact': provider_contact,
-                        'treatment_plan': treatment_plan,
-                        'treatment_notes': treatment_notes,
-                        'treatment_id': treatment_id,
-                        'unique_id': unique_id,
-                    }
+    msg = ''
+    client_id = request.form['unique_id']
+    
+    if 'loggedin' in session:
+        if client_id:
+            with engine.connect() as con:
+                # Fetch the existing treatment record
+                result_treatment = con.execute(
+                    text("SELECT * FROM treatment WHERE unique_id = :client_id"), 
+                    {'client_id': client_id}
                 )
-                flash("Treatment record updated successfully.", 'success')
-            else:
-                flash("Error: Treatment record not found.", 'error')
+                treatment = result_treatment.fetchone()
 
-        return redirect(url_for('home'))
+                if treatment:
+                    # Update treatment details
+                    updated_at = datetime.now()
+                    updated_by = session['username']
+                    date_of_treatment = request.form['date_of_treatment']
+                    treatment_type = request.form['treatment_type']
+                    defaulted_treatment = request.form['defaulted_treatment']
+                    health_care_facility = request.form['health_care_facility']
+                    provider_contact = request.form['provider_contact']
+                    treatment_plan = request.form['treatment_plan']
+                    treatment_notes = request.form['treatment_notes']
+
+                    # Execute the update within the same connection
+                    con.execute(
+                        text("""
+                            UPDATE treatment 
+                            SET updated_at = :updated_at,
+                                updated_by = :updated_by,
+                                date_of_treatment = :date_of_treatment,
+                                treatment_type = :treatment_type,
+                                defaulted_treatment = :defaulted_treatment,
+                                health_care_facility = :health_care_facility,
+                                provider_contact = :provider_contact,
+                                treatment_plan = :treatment_plan,
+                                treatment_notes = :treatment_notes
+                            WHERE unique_id = :client_id
+                        """),
+                        {
+                            'updated_at': updated_at,
+                            'updated_by': updated_by,
+                            'date_of_treatment': date_of_treatment,
+                            'treatment_type': treatment_type,
+                            'defaulted_treatment': defaulted_treatment,
+                            'health_care_facility': health_care_facility,
+                            'provider_contact': provider_contact,
+                            'treatment_plan': treatment_plan,
+                            'treatment_notes': treatment_notes,
+                            'client_id': client_id
+                        }
+                    )
+                    con.commit()  # Commit the transaction after the update
+                    msg = "Treatment record updated successfully."
+                    flash(msg, 'success')
+                else:
+                    msg = "Error: Treatment record not found."
+                    flash(msg, 'error')
+                
+            return render_template('treatment.html')
+        
+        else:
+            msg = "Error: No client ID provided."
+            flash(msg, 'error')
+            return redirect(url_for('home'))
+    
+    else:
+        msg = "Error: User not logged in."
+        flash(msg, 'error')
+        return redirect(url_for('login'))
 
 
 @app.route('/appointment')
@@ -636,14 +639,13 @@ def appointment():
 @app.route('/book_appointment', methods=['GET', 'POST'])
 def book_appointment():
     msg = ''
-    
+
     if request.method == 'POST' and 'unique_id' in request.form:
         unique_id = request.form['unique_id']
         email = request.form['email']
         phone = request.form['phone']
         purpose = request.form['purpose']
-        appointment_date = request.form['appointment_date']
-        appointment_time = request.form['appointment_time']
+        appointment_date_time = request.form['appointment_date_time']
         message = request.form['message']
 
         # Record creation and update timestamps
@@ -652,22 +654,17 @@ def book_appointment():
         created_by = session.get('username')
         updated_by = session.get('username')
 
-        try:
-            # Test the connection
-            with engine.connect() as conn:
-                result = conn.execute(text("SELECT 1"))
-                print("Database connection test result:", result.scalar())  # Should print "1" if connected
-
+        # try:
             # Insert the values into the database with parameterized query
-            with engine.begin() as conn:  # `begin` will ensure a commit at the end
-                conn.execute(
+        with engine.begin() as con:  # `begin` will ensure a commit at the end
+                con.execute(
                     text("""
                         INSERT INTO appointment (
                             created_by, created_at, updated_at, updated_by, unique_id, 
-                         email, phone, purpose, appointment_date, appointment_time, message
+                         email, phone, purpose, appointment_date_time, message
                         ) VALUES (
                             :created_by, :created_at, :updated_at, :updated_by, :unique_id, 
-                            :email, :phone, :purpose, :appointment_date, :appointment_time, :message
+                            :email, :phone, :purpose, :appointment_date_time, :message
                         )
                     """),
                     {
@@ -679,65 +676,85 @@ def book_appointment():
                         'email': email,
                         'phone': phone,
                         'purpose': purpose,
-                        'appointment_date': appointment_date,
-                        'appointment_time': appointment_time,
+                        'appointment_date_time': appointment_date_time,
                         'message': message
                     }
                 )
-            msg = 'Appointment Submitted Successfully'
-            flash(msg, 'Appointment')
-            return redirect(url_for('home', msg=msg))
-        except Exception as e:
-            print(f"Error inserting data: {e}")  # Print error for debugging
-            msg = 'Failed to submit appointment. Please try again.'
-            flash(msg, 'Error')
-    return render_template('appointment.html')
+        con.commit()    
+        msg = 'Appointment Submitted Successfully'
+        flash(msg, 'Appointment')
+        return redirect(url_for('home', msg=msg))
+        # except Exception as e:
+        #     msg = 'Failed to submit appointment. Please try again.'
+        #     flash(msg, 'error')
+
+        # except Exception as e:
+        #     msg = 'Please fill out the form.'
+        #     flash(msg, 'Error')
+    return render_template('appointment.html', msg=msg)
 
 
 @app.route('/update_appointment', methods=['POST'])
 def update_appointment():
-    msg=""
-    # if request.method == 'POST':
-    client_id = request.form['unique_id']
-    
+    msg = ""
+    client_id = request.form.get('unique_id')
+
     if 'loggedin' in session:
         if client_id:
-         with engine.connect() as con:
-            # try:
-                # Check if the client already exists
-                result_appointment = con.execute(text(f"SELECT * FROM appointment WHERE unique_id = '{client_id}'"))
-                appointment = result_appointment.fetchone()
-                con.commit()
-                if appointment:
-                    # Update existing record
-                    updated_at = datetime.now()
-                    updated_by = session['username']
-                    
-                    # Retrieve form data 
-                    email = request.form['email']
-                    phone = request.form['phone']
-                    purpose = request.form['purpose']
-                    appointment_date = request.form['appointment_date']
-                    appointment_time = request.form['appointment_time']
-                    message = request.form['message']
-                   
-                    with engine.connect() as con:
-                        con.execute(text(f"""UPDATE appointment SET updated_at = '{updated_at}', updated_by = '{updated_by}',\
-                                                   email = '{email}',\
-                                                    phone = '{phone}', purpose = '{purpose}',\
-                                                    message = '{message}', appointment_date = '{appointment_date}',\
-                                                    appointment_time = '{appointment_time}'\
-                                                    WHERE unique_id = '{client_id}'"""))
-                    
+            try:
+                with engine.connect() as con:
+                    # Check if the appointment already exists
+                    result_appointment = con.execute(
+                        text("SELECT * FROM appointment WHERE unique_id = :client_id"),
+                        {'client_id': client_id})
+                    appointment = result_appointment.fetchone()
                     con.commit()
-                    # print(request.form)
-                    msg = "Appointment updated successfully"
-                    flash(msg, 'success') 
-                    return render_template('appointment.html', msg=msg)
-        else:
-            msg = "You need to login to update appointment."
-            flash(msg, 'update')
-            return redirect(url_for('login', msg=msg))
+
+                    if appointment:
+                        # Update existing record
+                        updated_at = datetime.now()
+                        updated_by = session['username']
+                        
+                        # Retrieve form data
+                        email = request.form['email']
+                        phone = request.form['phone']
+                        purpose = request.form['purpose']
+                        appointment_date_time = request.form['appointment_date_time']
+                        message = request.form['message']
+
+                        # Execute update statement
+                        con.execute(
+                            text("""
+                                UPDATE appointment
+                                SET updated_at = :updated_at, updated_by = :updated_by,
+                                    email = :email, phone = :phone, purpose = :purpose,
+                                    message = :message, appointment_date_time = :appointment_date_time
+                                WHERE unique_id = :client_id
+                            """),
+                            {
+                                'updated_at': updated_at,
+                                'updated_by': updated_by,
+                                'email': email,
+                                'phone': phone,
+                                'purpose': purpose,
+                                'message': message,
+                                'appointment_date_time': appointment_date_time,
+                                'client_id': client_id
+                            }
+                        )
+                        con.commit()
+                        msg = "Appointment updated successfully"
+                        flash(msg, 'success')
+                    else:
+                        msg = "Appointment not found."
+                        flash(msg, 'error')
+
+                return render_template('appointment.html', msg=msg)
+            
+            except Exception as e:
+                logging.error(f"Error updating appointment: {e}")
+                flash("An error occurred while updating the appointment.", 'error')
+                return redirect(url_for('appointment'))
         
         
 @app.route('/metrics')

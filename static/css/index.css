@@ -9,14 +9,14 @@ body{
   text-transform: capitalize;
   font-size: 25px;
   font-weight: bold;
-  margin-inline: auto;
+  text-align: center;
 }
 
 .login{
   display: flex;
   padding: 10px 10px;
   justify-content: space-between;
-  width: 300px;
+  width: auto;
   margin-inline: auto;
   font-size: small;
 }
@@ -43,6 +43,7 @@ body{
   margin: 40px auto;
   padding: 20px;
   background-color: #f9f9f9;
+  color: black;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }

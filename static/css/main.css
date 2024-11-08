@@ -16,7 +16,6 @@
 
 @media only screen and (min-width:768px){
  body{
-    /* text-shadow: 0.5px 0.5px 1px black; */
  
 .col-s-1{
     width: 8.33%;
@@ -233,7 +232,7 @@ header {
     padding-bottom: 40px;  /* Adjust this value based on footer height */
 }
 
-/* For demonstration, set a minimum height for the content */
+/* Minimum height for the content */
 .content {
     min-height: 100vh;
 }
@@ -242,7 +241,7 @@ header {
 /* Footer Styling */
 footer {
     text-align: center;
-    padding: 10px 0;
+    padding: 20px 10px;
     background-color: #333;
     color: white;
     width: 100%;
@@ -286,4 +285,5 @@ html, body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 30px;
     font-weight: bold;
+    text-align: center;
 }

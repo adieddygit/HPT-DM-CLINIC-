@@ -12,6 +12,7 @@ body {
     margin: 40px auto;
     padding: 20px;
     background-color: #f9f9f9;
+    color: rgb(99, 201, 201);
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow-x: auto; /* Adds horizontal scroll if content exceeds width */

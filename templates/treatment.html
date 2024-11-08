@@ -14,9 +14,13 @@
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
     <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
-    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="{{ url_for('appointment') }}"><i class="fas fa-calendar"></i> Appointment</a>
+    <a href="{{ url_for('register') }}"><i class="fa fa-user-plus"></i> Register</a>
+    <a href="{{ url_for('metrics') }}"><i class="fa fa-stethoscope"></i> Metrics</a>
+    <a href="{{ url_for('patient') }}"><i class="fa fa-procedures"></i> Patient</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
+    <a href="{{ url_for('login') }}"><i class="fa fa-procedures"></i> Logout</a>
 </div>
 
 <!-- Main Content -->
@@ -31,7 +35,7 @@
                         <label for="date_of_treatment">Date of Treatment</label>
                     </div>
                     <div class="col-7">
-                        <input type="date" name="date_of_treatment" id="date_of_treatment">
+                        <input type="date" class="form-control" name="date_of_treatment" id="date_of_treatment">
                     </div>
                 </div>
                 <hr/>
@@ -40,7 +44,7 @@
                         <label for="unique_id">Client ID</label>
                     </div>
                     <div class="col-7">
-                        <input type="text" name="unique_id" id="unique_id" placeholder="Client ID">
+                        <input type="text" class="form-control" name="unique_id" id="unique_id" placeholder="Client ID">
                     </div>
                 </div>
                 <hr/>
@@ -49,7 +53,8 @@
                         <label for="health_care_facility">Health Care Facility</label>
                     </div>
                     <div class="col-7">
-                        <input type="text" name="health_care_facility" id="health_care_facility" value=""><br/>
+                        <input type="text" class="form-control" name="health_care_facility" id="health_care_facility" value=""><br/>
+                    </div>
                 </div>
                 <hr/>
                 <div class ="row">
@@ -57,17 +62,17 @@
                         <label for="provider_type">Health Care Provider</label>
                     </div>
                     <div class="col-7">
-                        <input type="text" name="provider_type" id="provider_type" value=""><br/>
+                        <input type="text" class="form-control" name="provider_type" id="provider_type" value=""><br/>
                         
                     </div>
-
+                </div>
                     <hr/>
                 <div class ="row">
                     <div class="col-5">
                         <label for="provider_contact">Health Provider's Contact</label>
                 </div>
                     <div class="col-7">
-                        <input type="text" name="provider_contact" id="provider_contact" value=""><br/>
+                        <input type="text" class="form-control" name="provider_contact" id="provider_contact" value=""><br/>
                 
                     </div>
                 </div>
@@ -78,7 +83,7 @@
                         <label for="treatment_type">Treatment Type</label>
                     </div>
                     <div class="col-7">
-                        <input type="text" name="treatment_type" id="treatment_type" value=""><br/>
+                        <input type="text" class="form-control" name="treatment_type" id="treatment_type" value=""><br/>
                     
                     </div>
                 </div>
@@ -89,7 +94,7 @@
                         <label for="treatment_plan">Treatment Plan</label>
                     </div>
                     <div class="col-7">
-                        <input type="text" name="treatment_plan" id="treatment_plan" value=""><br/>
+                        <input type="text" class="form-control" name="treatment_plan" id="treatment_plan" value=""><br/>
                         
                     </div>
                 </div>
@@ -100,7 +105,7 @@
                         <label for="defaulted_treatment">Has client defaulted treatment</label>
                     </div>
                     <div class="col-7">
-                        <input type="text" name="defaulted_treatment" id="defaulted_treatment" value=""><br/>
+                        <input type="text" class="form-control" name="defaulted_treatment" id="defaulted_treatment" value=""><br/>
                     
                     </div>
                 </div>
@@ -112,7 +117,7 @@
                     </div>
                     <div class="col-7">
                             <label for="treatment_notes">Treatment Notes</label>
-                            <textarea id="treatment_notes" name="treatment_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
+                            <textarea id="treatment_notes" class="form-control" name="treatment_notes" rows="4" placeholder="Enter any additional information (optional)"></textarea>
                     </div>
                 </div>
                 <hr/>

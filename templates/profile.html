@@ -17,9 +17,10 @@
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
     <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
-    <a href="{{ url_for('register') }}"><i class="fas fa-cogs"></i> Register</a>
+    <a href="{{ url_for('register') }}"><i class="fa fa-user-plus"></i> Register</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
+    <a href="{{ url_for('login') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 <div class="container-fluid">
     <h1 class="mt-4">Client Data Collection Profile</h1>
@@ -35,10 +36,10 @@
                 </ul>
                 <div id="avatar-container">
                     <div id="info-container">
-                        <em class="avatar-info">{{session.username}}</em>
-                        <em class="avatar-info">{{client.unique_id}}</em>
-                        <em class="avatar-info">{{client.email}}</em>
-                        <em class="avatar-info">{{ client.gender }} </em>
+                        <em class="avatar-info">Name: {{session.username}}</em>
+                        <em class="avatar-info">Client ID: {{client.unique_id}}</em>
+                        <em class="avatar-info">Email: {{client.email}}</em>
+                        <em class="avatar-info">Sex: {{ client.gender }} </em>
                     </div>
                     <img src="{{ url_for('static', filename='images/AVATER.jpg') }}" alt="Avatar" id="avatar">
                 </div>
@@ -260,37 +261,31 @@
                         <h1>Appointment</h1>
                            <p>Retrieve appointment here. Make updates here</p>
                            <div class="msg">{{ msg }}</div>
-
+                          
                             <form action="/update_appointment" method="POST">
 
                                 <div class="form-group">
                                     <label for="unique_id">Client ID</label><br/>
-                                    <input type="text" id="unique_id" name="unique_id" placeholder="Enter Client ID" required value="{{ appointment.unique_id }}" readonly><br/>
+                                    <input type="text" class="form-control" id="unique_id" name="unique_id" placeholder="Enter Client ID" required value="{{ appointment.unique_id }}" readonly><br/>
                                 </div>
 
                                 <hr/>
                         
                                 <div class="form-group">
                                     <label for="email">Email</label><br/>
-                                    <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ appointment.email }}"><br/>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required value="{{ appointment.email }}"><br/>
                                 </div>
                                 <hr/>
                         
                                 <div class="form-group">
                                     <label for="phone">Phone Number</label><br/>
-                                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required value="{{ appointment.phone }}"><br/>
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required value="{{ appointment.phone }}"><br/>
                                 </div>
                                 <hr/>
                         
                                 <div class="form-group">
-                                    <label for="appointment_date">Preferred Date</label><br/>
-                                    <input type="date" id="appointment_date" name="appointment_date" required value="{{ appointment.appointment_date }}"><br/>
-                                </div>
-                                <hr/>
-                        
-                                <div class="form-group">
-                                    <label for="appointment_time">Preferred Time</label><br/>
-                                    <input type="time" id="appointment_time" name="appointment_time" required value="{{ appointment.appointment_time }}"><br/>
+                                    <label for="appointment_date_time">Preferred Date</label><br/>
+                                    <input type="datetime-local" class="form-control" id="appointment_date_time" name="appointment_date_time" required value="{{ appointment.appointment_date_time }}"><br/>
                                 </div>
                                 <hr/>
                         
@@ -298,23 +293,23 @@
                                     <label for="purpose">Purpose of Appointment</label><br/>
                                     <select id="purpose" name="purpose" required>
                                         <option value="">Select purpose</option>
-                                        <option value="Consultation" {% if appointment.purpose == 'consultation' %}selected{% endif %}>Consultation</option>
-                                        <option value="Checkup" {% if appointment.purpose == 'checkup' %}selected{% endif %}>Health Checkup</option>
-                                        <option value="Followup" {% if appointment.purpose == 'followup' %}selected{% endif %}>Follow-up</option>
-                                        <option value="Other" {% if appointment.purpose == 'other' %}selected{% endif %}>Other</option><br/>
+                                        <option value="Consultation" {% if appointment.purpose == 'Consultation' %}selected{% endif %}>Consultation</option>
+                                        <option value="Health Checkup" {% if appointment.purpose == 'Health Checkup' %}selected{% endif %}>Health Checkup</option>
+                                        <option value="Follow-up" {% if appointment.purpose == 'Follow-up' %}selected{% endif %}>Follow-up</option>
+                                        <option value="Other" {% if appointment.purpose == 'Other' %}selected{% endif %}>Other</option>
                                     </select>
                                 </div>
                                 <hr/>
-                                
-                        
+                            
                                 <div class="form-group">
                                     <label for="message">Additional Information</label><br/>
-                                    <textarea id="message" name="message" rows="4" placeholder="Enter any additional information (optional)">{{ appointment.message }}</textarea><br/>
+                                    <textarea id="message" class="form-control" name="message" rows="4" placeholder="Enter any additional information (optional)">{{ appointment.message }}</textarea><br/>
                                 </div>
                                 <hr/>
                         
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </form>
+                           
                     </div>
                 </nav>
 
@@ -323,14 +318,14 @@
                         <h1 class="mt-4">Patient Health Metrics</h1>
                         <h3>Health Records</h3>
                         <div class="msg">{{ msg }}</div>
-                
+                               
                                 <form action="/update_metrics" method="POST">
                                     <div class ="row">
                                     <div class="col-5">
                                     <label for="recorded_date">Date Recorded</label>
                                     </div>
                                     <div class="col-7">
-                                    <input type="date" name="recorded_date" id="recorded_date" value="{{ health_metrics.recorded_date }}">
+                                    <input type="date" class="form-control" name="recorded_date" id="recorded_date" value="{{ health_metrics.recorded_date }}">
                                     </div>
                                     </div>
                                     <hr/>
@@ -339,7 +334,7 @@
                                     <label for="unique_id">Client ID</label>
                                     </div>
                                     <div class="col-7">
-                                    <input type="text" name="unique_id" id="unique_id" value="{{ health_metrics.unique_id }}">
+                                    <input type="text" class="form-control" name="unique_id" id="unique_id" value="{{ health_metrics.unique_id }}">
                                     </div>
                                     </div>
                                     <hr/>
@@ -348,22 +343,28 @@
                                             <label for="health_care_facility">Health Care Facility</label>
                                             </div>
                                             <div class="col-7">
-                                            <input type="text" name="health_care_facility" id="health_care_facility" value="{{health_metrics.health_care_facility}}"><br/>
+                                            <input type="text" class="form-control" name="health_care_facility" id="health_care_facility" value="{{health_metrics.health_care_facility}}"><br/>
                                             
                                             </div>
+                                    </div>
+                                    <hr/>
                 
+                                    <div class="row">
                                             <div class="col-5">
                                                 <label for="provider_name">Health Provider Name</label>
-                                                </div>
-                                                <div class="col-7">
-                                                <input type="text" name="provider_name" id="provider_name" value="{{health_metrics.provider_name}}"><br/>
-                                                
-                                                </div>
+                                            </div>
+                                            <div class="col-7">
+                                                <input type="text" class="form-control" name="provider_name" id="provider_name" value="{{health_metrics.provider_name}}"><br/>
+                                            </div>
+                                            </div>
+                                            <hr/>
+                                          
+                                        <div class="row">
                                         <div class="col-5">
                                         <label for="provider_contact">Health Provider's Contact</label>
                                         </div>
                                         <div class="col-7">
-                                        <input type="text" name="provider_contact" id="provider_contact" value="{{health_metrics.provider_contact}}"><br/>
+                                        <input type="text" class="form-control" name="provider_contact" id="provider_contact" value="{{health_metrics.provider_contact}}"><br/>
                                         
                                         </div>
                                         </div>
@@ -382,6 +383,8 @@
                                            Respiration: <input type ="text" class="form-control" name = "respiration" value="{{ health_metrics.respiration }}"><br/>
                                            Pulse: <input type ="text" class="form-control" name = "pulse" value="{{ health_metrics.pulse }}"><br/>
                                            Oxygen Saturation: <input type ="text" class="form-control" name = "spo2" value="{{ health_metrics.spo2 }}"><br/>
+                                        </div>
+                                        </div>
                 
                                         <hr/>
                                         <div class ="row">
@@ -391,11 +394,11 @@
                                         <div class="col-7">
                                             <input type="radio" id="urine_ketones" name="urine_ketones" value="{{ health_metrics.urine_ketones }}" checked>{{ health_metrics.urine_ketones }}<br/>
 
-                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="Nill"> Nill<br/>
-                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="1+"> 1+<br/>
-                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="2+"> 2+<br/>
-                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="3+"> 3+<br/>
-                                        <input type="radio" name="urine_ketones" id="urine_ketones" value="No test"> No test<br/>
+                                        <input type="radio"  name="urine_ketones" id="urine_ketones" value="Nill"> Nill<br/>
+                                        <input type="radio"  name="urine_ketones" id="urine_ketones" value="1+"> 1+<br/>
+                                        <input type="radio"  name="urine_ketones" id="urine_ketones" value="2+"> 2+<br/>
+                                        <input type="radio"  name="urine_ketones" id="urine_ketones" value="3+"> 3+<br/>
+                                        <input type="radio"  name="urine_ketones" id="urine_ketones" value="No test"> No test<br/>
                                         </div>
                                         </div>
                                         <hr/>
@@ -404,11 +407,14 @@
                                             <div class="col-5">
                                                 <label for="lab_investigation_type">Laboratory Investigation</label>
                                             </div>
+
+                                            <div class="col-7">
                                             <div class="input-group" id="lab-investigation-group">
-                                                <input type="text" name="lab_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.lab_investigation_type }}" ><br/>
-                                                <input type="text" name="lab_investigation_result" placeholder="Enter Result" value="{{ health_metrics.lab_investigation_result }}" ><br/>
-                                                <button type="button" id="add-more">Add Another</button>
+                                                <input type="text" class="form-control" name="lab_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.lab_investigation_type }}" ><br/>
+                                                <input type="text" class="form-control" name="lab_investigation_result" placeholder="Enter Result" value="{{ health_metrics.lab_investigation_result }}" ><br/>
+                                                <button type="button" id="add-more" name="lab_investigation_type">Add Another</button>
                                                 <button type="button" id="delete">Delete</button>
+                                            </div>
                                             </div>
                                         </div>
                                         
@@ -418,32 +424,51 @@
                                             <div class="col-5">
                                                 <label for="radiograph_investigation_type">Radiographic Investigation</label>
                                             </div>
+                                            <div class="col-7">
                                             <div class="input-group" id="radiograph-investigation-group">
-                                                <input type="text" name="radiograph_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.radiograph_investigation_type }}"><br/>
-                                                <input type="text" name="radiograph_investigation_result" placeholder="Enter Result" value="{{ health_metrics.radiograph_investigation_result }}"><br/>
-                                                <button type="button" id="add-more-radiograph">Add Another</button>
+                                                <input type="text" class="form-control" name="radiograph_investigation_type" placeholder="Enter Investigation" value="{{ health_metrics.radiograph_investigation_type }}"><br/>
+                                                <input type="text" class="form-control" name="radiograph_investigation_result" placeholder="Enter Result" value="{{ health_metrics.radiograph_investigation_result }}"><br/>
+                                                <button type="button" id="add-more-radiograph" name="radiograph_investigation_type">Add Another</button>
                                                 <button type="button" id="delete-radiograph">Delete</button>
+                                            </div>
                                             </div>
                                         </div>
                                         <hr/>
                 
-                
+                                        <div class="row">
+                                        <div class="col-5">
                                         <div class ="form-group">
                                             <label for="diagnosis">Diagnosis</label>
+                                        </div>
+                                        <div class="col-7">
                                             <input type="text" class="form-control" id="diagnosis" name="diagnosis" value="{{ health_metrics.diagnosis }}">
+                                        </div>
+                                        </div>
                                         </div>
                                         <hr/>
                 
+                                        <div class="row">
+                                            <div class="col-5">
                                         <div class ="form-group">
                                             <label for="hospitalized_for_hpt_dm">Has client been hospitalized before for HPT/DM ? </label>
-                                            <input type="text" class="form-control" id="hospitalized_for_hpt_dm" name="hospitalized_for_hpt_dm" value="{{ health_metrics.diagnosis }}">
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="text" class="form-control" id="hospitalized_for_hpt_dm" name="hospitalized_for_hpt_dm" value="{{ health_metrics.hospitalized_for_hpt_dm }}">
+                                        </div>
+                                        </div>
                                         </div>
                                        <hr/>
                 
+                                       <div class="row">
+                                        <div class="col-5">
                                        <div class ="form-group">
                                         <label for="complications">Any Complications</label>
-                                        <input type="text" class="form-control" id="complications" name="complications" value="{{ health_metrics.diagnosis }}">
                                     </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" id="complications" name="complications" value="{{ health_metrics.complications }}">
+                                    </div>
+                                    </div>
+                                       </div>
                                    <hr/>
                 
                                    <div class ="row">
@@ -453,17 +478,14 @@
                                     <div class="col-7">
                                         <div class="form-group">
                                             <label for="metric_notes">Additional Information</label>
-                                            <textarea id="metric_notes" name="metric_notes" rows="4" placeholder="Enter any additional information (optional)">{{ health_metrics.metric_notes }}</textarea>
+                                            <textarea class="form-control" id="metric_notes" name="metric_notes" rows="4" placeholder="Enter any additional information (optional)">{{ health_metrics.metric_notes }}</textarea>
                                         </div>
                                     </div>
                                    </div>
-                                        </div>
-                                        </div>
-                                        
+                                    <hr/>
                                     <button type="submit" class="btn btn-success">Submit</button>
-                             </form>
-                    </div>
-                            
+                                </form>
+                    </div> 
                 </nav>
 
                 <nav class="tabpage" id="tabpage_4">
@@ -478,7 +500,7 @@
                                     <label for="date_of_treatment">Date of Treatment</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="date" name="date_of_treatment" id="date_of_treatment" value="{{ treatment.date_of_treatment }}">
+                                    <input type="date" class="form-control" name="date_of_treatment" id="date_of_treatment" value="{{ treatment.date_of_treatment }}">
                                 </div>
                             </div>
                             <hr/>
@@ -488,7 +510,7 @@
                                     <label for="unique_id">Client ID</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" name="unique_id" id="unique_id" value="{{ treatment.unique_id }}">
+                                    <input type="text" class="form-control" name="unique_id" id="unique_id" value="{{ treatment.unique_id }}">
                                 </div>
                             </div>
                             <hr/>
@@ -498,7 +520,7 @@
                                     <label for="health_care_facility">Health Care Facility</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" name="health_care_facility" id="health_care_facility" value="{{ treatment.health_care_facility }}">
+                                    <input type="text" class="form-control" name="health_care_facility" id="health_care_facility" value="{{ treatment.health_care_facility }}">
                                 </div>
                             </div>
                             <hr/>
@@ -508,7 +530,7 @@
                                     <label for="provider_type">Health Care Provider</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" name="provider_type" id="provider_type" value="{{ treatment.provider_type }}">
+                                    <input type="text" class="form-control" name="provider_type" id="provider_type" value="{{ treatment.provider_type }}">
                                 </div>
                             </div>
                             <hr/>
@@ -518,7 +540,7 @@
                                     <label for="provider_contact">Health Provider's Contact</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" name="provider_contact" id="provider_contact" value="{{ treatment.provider_contact }}">
+                                    <input type="text" class="form-control" name="provider_contact" id="provider_contact" value="{{ treatment.provider_contact }}">
                                 </div>
                             </div>
                             <hr/>
@@ -528,7 +550,7 @@
                                     <label for="treatment_type">Treatment Type</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" name="treatment_type" id="treatment_type" value="{{ treatment.treatment_type }}">
+                                    <input type="text" class="form-control" name="treatment_type" id="treatment_type" value="{{ treatment.treatment_type }}">
                                 </div>
                             </div>
                             <hr/>
@@ -538,7 +560,7 @@
                                     <label for="treatment_plan">Treatment Plan</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" name="treatment_plan" id="treatment_plan" value="{{ treatment.treatment_plan }}">
+                                    <input type="text" class="form-control" name="treatment_plan" id="treatment_plan" value="{{ treatment.treatment_plan }}">
                                 </div>
                             </div>
                             <hr/>
@@ -548,7 +570,7 @@
                                     <label for="defaulted_treatment">Has client defaulted treatment</label>
                                 </div>
                                 <div class="col-7">
-                                    <input type="text" name="defaulted_treatment" id="defaulted_treatment" value="{{ treatment.defaulted_treatment }}">
+                                    <input type="text" class="form-control" name="defaulted_treatment" id="defaulted_treatment" value="{{ treatment.defaulted_treatment }}">
                                 </div>
                             </div>
                             <hr/>
@@ -558,9 +580,10 @@
                                     <label for="treatment_notes">Treatment Notes</label>
                                 </div>
                                 <div class="col-7">
-                                    <textarea id="treatment_notes" name="treatment_notes" rows="4" placeholder="Enter any additional information (optional)">{{ treatment.treatment_notes }}</textarea>
+                                    <textarea class="form-control" id="treatment_notes" name="treatment_notes" rows="4" placeholder="Enter any additional information (optional)">{{ treatment.treatment_notes }}</textarea>
                                 </div>
                             </div>
+                            <hr/>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </form>
                     </div>

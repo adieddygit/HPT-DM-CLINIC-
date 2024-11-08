@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, DATE, TIME
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
 from datetime import datetime
 from typing import Optional
@@ -118,8 +118,8 @@ class Appointment(Base):
     phone: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     purpose: Mapped[str] = mapped_column(String(100))
     message: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
-    appointment_date: Mapped[datetime] = mapped_column(DateTime)
-    appointment_time: Mapped[datetime] = mapped_column(DateTime)
+    appointment_date_time: Mapped[datetime] = mapped_column(DateTime)
+
 
     user = relationship("User", foreign_keys=[created_by])
     client_profile = relationship("ClientProfile", foreign_keys=[unique_id])

@@ -69,20 +69,19 @@
 }
 
 #info-container {
-    margin-right: 15px; /* Space between text and avatar */
+    margin-right: 25px; /* Space between text and avatar */
     text-align: left;
     color: #f1f1f1;
 }
 
 .avatar-info {
-   
     display: block;
     margin-bottom: 5px; /* Space between each line of text */
 }
 
 #avatar {
-    max-width: auto;
-    max-height: auto;
+    max-width: 145px;
+    max-height: 145px;
     border-radius: 50%;
     border: 2px solid rgb(99, 201, 201);
     margin-bottom: 10px;

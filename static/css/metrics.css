@@ -75,16 +75,9 @@
   .form-group {
     margin-bottom: 15px;
   }
-  
-  /* Input Container */
-  .input-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    background-color: #ccc;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
+
+  .form-control{
+    background-color: #f1f1f1;
   }
 
   
@@ -101,11 +94,11 @@
   
   /* Submit Button */
   .submit-btn {
-    width: 100%;
+    width: 30%;
     padding: 10px;
     margin-bottom: 20px;
     background-color: rgb(99, 201, 201);
-    color: white;
+    color: #f1f1f1;
     border: none;
     border-radius: 5px;
     font-size: 18px;
