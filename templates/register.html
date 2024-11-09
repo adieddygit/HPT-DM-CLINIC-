@@ -3,14 +3,11 @@
 {% block title %} Register {% endblock title %}
 
 {% block head %}
-{% block stylesheet %}
-{% if "register" in request.path %}
+{% block stylesheet %}{% endblock stylesheet %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-
-{% endif %}
-{% endblock %}
+{{super()}}
 {% endblock head %}
 
 {% block content %}
@@ -31,7 +28,7 @@
 </div>
 Hi {{session.username}} !!</br></br> Welcome to the Registration Page
 <div class ="row">
-    <div class ="col-8">
+    <div class ="col-md-8">
        <div class ="">
        
         <div>
@@ -73,7 +70,7 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
             <input type="radio" id="gender" name="gender" value = "Intersex"> Intersex
         </div>
         
-        <div class="marital_status" class="form-group">
+        <div class="input-container" class="form-group">
             <label for="marital_status">Marital Status:</label><br/>
             <input type="radio" id="marital_status" name="marital_status" value ="Single"> Single
             <input type="radio" id="marital_status" name="marital_status" value ="Married"> Married
@@ -127,7 +124,7 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
 
         <div class="input-container" class="form-group">
             <label for="emergency_contact_name">Emergency Contact</label>
-            <input type="text" class="emergency_contact_name" id="emergency_contact_name" name="emergency_contact_name" placeholder="Emergency Contact Name">
+            <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name" placeholder="Emergency Contact Name">
         </div>
 
         <div class="input-container" class="form-group">
@@ -146,12 +143,11 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
         </div>
 
 </div>
-<p style="font-family:'Dancing Script', cursive; color: rgb(248, 248, 161); text-shadow: 0.5px 0.5px 1px black; text-align: center; ">Good Life!, It's an everyday thing..</p>
 
 </div>
 </div>
 
-<div class = "col-4">
+<div class = "col-md-4">
     <div class ="">
         <p> Risk Assessment form</p>
    <div id="risk_ass">
@@ -303,6 +299,8 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
             <input type ="submit" placeholder = "Retrieve Client" class ="submit-btn">
         </div>
         </form>
+        <p style="font-family:'Dancing Script', cursive; color: rgb(248, 248, 161); text-shadow: 0.5px 0.5px 1px black; text-align: center; font-size: xx-large; ">Your wellbeing is your wealth.<br> Prioritize your health.</p>
+
     </div>
     </div>
 </div>
@@ -311,20 +309,6 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
 {% endblock content %}
 
 {% block footer %}
-<footer>
 
-    <div style="float:inline-start">
-        <h3>Contact Us Now On </h3>
-        <div style="color: rgb(99, 201, 201)">+1234567890</div>
-        <p class="mb-2"><i class="fa fa-envelope me-3"></i>dornuel@gmail.com</p>
-    </div><br/> follow us on
-    <div class="" style="font-size: xx-large;">
-        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
-        <a style="color: rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
-        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.linkedin.com"><i class="fab fa-linkedin-in"></i></a>
-    </div><br/>
-    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com">Dornuel Health Consult</a>
-    
-</footer>
-
+{{super()}}
 {% endblock footer %}

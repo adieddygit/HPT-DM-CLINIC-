@@ -175,7 +175,7 @@ p {
     resize: none;
 }
 
-.appointment-btn  {
+.appointment-btn {
     width: 100%;
     padding: 10px;
     background-color: rgb(99, 201, 201);
@@ -184,8 +184,13 @@ p {
     border-radius: 5px;
     font-size: 18px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .appointment-btn:hover {
     background-color: #0056b3;
+}
+
+.img{
+  margin-top: 80px;
 }

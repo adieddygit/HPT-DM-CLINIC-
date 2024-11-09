@@ -62,8 +62,6 @@
 /* Form Container */
 .form-signup {
   margin: 10px;
-  display: flex;
-  flex-direction: column;
   background-color: #f0f0f0b4;
   color: rgb(71, 129, 129);
   border-radius: 10px;
@@ -78,8 +76,6 @@
 
 /* Risk Assessment */
 #risk_ass {
-  display: flex;
-  flex-direction: column;
   background-color: rgb(210, 210, 152);
   color: rgb(71, 129, 129);
   border-radius: 10px;
@@ -89,8 +85,6 @@
 
 /* Input Container */
 .input-container {
-  display: flex;
-  flex-wrap: wrap;
   align-items: center;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -98,8 +92,6 @@
 }
 
 .input-container2 {
-  display: flex;
-  flex-wrap: wrap;
   align-items: center;
   border: 5px solid #ffffff;
   color: rgb(26, 40, 40);
