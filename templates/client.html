@@ -12,7 +12,8 @@
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
-    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('client') }}" class="active"><i class="fa fa-procedures"></i> Client</a>
+    <a href="{{ url_for('home') }}" ><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
     <a href="{{ url_for('metrics') }}"><i class="fa fa-stethoscope"></i> Metrics</a>
     <a href="{{ url_for('treatment') }}"><i class="fa fa-pills"></i> Treatment</a>
@@ -29,7 +30,7 @@
             <a class="btn-add" href="{{ url_for('register') }}">Add New Client</a>
             <input type="text" id="searchBar" placeholder="Search (Client ID...)" onkeyup="filterClients()">
 
-            <input type="text" id="clientIdInput" placeholder="Enter ID to View/Edit Client" required>
+            <input type="text" id="clientIdInput" placeholder="Enter Client ID" required>
     
         </div>
     

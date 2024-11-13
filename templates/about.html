@@ -29,7 +29,8 @@
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
-    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about') }}" class="active"><i class="fas fa-user"></i> About</a>
+    <a href="{{ url_for('home') }}" ><i class="fas fa-home"></i> Home</a>
     <a href="#services"><i class="fas fa-cogs"></i> Services</a>
     <a href="{{ url_for('register') }}"><i class="fa fa-user-plus"></i> Register</a>
     <a href="{{ url_for('client') }}"><i class="fa fa-procedures"></i> Client</a>

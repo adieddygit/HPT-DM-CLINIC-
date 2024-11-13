@@ -16,11 +16,11 @@
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
-    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('register') }}" class="active"><i class="fa fa-user-plus"></i> Register</a>
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
     <a href="#services"><i class="fas fa-cogs"></i> Services</a>
-    <a href="{{ url_for('metrics') }}"><i class="fa fa-stethoscope"></i> Metrics</a>
-    <a href="{{ url_for('treatment') }}"><i class="fa fa-pills"></i> Treatment</a>
+    <a href="{{ url_for('appointment') }}"><i class="fas fa-calendar"></i> Appointment</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
     <a href="{{ url_for('login') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -152,26 +152,26 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
         <p> Risk Assessment form</p>
    <div id="risk_ass">
     <div class="input-container" class="form-group">
-        <label for="family_has_history_of_hpt_dm">Client's Family History of Hypertension & Diabetes </label>
+        <label for="family_has_history_of_hpt_dm"><strong>Client's Family History of Hypertension & Diabetes:</strong> </label>
         <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Hypertension">Hypertension
         <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Diabetes">Diabetes
         <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Both">Both
-        <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="None">None
+        <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="None">None<br/>
         <input type="radio" id="family_has_history_of_hpt_dm" name="family_has_history_of_hpt_dm" value="Unknown">Unknown
 
     </div>
 
     <div class="input-container" class="form-group">
-        <label for="has_underlying_medical_condition">Client has an underlying medical condition(s): </label>
+        <label for="has_underlying_medical_condition"><strong>Client has an underlying medical condition(s):</strong> </label><br/>
         <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="Yes">Yes.
         <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="No">No.
         <input type="radio" id="has_underlying_medical_condition" name="has_underlying_medical_condition" value="Unknown">Unknown. &nbsp;&nbsp;
 
-        <p>If Yes, State Condition</p><input type="text" class="form-control" id="underlying_condition" name="underlying_condition" placeholder="Conditon">
+        <p>If Yes, State Condition(s)</p><input type="text" class="form-control" id="underlying_condition" name="underlying_condition" placeholder="Conditon">
     </div>
 
     <div class="input-container" class="form-group">
-        <label for="alcohol_intake">Alcohol Intake: </label><br/>
+        <label for="alcohol_intake"><strong>Alcohol Intake:</strong> </label><br/>
         <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Occational">Occational
         <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Moderate">Moderate
         <input type="radio" id="alcohol_intake" name="alcohol_intake" value="Heavy">Heavy
@@ -179,29 +179,31 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
     </div>
 
     <div class="input-container" class="form-group">
-        <label for="smoking_tobacco_use">Smokes/Tobacco Use: </label><br/>
+        <label for="smoking_tobacco_use"><strong>Smokes/Tobacco Use:</strong> </label><br/>
         <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="Yes">Yes
         <input type="radio" id="smoking_tobacco_use" name="smoking_tobacco_use" value="No">No
     </div>
 
     <div class="input-container" class="form-group">
-        <label for="type_of_diet">Diet Intake: </label><br/>
+        <label for="type_of_diet"><strong>Diet Intake:</strong> </label><br/>
         <input type="radio" id="type_of_diet" name="type_of_diet" value="Normal Diet">Normal Diet
         <input type="radio" id="type_of_diet" name="type_of_diet" value="Low Salt Diet">Low Salt Diet
-        <input type="radio" id="type_of_diet" name="type_of_diet" value="Low Fat Diet">Low Fat Diet
+        <input type="radio" id="type_of_diet" name="type_of_diet" value="Low Fat Diet">Low Fat Diet<br/>
         <input type="radio" id="type_of_diet" name="type_of_diet" value="Vegan">Vegan
+        <input type="radio" id="type_of_diet" name="type_of_diet" value="Vegan">Vegetarian
+
     </div>
 
     <div class="input-container" class="form-group">
-        <label for="overweight_obese">Body Mass Index: </label><br/>
+        <label for="overweight_obese"><strong>Body Mass Index:</strong> </label><br/>
         <input type="radio" id="bmi" name="bmi" value="Underweight">Underweight
         <input type="radio" id="bmi" name="bmi" value="Normal">Normal 
-        <input type="radio" id="bmi" name="bmi" value="Overweight">Overweight
+        <input type="radio" id="bmi" name="bmi" value="Overweight">Overweight<br/>
         <input type="radio" id="bmi" name="bmi" value="Obesity">Obesity
     </div>
 
     <div class="input-container" class="form-group">
-        <label for="dose_exercise">Engage In Aerobics:</label><br/>
+        <label for="dose_exercise"><strong>Engage In Aerobics:</strong></label><br/>
         <input type="radio" id="dose_exercise" name="dose_exercise" value="Yes">Yes
         <input type="radio" id="dose_exercise" name="dose_exercise" value="No">No
     </div>
@@ -298,7 +300,7 @@ Hi {{session.username}} !!</br></br> Welcome to the Registration Page
            
             <input type ="submit" placeholder = "Retrieve Client" class ="submit-btn">
         </div>
-        </form><br/><br/>
+        </form><br/>
         <p style="font-family:'Dancing Script', cursive; color: rgb(248, 248, 161); text-shadow: 0.5px 0.5px 1px black; text-align: center; font-size: xx-large; ">Your wellbeing is your wealth.<br> Prioritize your health.</p>
 
     </div>

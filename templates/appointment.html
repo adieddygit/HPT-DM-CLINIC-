@@ -12,9 +12,11 @@
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
-    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('appointment') }}" class="active"><i class="fas fa-calendar"></i> Appointment</a>
+    <a href="{{ url_for('home') }}" ><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
     <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+    <a href="{{ url_for('register') }}"><i class="fa fa-user-plus"></i> Register</a>
     <a href="{{ url_for('metrics') }}"><i class="fa fa-stethoscope"></i> Metrics</a>
     <a href="{{ url_for('treatment') }}"><i class="fa fa-pills"></i> Treatment</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>

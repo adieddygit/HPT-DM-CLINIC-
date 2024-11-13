@@ -63,7 +63,7 @@ header {
 .nav-menu a:hover {
     background-color: #575757;
     border-radius: 5px;
-}
+    color: rgb(99, 201, 201);}
 
 .subbar{
     position: relative;
@@ -99,15 +99,7 @@ header {
 
 /* When the sidenav is open, apply a left margin to the main content */
 .sidenav-open {
-    margin-left: 100px; /* Adjust this value to match the width of the side nav */
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    left:  0;
-    font-size: 36px;
-    /* margin-left: 50px; */
+    margin-left: 80px; /* Adjust this value to match the width of the side nav */
 }
 
 .sidenav a {
@@ -127,6 +119,8 @@ header {
 .sidenav .active {
     background-color: rgb(99, 201, 201);
     color: #000000;
+    font-size: larger;
+    font-weight: bold;
 }
 
 .sidenav .closebtn {

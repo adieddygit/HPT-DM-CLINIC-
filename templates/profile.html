@@ -15,7 +15,7 @@
 <!-- Side Navigation for Mobile -->
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
-    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
     <a href="{{ url_for('about') }}"><i class="fas fa-user"></i> About</a>
     <a href="{{ url_for('register') }}"><i class="fa fa-user-plus"></i> Register</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
@@ -23,7 +23,7 @@
     <a href="{{ url_for('login') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 <div class="container-fluid">
-    <h1 class="mt-4">Client Data Collection Profile</h1>
+    <h1 class="mt-4">Client Profile</h1>
     <div id="wrapper2">
 
         <div id="tabContainer" >
@@ -36,7 +36,7 @@
                 </ul>
                 <div id="avatar-container">
                     <div id="info-container">
-                        <em class="avatar-info">Name: {{client.first_name}} {{client.middle_name[0]}} {{client.last_name}}</em>
+                        <em class="avatar-info">Name: {{client.first_name}} {{client.middle_name}} {{client.last_name}}</em>
                         <em class="avatar-info">Client ID: {{client.unique_id}}</em>
                         <em class="avatar-info">Email: {{client.email}}</em>
                         <em class="avatar-info">Sex: {{ client.gender }} </em>
@@ -51,7 +51,7 @@
                 <nav class="tabpage" id="tabpage_1">
                     <form method='POST' action="/update_profile">
                         <h1>Personal Information</h1>
-                        <p>The retrieved data is displayed here</p>
+                        <p>The retrieved data is displayed here. Update your profile here.</p>
 
                         <div class="form-group">
                             <label for="unique_id">Client ID</label>
@@ -228,6 +228,8 @@
                             <input type="radio" id="type-of-diet" name="type_of_diet" value="Low Salt Diet">Low Salt Diet
                             <input type="radio" id="type-of-diet" name="type_of_diet" value="Low Fat Diet">Low Fat Diet
                             <input type="radio" id="type-of-diet" name="type_of_diet" value="Vegan">Vegan
+                            <input type="radio" id="type-of-diet" name="type_of_diet" value="Vegan">Vegetarian
+
                         </div>
                         <hr/>
                     
@@ -259,7 +261,7 @@
                 <nav class="tabpage" id="tabpage_2">
                     <div class="container-fluid">
                         <h1>Appointment</h1>
-                           <p>Retrieve appointment here. Make updates here</p>
+                           <p>Retrieve and update appointment here</p>
                            <div class="msg">{{ msg }}</div>
                           
                             <form action="/update_appointment" method="POST">
@@ -316,7 +318,7 @@
                 <nav class="tabpage" id="tabpage_3">
                     <div class="container-fluid">
                         <h1 class="mt-4">Patient Health Metrics</h1>
-                        <h3>Health Records</h3>
+                        <p>Health Records</p>
                         <div class="msg">{{ msg }}</div>
                                
                                 <form action="/update_metrics" method="POST">
@@ -483,7 +485,7 @@
                                     </div>
                                    </div>
                                     <hr/>
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <!-- <button type="submit" class="btn btn-success">Submit</button> -->
                                 </form>
                     </div> 
                 </nav>
@@ -491,7 +493,7 @@
                 <nav class="tabpage" id="tabpage_4">
                     <div class="container-fluid">
                         <h1 class="mt-4">Patient Treatment</h1>
-                        <h3>Treatment Types</h3>
+                        <p>Treatment Information</p>
                         <div class="msg">{{ msg }}</div>
                         <form action="/update_treatment" method="post">
                             <hr/>
@@ -584,7 +586,7 @@
                                 </div>
                             </div>
                             <hr/>
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <!-- <button type="submit" class="btn btn-success">Submit</button> -->
                         </form>
                     </div>
                 </nav> 

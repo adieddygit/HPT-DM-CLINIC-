@@ -132,7 +132,7 @@ def register_client():
 
     #get the data from the form 
     if request.method=='POST' and 'unique_id' in request.form:
-        unique_id = random.randint(111, 1111) 
+        unique_id = 'DHC' + str(random.randint(111, 1111))
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         middle_name = request.form['middle_name']
