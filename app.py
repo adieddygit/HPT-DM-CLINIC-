@@ -765,9 +765,19 @@ def metrics():
 def treatment():
     return render_template('treatment.html')
 
-@app.route('/patient')
-def patient():
-    return render_template('patient.html')
+
+@app.route('/client')
+def client():
+    if 'loggedin' in session:
+        client_id = request.form.get('unique_id')
+
+    if client_id:
+        
+        with engine.connect() as con:
+            result_profile = con.execute(text("SELECT * FROM client_profile WHERE unique_id = :client_id"), {'client_id': client_id})
+            con.commit()
+
+    return render_template('client.html')
 
 
 if __name__ == '__main__':

@@ -35,6 +35,7 @@ body{
     font-size: 25px;
     font-weight: bolder;
     margin-bottom: 5px;
+    text-align: center;
 }
 
 .scroll-container {

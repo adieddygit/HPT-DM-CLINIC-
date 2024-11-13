@@ -17,7 +17,7 @@
     <a href="{{ url_for('appointment') }}"><i class="fas fa-calendar"></i> Appointment</a>
     <a href="{{ url_for('register') }}"><i class="fa fa-user-plus"></i> Register</a>
     <a href="{{ url_for('metrics') }}"><i class="fa fa-stethoscope"></i> Metrics</a>
-    <a href="{{ url_for('patient') }}"><i class="fa fa-procedures"></i> Patient</a>
+    <a href="{{ url_for('client') }}"><i class="fa fa-procedures"></i> Client</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
     <a href="#feedback"><i class="fas fa-comment"></i> Feedback</a>
     <a href="{{ url_for('login') }}"><i class="fa fa-procedures"></i> Logout</a>
@@ -26,7 +26,7 @@
 <!-- Main Content -->
 <div class="main-content">
     <div class="container-fluid">
-        <h1 class="mt-4">Client Treatment Information</h1>
+        <h1 class="mt-4">Client Treatment Information</h1><br/><br/>
         
         <div class="msg">{{ msg }}</div>
            <form action="/add_treatment" method="post">

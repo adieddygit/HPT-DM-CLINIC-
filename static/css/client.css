@@ -7,7 +7,7 @@ body {
 
 /* Existing styles */
 
-.patients-container {
+.client-container {
     max-width: 100%; /* Changed to allow full width on mobile */
     margin: 40px auto;
     padding: 20px;
@@ -52,7 +52,7 @@ table {
     }
     
     /* Reduce margin and padding for a more compact look on mobile */
-    .patients-container {
+    .client-container {
         margin: 20px auto;
         padding: 15px;
     }
@@ -101,7 +101,7 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: rgb(99, 201, 201);
     color: white;
 }
 
@@ -144,7 +144,7 @@ td .btn-delete:hover {
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-    .patients-container {
+    .client-container {
         padding: 15px;
     }
 
