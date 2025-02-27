@@ -1,41 +1,41 @@
-body{
-    background-image: url('../images/contact.png');
-    background-size: cover;
-    background-position: center;
-    text-align: center;
+body {
+  background-image: url("../images/contact.png");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
 }
 
-.container-fluid{
+.container-fluid {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  gap: 5px;
 }
-
 
 .hamburger-menu {
-  font-size: 24px;            
-  cursor: pointer;            
+  font-size: 24px;
+  cursor: pointer;
 }
 
-.iBT{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.iBT {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.iBg-text{
-    color: olivedrab;
-    font-size: 45px;
-    font-weight: 700;
+.iBg-text {
+  color: olivedrab;
+  font-size: 45px;
+  font-weight: 700;
 }
 
-.iBg-text2{
-    color: olivedrab;
-    font-size: 25px;
-    font-weight: bolder;
-    margin-bottom: 5px;
-    text-align: center;
+.iBg-text2 {
+  color: olivedrab;
+  font-size: 25px;
+  font-weight: bolder;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 .scroll-container {
@@ -43,9 +43,9 @@ body{
   overflow: hidden;
   position: relative;
   display: flex;
-  justify-content: center;    
-  align-items: center;        
-  width: 100%;                
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .scroll-text {
@@ -58,24 +58,25 @@ body{
 
 @keyframes scroll-up {
   0% {
-      top: 100%;
+    top: 100%;
   }
   100% {
-      top: -100%;
+    top: -100%;
   }
 }
 
-  .button-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #0d2770;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-   }
-   
-   .button-link:hover {
-   opacity: 0.7;
-   color: rgb(99, 201, 201);
-   }
+.button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: rgb(93, 172, 172);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.button-link:hover {
+  opacity: 0.9;
+  background-color: #f1f1f1;
+  color: rgb(62, 162, 162);
+}

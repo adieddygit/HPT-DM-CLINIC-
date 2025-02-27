@@ -38,16 +38,6 @@
             </div>
     
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-            </div>
-    
-            <div class="form-group">
                 <label for="appointment_date">Preferred Date & Time</label>
                 <input type="datetime-local" id="appointment_date_time" name="appointment_date_time" required>
             </div>
@@ -65,7 +55,7 @@
     
             <div class="form-group">
                 <label for="message">Additional Information</label>
-                <textarea id="message" name="message" rows="4" placeholder="Enter any additional information (optional)"></textarea>
+                <textarea id="message" name="message" placeholder="Enter any additional information (optional)"></textarea>
             </div>
     
             <button type="submit" class="appointment-btn">Submit</button>
@@ -86,9 +76,9 @@
         </div>
         </form>
         <div class="img">
-            <p style="font-family:'Dancing Script', cursive; color: rgb(248, 248, 161); text-shadow: 0.5px 0.5px 1px black; text-align: center; font-size: 40px; ">Your wellbeing is your wealth. Prioritize your health.</p>
+            <p style="font-family:'Dancing Script', cursive; color: rgb(248, 248, 161); text-shadow: 0.5px 0.5px 1px black; text-align: center; font-size: 40px; ">Your health is your wealth.<br/> Prioritize your health.</p>
 
-            <img  src="{{ url_for('static', filename='images/juice.png') }}" alt="logo">
+            <!-- <img  src="{{ url_for('static', filename='images/juice1.png') }}" alt="logo"> -->
         </div>
         </div>
         

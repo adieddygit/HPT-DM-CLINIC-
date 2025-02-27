@@ -9,21 +9,28 @@
     {% block stylesheets %} {% endblock stylesheets %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        .social-icon {
+            color: rgb(99, 201, 201) !important;
+            transition: transform 0.3s ease;
+        }
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+    </style>
    
 </head>
 <body>
 
 <!-- Main Header -->
 <header>
-    <nav class="navbar">
-        <div>
-            <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo">
-        </div>
-        <div class="navbar-title">
-            <h1>DORNUEL HEALTH CONSULT</h1>
-        </div>
-
+    <div class="div">
+        <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo">
+        <h1>DORNUEL HEALTH CONSULT</h1>
+    </div>
+    <nav class="navbar" >
         <!-- Navigation Links -->
         <ul class="nav-menu" id="navMenu">
             <li class="nav-item"><a href="{{ url_for('about')}}">About</a></li>
@@ -61,14 +68,20 @@
     <div style="float:inline-start">
         <h3>Contact Us Now On </h3>
         <div style="color: rgb(99, 201, 201)">+1234567890</div>
-        <p class="mb-2"><i class="fa fa-envelope me-3"></i>dornuel@gmail.com</p>
+        <p class="mb-2"><i class="fa fa-envelope me-3 social-icon"></i>dornuel@gmail.com</p>
     </div><br/> follow us on:
-    <div class="">
-        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
-        <a style="color: rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
-        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.linkedin.com"><i class="fab fa-linkedin-in"></i></a>
-    </div><br/>
-    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com">Dornuel Health Consult</a>
+    <div class="d-flex justify-content-center gap-2">
+    <a class="btn btn-outline-light btn-social social-icon" href="https://www.facebook.com" aria-label="Facebook">
+        <i class="fa-brands fa-facebook"></i>
+    </a>
+    <a class="btn btn-outline-light btn-social social-icon" href="https://instagram.com/" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+    </a>
+    <a class="btn btn-outline-light btn-social social-icon" href="https://www.linkedin.com/" aria-label="LinkedIn">
+        <i class="fa-brands fa-linkedin"></i>
+    </a>
+</div>
+    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com"  >Dornuel Health Consult</a>
     {% endblock footer %}
 </footer>
 <!-- Include jQuery or any other JavaScript libraries here -->

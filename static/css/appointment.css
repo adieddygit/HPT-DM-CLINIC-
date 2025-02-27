@@ -123,10 +123,6 @@
     }
   }
 
-body{
-    background-color: rgb(71, 129, 129);
-}
-
 #appoint{
   display: flex;
   flex-wrap: wrap;
@@ -192,5 +188,5 @@ p {
 }
 
 .img{
-  margin-top: 80px;
+  margin-top: 50px;
 }

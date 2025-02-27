@@ -642,8 +642,6 @@ def book_appointment():
 
     if request.method == 'POST' and 'unique_id' in request.form:
         unique_id = request.form['unique_id']
-        email = request.form['email']
-        phone = request.form['phone']
         purpose = request.form['purpose']
         appointment_date_time = request.form['appointment_date_time']
         message = request.form['message']
@@ -661,10 +659,10 @@ def book_appointment():
                     text("""
                         INSERT INTO appointment (
                             created_by, created_at, updated_at, updated_by, unique_id, 
-                         email, phone, purpose, appointment_date_time, message
+                             purpose, appointment_date_time, message
                         ) VALUES (
                             :created_by, :created_at, :updated_at, :updated_by, :unique_id, 
-                            :email, :phone, :purpose, :appointment_date_time, :message
+                            :purpose, :appointment_date_time, :message
                         )
                     """),
                     {
@@ -673,8 +671,6 @@ def book_appointment():
                         'updated_at': updated_at,
                         'updated_by': updated_by,
                         'unique_id': unique_id,
-                        'email': email,
-                        'phone': phone,
                         'purpose': purpose,
                         'appointment_date_time': appointment_date_time,
                         'message': message
@@ -716,8 +712,6 @@ def update_appointment():
                         updated_by = session['username']
                         
                         # Retrieve form data
-                        email = request.form['email']
-                        phone = request.form['phone']
                         purpose = request.form['purpose']
                         appointment_date_time = request.form['appointment_date_time']
                         message = request.form['message']
@@ -726,16 +720,13 @@ def update_appointment():
                         con.execute(
                             text("""
                                 UPDATE appointment
-                                SET updated_at = :updated_at, updated_by = :updated_by,
-                                    email = :email, phone = :phone, purpose = :purpose,
+                                SET updated_at = :updated_at, updated_by = :updated_by, purpose = :purpose,
                                     message = :message, appointment_date_time = :appointment_date_time
                                 WHERE unique_id = :client_id
                             """),
                             {
                                 'updated_at': updated_at,
                                 'updated_by': updated_by,
-                                'email': email,
-                                'phone': phone,
                                 'purpose': purpose,
                                 'message': message,
                                 'appointment_date_time': appointment_date_time,

@@ -7,9 +7,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>{% block title %} Base {% endblock title %}</title>
     {% endblock head %}
+
+    <style>
+    .social-icon {
+        color: rgb(99, 201, 201) !important;
+        transition: transform 0.3s ease;
+    }
+    .social-icon:hover {
+        transform: scale(1.2);
+    }
+</style>
 </head>
 
 <body>
@@ -17,14 +27,11 @@
 
 <!-- Main Header -->
 <header>
-    <nav class="navbar">
-        <div>
-            <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo">
-        </div>
-        <div class="navbar-title">
-            <h1>DORNUEL HEALTH CONSULT</h1>
-        </div>
-
+    <div class="div">
+        <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo">
+        <h1>DORNUEL HEALTH CONSULT</h1>
+    </div>
+    <nav class="navbar" >
         <!-- Navigation Links -->
         <ul class="nav-menu" id="navMenu">
             <li class="nav-item"><a href="{{ url_for('about')}}">About</a></li>
@@ -39,8 +46,10 @@
         <!-- Toggle Button for Small Screens -->
         <div class="hamburger-menu" onclick="toggleNav()">&#9776;
             <marquee style="font-size: small; position: absolute; top: 35%; color: rgb(248, 248, 161);" direction="left" scrollamount="3" scrolldelay="10" loop="infinite" onmousemove="this.stop()" onmouseout="this.start()">
-                Dornuel Health Consult is dedicated to providing comprehensive healthcare for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments. Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
-                From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic conditions. Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live the best of your life.</div>
+                Dornuel Health Consult is dedicated to providing comprehensive healthcare for individuals with Hypertension and Diabetes conditions, with services ranging from routine check-ups to specialized treatments.
+                Our mission is to ensure our clients receive personalized attention and expert care tailored to their health needs. 
+                From preventative screenings to advanced diagnostic testing, we offer thorough assessments to ensure early detection and proactive management of Hypertensive and Diabetic conditions. 
+                Additionally, our team provides personalized treatment plans, and ongoing support to empower clients to achieve optimal health and wellness. With us, you'll receive the care and attention you deserve to live the best of your life.</div>
     
             </marquee>    
         </div>
@@ -79,18 +88,24 @@
     <div style="float:inline-start">
         <h3>Contact Us Now On </h3>
         <div style="color: rgb(99, 201, 201)">+1234567890</div>
-        <p class="mb-2"><i class="fa fa-envelope me-3"></i>dornuel@gmail.com</p>
+        <p class="mb-2"><i class="fa fa-envelope me-3 social-icon"></i>dornuel@gmail.com</p>
     </div><br/> follow us on:
-    <div class="">
-        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
-        <a style="color: rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
-        <a style="color:rgb(99, 201, 201)" class="btn btn-outline-light btn-social" href="https://www.linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-    </div><br/>
-    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com">Dornuel Health Consult</a>
+    <div class="d-flex justify-content-center gap-2">
+    <a class="btn btn-outline-light btn-social social-icon" href="https://www.facebook.com" aria-label="Facebook">
+        <i class="fa-brands fa-facebook"></i>
+    </a>
+    <a class="btn btn-outline-light btn-social social-icon" href="https://instagram.com/" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+    </a>
+    <a class="btn btn-outline-light btn-social social-icon" href="https://www.linkedin.com/" aria-label="LinkedIn">
+        <i class="fa-brands fa-linkedin"></i>
+    </a>
+</div>
+    &copy; Copyright 2024 by <a style="color: rgb(99, 201, 201)" href="https://dornuelconsult.com"  >Dornuel Health Consult</a>
     {% endblock footer %}
 </footer>
 <!-- Include jQuery or any other JavaScript libraries here -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
 <!-- Flash message pop-up script -->
 <script>

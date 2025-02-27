@@ -274,18 +274,6 @@
                                 <hr/>
                         
                                 <div class="form-group">
-                                    <label for="email">Email</label><br/>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required value="{{ appointment.email }}"><br/>
-                                </div>
-                                <hr/>
-                        
-                                <div class="form-group">
-                                    <label for="phone">Phone Number</label><br/>
-                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required value="{{ appointment.phone }}"><br/>
-                                </div>
-                                <hr/>
-                        
-                                <div class="form-group">
                                     <label for="appointment_date_time">Preferred Date</label><br/>
                                     <input type="datetime-local" class="form-control" id="appointment_date_time" name="appointment_date_time" required value="{{ appointment.appointment_date_time }}"><br/>
                                 </div>
@@ -305,7 +293,7 @@
                             
                                 <div class="form-group">
                                     <label for="message">Additional Information</label><br/>
-                                    <textarea id="message" class="form-control" name="message" rows="4" placeholder="Enter any additional information (optional)">{{ appointment.message }}</textarea><br/>
+                                    <textarea id="message" class="form-control" name="message" placeholder="Enter any additional information (optional)">{{ appointment.message }}</textarea><br/>
                                 </div>
                                 <hr/>
                         

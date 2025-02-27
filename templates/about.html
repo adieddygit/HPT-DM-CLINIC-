@@ -2,22 +2,43 @@
 {% block title %} About {% endblock title %}
 {% block head %}
 {% block style%}
+
 <style>
-
-
-    #div{
-        /* padding: 10px 20px; */
-        width: 300px;
-        height: auto;
-        margin: 2px 2px;
-        color: rgb(248, 248, 161);;
+    /* Custom layout styles */
+    .custom-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px; /* Adjust as needed */
     }
-
-    img{
-        width: 550px;
-        height: 500px auto;
+    
+    .custom-col-3, .custom-col-6 {
+        box-sizing: border-box;
+        padding: 0 15px; /* Adjust as needed */
     }
-
+    
+    .custom-col-3 {
+        width: 25%;
+    }
+    
+    .custom-col-6 {
+        width: 50%;
+    }
+    
+    /* Responsive styles for screens with a maximum width of 600px */
+    @media (max-width: 600px) {
+        .custom-col-3, .custom-col-6 {
+            width: 100%; /* Stack columns vertically */
+        }
+        
+        .custom-col-6 img {
+            width: 100%; /* Make images responsive */
+            height: auto; /* Maintain aspect ratio */
+        }
+        
+        .custom-col-3 {
+            float: none; /* Remove float for stacked layout */
+        }
+    }
 </style>
 {% endblock style%}
 {{super()}}
@@ -78,7 +99,7 @@
                 <img src="{{ url_for('static', filename='images/ab2.jpg') }}" alt="logo" class="">
             </div>
 
-            <div id="div" class="col-2" style="float: right;">
+            <div id="div" class="col-3" style="float: right;">
             <h2>Our Core Values</h2>
             <ul>
                 <li><strong>Commitment to Health</strong>: Everything we do revolves around the importance of health.</li>

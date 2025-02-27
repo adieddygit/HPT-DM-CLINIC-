@@ -17,8 +17,8 @@
 </div>
 
     <div id="msg" class="login">
-        <form action="/login" method="POST" class="form-signup">
-            <p>Your wellbeing is your wealth.<br> Prioritize your health.</p>
+        <form action="/login" method="POST" class="form-signup" id="signlog">
+            <p style="color: rgb(99, 201, 201);" ><strong>Your health is your wealth</strong><br/><em>Prioritize your health</em></p>
             <label for="username"></i></label>
             <div class="input-container" class="form-group">
                 <i class="fa fa-user icon"></i>
@@ -31,7 +31,7 @@
                 <input type="password" id="password" name="password" placeholder="Password">
             </div><br>
             
-            <button type="submit" class="submit-btn">Login</button>
+            <button id="submit" type="submit" class="submit-btn">Login</button>
             <label style="font-size: small;">
                 <input type="checkbox" checked="checked" name="remember"> Remember me
             </label><br>

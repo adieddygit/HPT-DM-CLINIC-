@@ -93,4 +93,32 @@ document.getElementById('delete-radiograph').addEventListener('click', function(
 });
 
 
+document.getElementById('signlog').addEventListener('submit', function(event){
+event.preventDefault()
+let errors = []
 
+let username = document.getElementById('username').value
+let email = document.getElementById('email').value
+let password = document.getElementById('password').value
+
+if (username.length <3){
+    errors.push('Username must be at least 3 characters long')
+}
+
+let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+if(!emailPattern.test(email)){
+    errors.push('Please enter a valid email address. !')
+}
+
+if(password.length < 6){
+    errors.push('Password must be at least 6 characters long !')
+}else if(!/^[a-zA-Z]+@,%#&\*\.\+\-[0-9]+$/.test(password)){
+    errors.push('Password must include alphanumerics and allows symbols !')
+}
+
+if (errors.length >0){
+    document.getElementById('error').innerHTML = errors.join('<br/>')
+    document.getElementById('error').style.color = 'red' 
+}
+
+})

@@ -6,41 +6,6 @@ from typing import Optional
 from sqlalchemy import Enum as SQLAlchemyEnum
 import enum
 
-# class UrineKetones(enum.Enum):
-#     NILL = 'Nill'
-#     ONE_PLUS  = '1+'
-#     TWO_PLUS  = '2+'
-#     THREE_PLUS = '3+'
-#     NO_TEST = 'no test'
-
-# class Choices(enum.Enum):
-#     YES = 'yes'
-#     NO  = 'no'
-#     NA  = 'na'
-#     UNKNOWN = 'unknown'
-
-# class Purpose(enum.Enum):
-#     CONSULTATION = 'Consultation'
-#     HEALTH_CHECKUP  = 'Health Checkup'
-#     FOLLOW_UP  = 'Follow-up'
-#     OTHER = 'Other'
-
-# class Diet(enum.Enum):
-#     NORMAL = 'normal'
-#     LOW_SALT  = 'low salt'
-#     LOW_FAT  = 'low fat'
-#     VEGETARIAN = 'vegetarian' 
-
-# class Diagnosis(enum.Enum):
-#     HPT = 'hpt'
-#     DM  = 'dm'  
-#     BOTH = 'both' 
-
-# class Gender(enum.Enum):
-#     MALE = 'male'
-#     FEMALE  = 'female'
-       
-
 class Base(DeclarativeBase):
     pass
 
@@ -95,7 +60,7 @@ class ClientProfile(Base):
     emergency_contact_relationship: Mapped[str] = mapped_column(String(100))
     emergency_contact_address: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
 
-    # Data for the risk assessment form
+    # Data for the risk assessment form 
     family_has_history_of_hpt_dm: Mapped[str] = mapped_column(String(100))
     has_underlying_medical_condition: Mapped[str] = mapped_column(String(100))
     underlying_condition: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
@@ -114,8 +79,6 @@ class Appointment(Base):
     created_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
     updated_by: Mapped[str] = mapped_column(String(200), ForeignKey("user.username", ondelete="CASCADE", onupdate="CASCADE"))
     unique_id: Mapped[str] = mapped_column(String(100), ForeignKey('client_profile.unique_id', ondelete='CASCADE', onupdate='CASCADE'))
-    email: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
-    phone: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     purpose: Mapped[str] = mapped_column(String(100))
     message: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     appointment_date_time: Mapped[datetime] = mapped_column(DateTime)
@@ -173,3 +136,39 @@ class Treatment(Base):
     provider_contact: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     treatment_plan: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     treatment_notes: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+
+
+
+    # class UrineKetones(enum.Enum):
+#     NILL = 'Nill'
+#     ONE_PLUS  = '1+'
+#     TWO_PLUS  = '2+'
+#     THREE_PLUS = '3+'
+#     NO_TEST = 'no test'
+
+# class Choices(enum.Enum):
+#     YES = 'yes'
+#     NO  = 'no'
+#     NA  = 'na'
+#     UNKNOWN = 'unknown'
+
+# class Purpose(enum.Enum):
+#     CONSULTATION = 'Consultation'
+#     HEALTH_CHECKUP  = 'Health Checkup'
+#     FOLLOW_UP  = 'Follow-up'
+#     OTHER = 'Other'
+
+# class Diet(enum.Enum):
+#     NORMAL = 'normal'
+#     LOW_SALT  = 'low salt'
+#     LOW_FAT  = 'low fat'
+#     VEGETARIAN = 'vegetarian' 
+
+# class Diagnosis(enum.Enum):
+#     HPT = 'hpt'
+#     DM  = 'dm'  
+#     BOTH = 'both' 
+
+# class Gender(enum.Enum):
+#     MALE = 'male'
+#     FEMALE  = 'female'
