@@ -5,7 +5,6 @@ from datetime import datetime
 from typing import Optional
 from sqlalchemy import Enum as SQLAlchemyEnum
 import enum
-# from app import Base
 
 class Base(DeclarativeBase):
     pass
