@@ -7,20 +7,22 @@ from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
 load_dotenv()
+os.getenv("DATABASE_URL")
+
 
 
 app = Flask(__name__)
 # Set the SECRET_KEY
 
 app.secret_key = os.getenv("SECRET_KEY")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SUPABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URI")
 
 # app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:myDb50!1Eak@db.zyelxuitmwulzrktrwdb.supabase.co:5432/postgres'
 # Create the engine
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True)
 
 if os.getenv("ENV") == "production":
-    db_url = os.getenv("SUPABASE_URL")
+    db_url = os.getenv("DATABASE_URI")
 else:
     db_url = "sqlite:///local.db"  # or MySQL local URI
 
