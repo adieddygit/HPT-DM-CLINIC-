@@ -15,9 +15,17 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SUPABASE_URL")
 
-# app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:myDb50!#Eak@db.zyelxuitmwulzrktrwdb.supabase.co:5432/postgres'
+# app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:myDb50!1Eak@db.zyelxuitmwulzrktrwdb.supabase.co:5432/postgres'
 # Create the engine
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True)
+
+if os.getenv("ENV") == "production":
+    db_url = os.getenv("SUPABASE_URL")
+else:
+    db_url = "sqlite:///local.db"  # or MySQL local URI
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+
 # Initialize the Base class
 Base.metadata.create_all(engine, checkfirst=True)
 
