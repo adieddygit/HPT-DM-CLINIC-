@@ -8,30 +8,25 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-
-
-
 app = Flask(__name__)
-# Set the SECRET_KEY
-
 app.secret_key = os.getenv("SECRET_KEY")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URI")
 
-# app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:myDb50!1Eak@db.zyelxuitmwulzrktrwdb.supabase.co:5432/postgres'
-# Create the engine
-engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True)
-
+# Decide which DB URL to use
 if os.getenv("ENV") == "production":
-    db_url = os.getenv("DATABASE_URI")
+    db_url = os.getenv("DATABASE_URI")  # Should be set in Render
 else:
-    db_url = "sqlite:///local.db"  # or MySQL local URI
+    db_url = "sqlite:///local.db"  # Local fallback
 
+# Now set the config
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 
-# Initialize the Base class
+# Create the engine with the correct db_url
+engine = create_engine(db_url, echo=True)
+
+# Initialize database models
 Base.metadata.create_all(engine, checkfirst=True)
 
-
+# Create session
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = SessionLocal()
 
