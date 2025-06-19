@@ -3,15 +3,27 @@ from sqlalchemy import create_engine, text
 from models.models import *
 import hashlib
 import random
+from sqlalchemy.orm import sessionmaker
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = Flask(__name__)
 # Set the SECRET_KEY
-app.secret_key="somesecretkey"
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:@localhost/hpt_dm_clinic_management_db'
+
+app.secret_key = os.getenv("SECRET_KEY")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SUPABASE_URL")
+
+# app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:myDb50!#Eak@db.zyelxuitmwulzrktrwdb.supabase.co:5432/postgres'
 # Create the engine
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=True)
 # Initialize the Base class
 Base.metadata.create_all(engine, checkfirst=True)
+
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+session = SessionLocal()
 
 @app.route('/')
 def index():
