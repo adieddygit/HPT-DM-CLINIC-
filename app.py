@@ -15,9 +15,10 @@ app.secret_key = os.getenv("SECRET_KEY")
 if os.getenv("ENV") == "production":
     db_url = os.getenv("DATABASE_URI")  # Should be set in Render
 else:
-    db_url = "sqlite:///local.db"  # Local fallback
+    db_url = "sqlite:///hpt_dm_clinic_management_db"  # Local fallback
 
 # Now set the config
+# app.config['SQLALCHEMY_DATABASE_URI']='mysql+mysqlconnector://root:@localhost/hpt_dm_clinic_management_db'
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 
 # Create the engine with the correct db_url
