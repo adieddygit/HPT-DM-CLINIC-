@@ -1,18 +1,18 @@
-body{
-  background-image: url('../images/ab8.jpg');
+body {
+  /* background-image: url('../images/ab8.jpg'); */
   background-size: cover;
   background-position: center;
   text-align: center;
 }
 
-#msg{
+#msg {
   text-transform: capitalize;
   font-size: 25px;
   font-weight: bold;
   text-align: center;
 }
 
-.login{
+.login {
   display: flex;
   padding: 10px 10px;
   justify-content: space-between;
@@ -21,7 +21,7 @@ body{
   font-size: small;
 }
 
-.subbar{
+.subbar {
   position: relative;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@ body{
   height: auto;
   background-color: #444;
   color: #f1f1f1;
-  font-size:25px;
+  font-size: 25px;
   z-index: 100;
 }
 
@@ -52,7 +52,6 @@ body{
 .avatar-container {
   text-align: center;
   margin-bottom: 20px;
-  
 }
 .avatar {
   width: 100px;
@@ -109,7 +108,6 @@ select {
 .submit-btn:hover {
   background-color: #0056b3;
 }
-
 
 /* footer{
   width: 100%;
