@@ -1,5 +1,5 @@
-body {
-  /* background-image: url('../images/ab8.jpg'); */
+.img {
+  background-image: url("../images/ab8.jpg");
   background-size: cover;
   background-position: center;
   text-align: center;
