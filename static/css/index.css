@@ -1,8 +1,12 @@
+.mainBody {
+  display: block;
+}
+
 .img {
+  margin: 0;
   background-image: url("../images/ab8.jpg");
   background-size: cover;
   background-position: center;
-  text-align: center;
 }
 
 #msg {
@@ -13,6 +17,7 @@
 }
 
 .login {
+  margin: 0;
   display: flex;
   padding: 10px 10px;
   justify-content: space-between;
